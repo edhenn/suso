@@ -1,0 +1,24 @@
+{
+  "name": "js-obj",
+  "version": "0.0.0",
+  "authors": [
+    "Ed Henn <emhenn@ucdavis.edu>"
+  ],
+  "description": "javascript object tests",
+  "main": "obj.js",
+  "keywords": [
+    "javascript",
+    "objects",
+    "inheritance",
+    "composition"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

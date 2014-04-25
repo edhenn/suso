@@ -1,0 +1,7 @@
+{
+  "name": "obj-test",
+  "version": "0.0.1",
+  "devDependencies": {
+    "karma-chrome-launcher": "^0.1.3"
+  }
+}
