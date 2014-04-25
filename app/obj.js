@@ -44,10 +44,13 @@ var test = (function () {
 				if (subscribers[eventName] === undefined) {
 					return;
 				}
+				if (arguments !== undefined) {
+					Array.prototype.splice.call(arguments, 0, 1);
+				}
 				for (i = 0; i < subscribers[eventName].length; i = i + 1) {
 					sub = subscribers[eventName][i];
 					if (sub.callback !== undefined && sub.subscriber !== undefined) {
-						sub.callback.apply(this);
+						sub.callback.apply(this, arguments);
 					}
 				}
 			};

@@ -35,7 +35,7 @@
 	});
 
 	describe("subscribed event", function () {
-		var timesCalled, watched, notWatched;
+		var timesCalled, watched;
 
 		beforeEach(function () {
 			timesCalled = 0;
@@ -62,4 +62,42 @@
 			expect(timesCalled).toBe(0);
 		});
 	});
+
+	describe("multiple event-aware objects", function () {
+		var watched, watchedCalled, notWatched, notWatchedCalled;
+
+		beforeEach(function () {
+			watchedCalled = 0;
+			watched = new test.EventAware();
+			watched.on("blink", function () {
+				watchedCalled++;
+			});
+
+			notWatchedCalled = 0;
+			notWatched = new test.EventAware();
+		});
+
+		it("executes callback function only on the subscribed object when event is fired", function () {
+			watched.trigger("blink");
+			notWatched.trigger("blink");
+			expect(watchedCalled).toBe(1);
+			expect(notWatchedCalled).toBe(0);
+		});
+	});
+
+	// passes trigger arguments to callback
+	describe("trigger method", function () {
+		var watched = new test.EventAware(),
+			triggeredValue = "";
+
+		watched.on("blink", function (val) {
+			triggeredValue = val;
+		});
+
+		it("passes one trigger argument to callback", function () {
+			watched.trigger("blink", "blue");
+			expect(triggeredValue).toBe("blue");
+		});
+	});
+	// sets `this` to the triggering object
 }());
