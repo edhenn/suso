@@ -15,7 +15,7 @@
 		});
 	});
 
-	describe("EventAware and derived objects", function () {
+	describe("EventAware object", function () {
 		var x = new test.EventAware();
 
 		it("has a .on function", function () {
@@ -40,6 +40,39 @@
 		beforeEach(function () {
 			timesCalled = 0;
 			watched = new test.EventAware();
+
+			watched.on("blink", function () {
+				timesCalled++;
+			});
+		});
+
+		it("executes callback function when a subscribed event is fired", function () {
+			watched.trigger("blink");
+			expect(timesCalled).toBe(1);
+		});
+
+		it("does not execute callback function when a non-subscribed event is fired", function () {
+			watched.trigger("blonk");
+			expect(timesCalled).toBe(0);
+		});
+
+		it("does not execute callback function when a subscribed event is subsequently unsubscribed", function () {
+			watched.off("blink");
+			watched.trigger("blink");
+			expect(timesCalled).toBe(0);
+		});
+	});
+
+	describe("EventAware-derived object", function () {
+		var watched, timesCalled, DerivedObject;
+
+		DerivedObject = function () {
+		};
+
+		beforeEach(function () {
+			timesCalled = 0;
+			DerivedObject.prototype = new test.EventAware();
+			watched = new DerivedObject();
 
 			watched.on("blink", function () {
 				timesCalled++;
