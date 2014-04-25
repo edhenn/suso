@@ -108,6 +108,17 @@
 			watched.trigger("blink", 2, 3);
 			expect(triggeredValue).toBe(5);
 		});
+
+		// sets `this` to the triggering object
+		it("sets `this` to the triggering object", function () {
+			watched.on("blink", function () {
+				triggeredValue = this;
+			});
+			watched.trigger("blink");
+			expect(triggeredValue).toBe(watched);
+		});
 	});
-	// sets `this` to the triggering object
+
+
+	// derived objects inherit working event methods
 }());

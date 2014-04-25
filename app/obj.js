@@ -38,7 +38,7 @@ var test = (function () {
 				}
 			};
 
-			// trigger all functions subscribed to the eventName. pass in the object doing the firing.
+			// trigger all functions subscribed to the eventName. pass in the object doing the triggering.
 			this.trigger = function (eventName) {
 				var i, sub;
 				if (subscribers[eventName] === undefined) {
