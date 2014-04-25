@@ -85,18 +85,28 @@
 		});
 	});
 
-	// passes trigger arguments to callback
 	describe("trigger method", function () {
-		var watched = new test.EventAware(),
-			triggeredValue = "";
+		var watched, triggeredValue;
 
-		watched.on("blink", function (val) {
-			triggeredValue = val;
+		beforeEach(function () {
+			watched = new test.EventAware();
+			triggeredValue = null;
 		});
 
 		it("passes one trigger argument to callback", function () {
+			watched.on("blink", function (val1) {
+				triggeredValue = val1;
+			});
 			watched.trigger("blink", "blue");
 			expect(triggeredValue).toBe("blue");
+		});
+
+		it("passes two trigger arguments to callback", function () {
+			watched.on("blink", function (val1, val2) {
+				triggeredValue = val1 + val2;
+			});
+			watched.trigger("blink", 2, 3);
+			expect(triggeredValue).toBe(5);
 		});
 	});
 	// sets `this` to the triggering object
