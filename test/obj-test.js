@@ -1,22 +1,22 @@
-/*global describe, it, test, expect, beforeEach */
+/*global jsobj, describe, it, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
 	"use strict";
 
-	describe("test namespace", function () {
+	describe("jsobj namespace", function () {
 		it("is defined", function () {
-			expect(test).toBeDefined();
+			expect(jsobj).toBeDefined();
 		});
 
 		it("has an EventAware function", function () {
-			expect(test.EventAware).toBeDefined();
-			expect(typeof test.EventAware).toBe("function");
+			expect(jsobj.EventAware).toBeDefined();
+			expect(typeof jsobj.EventAware).toBe("function");
 		});
 	});
 
 	describe("EventAware object", function () {
-		var x = new test.EventAware();
+		var x = new jsobj.EventAware();
 
 		it("has a .on function", function () {
 			expect(x.on).toBeDefined();
@@ -39,7 +39,7 @@
 
 		beforeEach(function () {
 			timesCalled = 0;
-			watched = new test.EventAware();
+			watched = new jsobj.EventAware();
 
 			watched.on("blink", function () {
 				timesCalled++;
@@ -71,7 +71,7 @@
 
 		beforeEach(function () {
 			timesCalled = 0;
-			DerivedObject.prototype = new test.EventAware();
+			DerivedObject.prototype = new jsobj.EventAware();
 			watched = new DerivedObject();
 
 			watched.on("blink", function () {
@@ -101,13 +101,13 @@
 
 		beforeEach(function () {
 			watchedCalled = 0;
-			watched = new test.EventAware();
+			watched = new jsobj.EventAware();
 			watched.on("blink", function () {
 				watchedCalled++;
 			});
 
 			notWatchedCalled = 0;
-			notWatched = new test.EventAware();
+			notWatched = new jsobj.EventAware();
 		});
 
 		it("executes callback function only on the subscribed object when event is fired", function () {
@@ -122,7 +122,7 @@
 		var watched, triggeredValue;
 
 		beforeEach(function () {
-			watched = new test.EventAware();
+			watched = new jsobj.EventAware();
 			triggeredValue = null;
 		});
 
