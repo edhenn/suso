@@ -64,34 +64,30 @@
 	});
 
 	describe("EventAware-derived object", function () {
-		var watched, timesCalled, DerivedObject;
-
-		DerivedObject = function () {
-		};
+		var derived, timesCalled;
 
 		beforeEach(function () {
 			timesCalled = 0;
-			DerivedObject.prototype = new jsobj.EventAware();
-			watched = new DerivedObject();
+			derived = Object.create(new jsobj.EventAware());	// Crockford object.create
 
-			watched.on("blink", function () {
+			derived.on("blink", function () {
 				timesCalled++;
 			});
 		});
 
 		it("executes callback function when a subscribed event is fired", function () {
-			watched.trigger("blink");
+			derived.trigger("blink");
 			expect(timesCalled).toBe(1);
 		});
 
 		it("does not execute callback function when a non-subscribed event is fired", function () {
-			watched.trigger("blonk");
+			derived.trigger("blonk");
 			expect(timesCalled).toBe(0);
 		});
 
 		it("does not execute callback function when a subscribed event is subsequently unsubscribed", function () {
-			watched.off("blink");
-			watched.trigger("blink");
+			derived.off("blink");
+			derived.trigger("blink");
 			expect(timesCalled).toBe(0);
 		});
 	});
@@ -151,7 +147,4 @@
 			expect(triggeredValue).toBe(watched);
 		});
 	});
-
-
-	// derived objects inherit working event methods
 }());
