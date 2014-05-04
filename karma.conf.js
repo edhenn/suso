@@ -15,7 +15,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'app/*.js',
+      'app/obj-create.js',
+      'app/obj.js',
+      'app/obj-cell.js',
 	  'test/*.js'
     ],
 
