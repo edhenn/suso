@@ -18,6 +18,10 @@
 	describe("EventAware object", function () {
 		var x = new jsobj.EventAware();
 
+		it("has an EventAware constructor", function () {
+			expect(x).toEqual(jasmine.any(jsobj.EventAware));
+		});
+
 		it("has a .on function", function () {
 			expect(x.on).toBeDefined();
 			expect(typeof x.on).toBe("function");
