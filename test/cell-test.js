@@ -19,7 +19,7 @@
 	describe("Cell.value function", function () {
 		var x = new jsobj.Cell();
 
-		it("is a member", function () {
+		it("is a defined member", function () {
 			expect(x.value).toBeDefined();
 		});
 
@@ -40,7 +40,7 @@
 	describe("Cell.setValue function", function () {
 		var x = new jsobj.Cell();
 
-		it("is a member", function () {
+		it("is a defined member", function () {
 			expect(x.setValue).toBeDefined();
 		});
 
