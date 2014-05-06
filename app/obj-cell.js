@@ -14,6 +14,9 @@
 		};
 
 		this.setValue = function (newValue) {
+			if (val !== undefined) {
+				throw new Error("Attempt to set value on a Cell that already has a value.");
+			}
 			val = newValue;
 		};
 

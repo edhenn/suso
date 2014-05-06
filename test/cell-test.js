@@ -54,8 +54,8 @@
 			expect(x.value()).toBe(6);
 		});
 
-		xit("throws an error when called if Cell.value already defined", function () {
-			expect(x.setValue(7)).toThrow();
+		it("throws an error when called if Cell.value is already defined", function () {
+			expect(function () { x.setValue(7); }).toThrow(new Error("Attempt to set value on a Cell that already has a value."));
 		});
 	});
 }());
