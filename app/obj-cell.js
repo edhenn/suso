@@ -5,7 +5,7 @@
 	"use strict";
 
 	jsobj.Cell = function () {
-		var val, myrow;
+		var val, myRowH, myRowV, myBlock;
 
 		this.prototype = new jsobj.EventAware();
 
@@ -20,12 +20,28 @@
 			val = newValue;
 		};
 
-		this.row = function () {
-			return myrow;
+		this.rowH = function () {
+			return myRowH;
 		};
 
-		this.setRow = function (row) {
-			myrow = row;
+		this.setRowH = function (row) {
+			myRowH = row;
+		};
+
+		this.rowV = function () {
+			return myRowV;
+		};
+
+		this.setRowV = function (row) {
+			myRowV = row;
+		};
+
+		this.block = function () {
+			return myBlock;
+		};
+
+		this.setBlock = function (block) {
+			myBlock = block;
 		};
 	};
 }(jsobj));
