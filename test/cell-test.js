@@ -1,5 +1,5 @@
 /*global jsobj, describe, it, expect, beforeEach */
-/*jslint */
+/*jslint plusplus: true */
 
 //var jsobj = {};
 
@@ -88,41 +88,85 @@
 
 			for (prop in x) {
 				if (x.hasOwnProperty(prop) && prop !== 'prototype') {
-					members = members + 1;
+					members++;
 				}
 			}
 			expect(members).toBe(8);
 		});
 	});
 
-	describe("Cell.value function", function () {
+	describe("Cell.value and setValue functions", function () {
 		var x = new jsobj.Cell();
 
-		it("returns undefined before a value is set", function () {
+		it(".value returns undefined before a value is set", function () {
 			expect(x.value()).not.toBeDefined();
 		});
 
-		it("returns value after a value is set", function () {
+		it(".value returns correct value after .setValue is called", function () {
 			x.setValue(5);
 			expect(x.value()).toBe(5);
 		});
+
+		it(".setValue throws an error when called if Cell.value is already defined", function () {
+			expect(function () { x.setValue(7); })
+				.toThrow(new Error("Attempt to set value on a Cell that already has a value."));
+		});
 	});
 
-	describe("Cell.setValue function", function () {
+	describe("Cell.rowH and setRowH functions", function () {
 		var x = new jsobj.Cell();
 
-		it("sets Cell.value when currently undefined", function () {
-			expect(x.value()).not.toBeDefined();
-			x.setValue(6);
-			expect(x.value()).toBe(6);
+		it(".rowH returns undefined before a value is set", function () {
+			expect(x.rowH()).not.toBeDefined();
 		});
 
-		it("throws an error when called if Cell.value is already defined", function () {
-			expect(function () { x.setValue(7); }).toThrow(new Error("Attempt to set value on a Cell that already has a value."));
+		it(".rowH returns correct object after .setRowH is called", function () {
+			var rowH = {};
+			x.setRowH(rowH);
+			expect(x.rowH()).toBe(rowH);
+		});
+
+		it(".setRowH throws an error when called if .rowH is already defined", function () {
+			expect(function () { x.setRowH({}); })
+				.toThrow(new Error("Attempt to set rowH on a Cell that already has a rowH."));
 		});
 	});
 
-	describe("Cell.rowH", function () {
+	describe("Cell.rowV and setRowV functions", function () {
+		var x = new jsobj.Cell();
+
+		it(".rowV returns undefined before a value is set", function () {
+			expect(x.rowV()).not.toBeDefined();
+		});
+
+		it(".rowV returns correct object after .setRowV is called", function () {
+			var rowV = {};
+			x.setRowV(rowV);
+			expect(x.rowV()).toBe(rowV);
+		});
+
+		it(".setRowV throws an error when called if .rowV is already defined", function () {
+			expect(function () { x.setRowV({}); })
+				.toThrow(new Error("Attempt to set rowV on a Cell that already has a rowV."));
+		});
 	});
 
+	describe("Cell.block and setBlock functions", function () {
+		var x = new jsobj.Cell();
+
+		it(".block returns undefined before a value is set", function () {
+			expect(x.block()).not.toBeDefined();
+		});
+
+		it(".block returns correct object after .setBlock is called", function () {
+			var block = {};
+			x.setBlock(block);
+			expect(x.block()).toBe(block);
+		});
+
+		it(".setBlock throws an error when called if .block is already defined", function () {
+			expect(function () { x.setBlock({}); })
+				.toThrow(new Error("Attempt to set block on a Cell that already has a block."));
+		});
+	});
 }());

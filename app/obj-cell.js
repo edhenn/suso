@@ -25,6 +25,9 @@
 		};
 
 		this.setRowH = function (row) {
+			if (myRowH !== undefined) {
+				throw new Error('Attempt to set rowH on a Cell that already has a rowH.');
+			}
 			myRowH = row;
 		};
 
@@ -33,6 +36,9 @@
 		};
 
 		this.setRowV = function (row) {
+			if (myRowV !== undefined) {
+				throw new Error('Attempt to set rowV on a Cell that already has a rowV.');
+			}
 			myRowV = row;
 		};
 
@@ -41,6 +47,9 @@
 		};
 
 		this.setBlock = function (block) {
+			if (myBlock !== undefined) {
+				throw new Error('Attempt to set block on a Cell that already has a block.');
+			}
 			myBlock = block;
 		};
 	};
