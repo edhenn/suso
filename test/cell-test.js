@@ -131,7 +131,7 @@
 		});
 
 		it(".rowH returns correct object after .setRowH is called", function () {
-			var rowH = {};
+			var rowH = new jsobj.Row();
 			x.setRowH(rowH);
 			expect(x.rowH()).toBe(rowH);
 		});
@@ -150,7 +150,7 @@
 		});
 
 		it(".rowV returns correct object after .setRowV is called", function () {
-			var rowV = {};
+			var rowV = new jsobj.Row();
 			x.setRowV(rowV);
 			expect(x.rowV()).toBe(rowV);
 		});
@@ -169,7 +169,7 @@
 		});
 
 		it(".block returns correct object after .setBlock is called", function () {
-			var block = {};
+			var block = new jsobj.Block();
 			x.setBlock(block);
 			expect(x.block()).toBe(block);
 		});
