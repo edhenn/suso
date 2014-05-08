@@ -111,6 +111,16 @@
 			expect(function () { x.setValue(7); })
 				.toThrow(new Error("Attempt to set value on a Cell that already has a value."));
 		});
+
+		it(".setValue triggers an update event", function () {
+			var y, z;
+			y = new jsobj.Cell();
+			y.on("update", function () {
+				z = this;
+			});
+			y.setValue(4);
+			expect(z).toBe(y);
+		});
 	});
 
 	describe("Cell.rowH and setRowH functions", function () {

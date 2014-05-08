@@ -4,10 +4,8 @@
 (function (jsobj) {
 	"use strict";
 
-	jsobj.Cell = function () {
+	function Cell() {
 		var val, myRowH, myRowV, myBlock;
-
-		this.prototype = new jsobj.EventAware();
 
 		this.value = function () {
 			return val;
@@ -18,6 +16,7 @@
 				throw new Error("Attempt to set value on a Cell that already has a value.");
 			}
 			val = newValue;
+			this.trigger("update");
 		};
 
 		this.rowH = function () {
@@ -52,5 +51,11 @@
 			}
 			myBlock = block;
 		};
+	}
+
+	Cell.prototype = new jsobj.EventAware();
+
+	jsobj.Cell = function () {
+		return new Cell();
 	};
 }(jsobj));
