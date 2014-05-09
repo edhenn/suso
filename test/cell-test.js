@@ -1,8 +1,6 @@
 /*global jsobj, describe, it, expect, beforeEach */
 /*jslint plusplus: true */
 
-//var jsobj = {};
-
 (function () {
 	"use strict";
 
@@ -18,6 +16,10 @@
 
 	describe("Cell object members", function () {
 		var x = new jsobj.Cell();
+
+		it("has a .id member", function () {
+			expect(x.id).toBeDefined();
+		});
 
 		it("has a .value member", function () {
 			expect(x.value).toBeDefined();
@@ -49,6 +51,10 @@
 
 		it("has a .setBlock member member", function () {
 			expect(x.setBlock).toBeDefined();
+		});
+
+		it(".id member is a function", function () {
+			expect(typeof x.id).toBe("function");
 		});
 
 		it(".value member is a function", function () {
@@ -83,7 +89,7 @@
 			expect(typeof x.setBlock).toBe("function");
 		});
 
-		it("has 8 non-prototype members", function () {
+		it("has 9 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -91,7 +97,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(8);
+			expect(members).toBe(9);
 		});
 	});
 
