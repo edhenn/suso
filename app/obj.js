@@ -5,12 +5,12 @@ var jsobj = {};
 (function (jsobj) {
 	"use strict";
 
-	// amend jsobj with an EventAware object with three functions to serve as base class for event-aware objects
-	jsobj.EventAware = function () {
+	// amend jsobj with an EventAware object with three functions to augment passed in objects with observable methods
+	jsobj.EventAware = function (obj) {
 		var subscribers = {};
 
 		// .on - registers a callback function to be called when the named event occurs on the object
-		this.on = function (eventName, func) {
+		obj.on = function (eventName, func) {
 			// create a list of subscribers to this event if it doesn't already exist
 			if (subscribers[eventName] === undefined) {
 				subscribers[eventName] = [];
@@ -20,7 +20,7 @@ var jsobj = {};
 		};
 
 		// off allows an object to remove itself from list of events
-		this.off = function (eventName) {
+		obj.off = function (eventName) {
 			var i, found;
 			// make sure there is a list of subscribers for this eventName
 			if (subscribers[eventName] === undefined) {
@@ -40,7 +40,7 @@ var jsobj = {};
 		};
 
 		// trigger all functions subscribed to the eventName. pass in the object doing the triggering.
-		this.trigger = function (eventName) {
+		obj.trigger = function (eventName) {
 			var i, sub;
 			if (subscribers[eventName] === undefined) {
 				return;
@@ -55,5 +55,7 @@ var jsobj = {};
 				}
 			}
 		};
+
+		return obj;
 	};
 }(jsobj));

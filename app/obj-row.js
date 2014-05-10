@@ -19,9 +19,7 @@
 		};
 	}
 
-	Row.prototype = new jsobj.EventAware();
-
 	jsobj.Row = function () {
-		return new Row();
+		return jsobj.EventAware(new Row());
 	};
 }(jsobj));

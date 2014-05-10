@@ -19,9 +19,7 @@
 		};
 	}
 
-	Block.prototype = new jsobj.EventAware();
-
 	jsobj.Block = function () {
-		return new Block();
+		return jsobj.EventAware(new Block());
 	};
 }(jsobj));

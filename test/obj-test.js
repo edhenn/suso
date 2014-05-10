@@ -16,11 +16,7 @@
 	});
 
 	describe("EventAware object", function () {
-		var x = new jsobj.EventAware();
-
-		it("has an EventAware constructor", function () {
-			expect(x).toEqual(jasmine.any(jsobj.EventAware));
-		});
+		var x = jsobj.EventAware({});
 
 		it("has a .on function", function () {
 			expect(x.on).toBeDefined();
@@ -43,7 +39,7 @@
 
 		beforeEach(function () {
 			timesCalled = 0;
-			watched = new jsobj.EventAware();
+			watched = jsobj.EventAware({});
 
 			watched.on("blink", function () {
 				timesCalled++;
@@ -72,7 +68,7 @@
 
 		beforeEach(function () {
 			timesCalled = 0;
-			derived = Object.create(new jsobj.EventAware());	// Crockford object.create
+			derived = jsobj.EventAware({});
 
 			derived.on("blink", function () {
 				timesCalled++;
@@ -101,13 +97,13 @@
 
 		beforeEach(function () {
 			watchedCalled = 0;
-			watched = new jsobj.EventAware();
+			watched = jsobj.EventAware({});
 			watched.on("blink", function () {
 				watchedCalled++;
 			});
 
 			notWatchedCalled = 0;
-			notWatched = new jsobj.EventAware();
+			notWatched = jsobj.EventAware({});
 		});
 
 		it("executes callback function only on the subscribed object when event is fired", function () {
@@ -122,7 +118,7 @@
 		var watched, triggeredValue;
 
 		beforeEach(function () {
-			watched = new jsobj.EventAware();
+			watched = jsobj.EventAware({});
 			triggeredValue = null;
 		});
 

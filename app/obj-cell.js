@@ -83,9 +83,7 @@
 		};
 	}
 
-	Cell.prototype = new jsobj.EventAware();
-
 	jsobj.Cell = function () {
-		return new Cell(cellnum++);
+		return jsobj.EventAware(new Cell(cellnum++));
 	};
 }(jsobj));

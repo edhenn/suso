@@ -14,7 +14,7 @@
 		});
 	});
 
-	describe("Cell object members", function () {
+	describe("Event-Aware Cell object members", function () {
 		var x = new jsobj.Cell();
 
 		it("has a .id member", function () {
@@ -29,28 +29,40 @@
 			expect(x.setValue).toBeDefined();
 		});
 
-		it("has a .rowH member member", function () {
+		it("has a .rowH member", function () {
 			expect(x.rowH).toBeDefined();
 		});
 
-		it("has a .setRowH member member", function () {
+		it("has a .setRowH member", function () {
 			expect(x.setRowH).toBeDefined();
 		});
 
-		it("has a .rowV member member", function () {
+		it("has a .rowV member", function () {
 			expect(x.rowV).toBeDefined();
 		});
 
-		it("has a .setRowV member member", function () {
+		it("has a .setRowV member", function () {
 			expect(x.setRowV).toBeDefined();
 		});
 
-		it("has a .block member member", function () {
+		it("has a .block member", function () {
 			expect(x.block).toBeDefined();
 		});
 
-		it("has a .setBlock member member", function () {
+		it("has a .setBlock member", function () {
 			expect(x.setBlock).toBeDefined();
+		});
+
+		it("has a .on member", function () {
+			expect(x.on).toBeDefined();
+		});
+
+		it("has a .off member", function () {
+			expect(x.off).toBeDefined();
+		});
+
+		it("has a .trigger member", function () {
+			expect(x.trigger).toBeDefined();
 		});
 
 		it(".id member is a function", function () {
@@ -89,7 +101,19 @@
 			expect(typeof x.setBlock).toBe("function");
 		});
 
-		it("has 9 non-prototype members", function () {
+		it(".on member is a function", function () {
+			expect(typeof x.on).toBe("function");
+		});
+
+		it(".off member is a function", function () {
+			expect(typeof x.off).toBe("function");
+		});
+
+		it(".trigger member is a function", function () {
+			expect(typeof x.trigger).toBe("function");
+		});
+
+		it("has 12 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -97,7 +121,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(9);
+			expect(members).toBe(12);
 		});
 	});
 
