@@ -61,6 +61,21 @@
 			watched.trigger("blink");
 			expect(timesCalled).toBe(0);
 		});
+
+		it(".off only unsubscribes specified event", function () {
+			var blonkCalled = 0;
+			watched.on("blonk", function () {
+				blonkCalled++;
+			});
+			watched
+				.trigger("blink")
+				.trigger("blonk")
+				.off("blonk")
+				.trigger("blink")
+				.trigger("blonk");
+			expect(timesCalled).toBe(2);
+			expect(blonkCalled).toBe(1);
+		});
 	});
 
 	describe("EventAware-derived object", function () {

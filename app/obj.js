@@ -17,6 +17,7 @@ var jsobj = {};
 			}
 			// add calling object as a subscriber, along with its function to call on event
 			subscribers[eventName].push({ subscriber: this, callback: func });
+			return obj;
 		};
 
 		// off allows an object to remove itself from list of events
@@ -37,6 +38,7 @@ var jsobj = {};
 			if (found !== undefined) {
 				subscribers[eventName].splice(found, 1);
 			}
+			return obj;
 		};
 
 		// trigger all functions subscribed to the eventName. pass in the object doing the triggering.
@@ -54,6 +56,7 @@ var jsobj = {};
 					sub.callback.apply(this, arguments);
 				}
 			}
+			return obj;
 		};
 
 		return obj;
