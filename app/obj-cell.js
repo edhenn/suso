@@ -81,6 +81,16 @@
 			// update possible values of the cell when its row is updated
 			myBlock.on("update", updatePossibles);
 		};
+
+		this.possibleValues = function () {
+			var i, poss = [];
+			for (i = 1; i < 10; i++) {
+				if (possibles.hasOwnProperty(i)) {
+					poss.push(i);
+				}
+			}
+			return poss;
+		};
 	}
 
 	jsobj.Cell = function () {

@@ -65,6 +65,10 @@
 			expect(x.trigger).toBeDefined();
 		});
 
+		it("has a .possibleValues member", function () {
+			expect(x.possibleValues).toBeDefined();
+		});
+
 		it(".id member is a function", function () {
 			expect(typeof x.id).toBe("function");
 		});
@@ -113,7 +117,11 @@
 			expect(typeof x.trigger).toBe("function");
 		});
 
-		it("has 12 non-prototype members", function () {
+		it(".possibleValues member is a function", function () {
+			expect(typeof x.possibleValues).toBe("function");
+		});
+
+		it("has 13 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -121,7 +129,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(12);
+			expect(members).toBe(13);
 		});
 	});
 
@@ -207,6 +215,100 @@
 		it(".setBlock throws an error when called if .block is already defined", function () {
 			expect(function () { x.setBlock({}); })
 				.toThrow(new Error("Attempt to set block on a Cell that already has a block."));
+		});
+	});
+
+	describe("Cell.possibleValues function", function () {
+		var x = new jsobj.Cell();
+
+		it("starts as an array of 9 numbers", function () {
+			var poss = x.possibleValues();
+			expect(poss.length).toBe(9);
+		});
+
+		it("starts as an array of numbers 1-9 sorted", function () {
+			var i, poss = x.possibleValues();
+			for (i = 0; i < poss.length; i++) {
+				expect(poss[i]).toBe(i + 1);
+			}
+		});
+
+		it("returns empty array once .setValue is called", function () {
+			var poss;
+			x.setValue(4);
+			poss = x.possibleValues();
+			expect(poss.length).toBe(0);
+		});
+
+		it("returns array with setValue missing from other cells in rowH", function () {
+			var y = new jsobj.Cell(),
+				z = new jsobj.Cell(),
+				row = new jsobj.Row(),
+				poss;
+
+			y.setRowH(row);
+			z.setRowH(row);
+			y.setValue(4);
+			poss = z.possibleValues();
+			expect(poss.length).toBe(8);
+			expect(poss[2]).toBe(3);
+			expect(poss[3]).toBe(5);
+		});
+
+		it("returns array with setValue missing from other cells in rowV", function () {
+			var y = new jsobj.Cell(),
+				z = new jsobj.Cell(),
+				row = new jsobj.Row(),
+				poss;
+
+			y.setRowV(row);
+			z.setRowV(row);
+			y.setValue(4);
+			poss = z.possibleValues();
+			expect(poss.length).toBe(8);
+			expect(poss[2]).toBe(3);
+			expect(poss[3]).toBe(5);
+		});
+
+		it("returns array with setValue missing from other cells in block", function () {
+			var y = new jsobj.Cell(),
+				z = new jsobj.Cell(),
+				row = new jsobj.Row(),
+				poss;
+
+			y.setBlock(row);
+			z.setBlock(row);
+			y.setValue(4);
+			poss = z.possibleValues();
+			expect(poss.length).toBe(8);
+			expect(poss[2]).toBe(3);
+			expect(poss[3]).toBe(5);
+		});
+
+		it("cumulatively removes all set values from all row and block siblings", function () {
+			var a = new jsobj.Cell(),
+				b = new jsobj.Cell(),
+				c = new jsobj.Cell(),
+				z = new jsobj.Cell(),
+				rowH = new jsobj.Row(),
+				rowV = new jsobj.Row(),
+				block = new jsobj.Block(),
+				poss;
+
+			z.setRowH(rowH);
+			z.setRowV(rowV);
+			z.setBlock(block);
+			a.setRowH(rowH);
+			b.setRowV(rowV);
+			c.setBlock(block);
+			a.setValue(1);
+			b.setValue(2);
+			c.setValue(3);
+			poss = z.possibleValues();
+			expect(poss.length).toBe(6);
+			expect(poss[0]).toBe(4);
+			expect(poss[1]).toBe(5);
+			expect(poss[2]).toBe(6);
 		});
 	});
 }());
