@@ -16,44 +16,32 @@ var jsobj = {};
 				subscribers[eventName] = [];
 			}
 			// add calling object as a subscriber, along with its function to call on event
-			subscribers[eventName].push({ subscriber: this, callback: func });
+			subscribers[eventName].push(func);
 			return obj;
 		};
 
 		// off allows an object to remove itself from list of events
 		obj.off = function (eventName) {
-			var i, found;
 			// make sure there is a list of subscribers for this eventName
 			if (subscribers[eventName] === undefined) {
 				return;
 			}
-			// check all subscribers to this eventName for the calling object
-			for (i = 0; i < subscribers[eventName].length; i = i + 1) {
-				if (subscribers[eventName][i].subscriber === this) {
-					found = i;
-					break;
-				}
-			}
-			// found the calling object as a subscriber, remove it from the array
-			if (found !== undefined) {
-				subscribers[eventName].splice(found, 1);
-			}
+			// remove subscribers from the array
+			subscribers[eventName] = [];
 			return obj;
 		};
 
-		// trigger all functions subscribed to the eventName. pass in the object doing the triggering.
+		// trigger all functions subscribed to the eventName.
 		obj.trigger = function (eventName) {
 			var i, sub;
 			if (subscribers[eventName] === undefined) {
 				return;
 			}
-			if (arguments !== undefined) {
-				Array.prototype.splice.call(arguments, 0, 1);
-			}
+			Array.prototype.splice.call(arguments, 0, 1);
 			for (i = 0; i < subscribers[eventName].length; i = i + 1) {
 				sub = subscribers[eventName][i];
-				if (sub.callback !== undefined && sub.subscriber !== undefined) {
-					sub.callback.apply(this, arguments);
+				if (sub !== undefined && typeof sub === 'function') {
+					sub.apply(this, arguments);
 				}
 			}
 			return obj;
