@@ -9,12 +9,16 @@
 	function Cell(id) {
 		var cellId = id, val, myRowH, myRowV, myBlock,
 			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null },
-			possibleCount = 9;
+			possibleCount = 9,
+			that = this;
 
 		function updatePossibles(newValue) {
 			if (possibles[newValue] !== undefined) {
 				delete possibles[newValue];
 				possibleCount--;
+				if (possibleCount === 1) {
+					that.setValue(that.possibleValues()[0]);
+				}
 			}
 		}
 

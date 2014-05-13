@@ -310,5 +310,19 @@
 			expect(poss[1]).toBe(5);
 			expect(poss[2]).toBe(6);
 		});
+
+		it("sets the value of a cell when one remaining possible value exists", function () {
+			var cells = [], row, i;
+
+			row = new jsobj.Row();
+			for (i = 0; i < 9; i++) {
+				cells.push(new jsobj.Cell());
+				cells[i].setRowH(row);
+			}
+			for (i = 0; i < 8; i++) {
+				cells[i].setValue(i + 1);
+			}
+			expect(cells[8].value()).toBe(9);
+		});
 	});
 }());
