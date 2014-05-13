@@ -27,7 +27,6 @@
 			newCell.setBlock(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3]);	// every 3rd set of 3 consecutive cells up to 9 make a block
 			cellnums += newCell.id().toString() + ',';
 		}
-		console.log(cellnums);
 
 		this.vRow = function (index) {
 			return vrows[index];
