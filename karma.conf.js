@@ -18,8 +18,7 @@ module.exports = function(config) {
       'app/obj-create.js',
       'app/obj.js',
 	  'app/obj-grid.js',
-	  'app/obj-block.js',
-	  'app/obj-row.js',
+	  'app/obj-cellgroup.js',
       'app/obj-cell.js',
 	  'test/*.js'
     ],

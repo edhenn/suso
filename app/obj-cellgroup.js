@@ -4,7 +4,7 @@
 (function (jsobj) {
 	"use strict";
 
-	function Block() {
+	function CellGroup() {
 		var cells = [], that = this;
 
 		this.addCell = function (cell) {
@@ -19,7 +19,7 @@
 		};
 	}
 
-	jsobj.Block = function () {
-		return jsobj.EventAware(new Block());
+	jsobj.CellGroup = function () {
+		return jsobj.EventAware(new CellGroup());
 	};
 }(jsobj));

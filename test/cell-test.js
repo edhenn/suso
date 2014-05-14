@@ -169,7 +169,7 @@
 		});
 
 		it(".rowH returns correct object after .setRowH is called", function () {
-			var rowH = new jsobj.Row();
+			var rowH = new jsobj.CellGroup();
 			x.setRowH(rowH);
 			expect(x.rowH()).toBe(rowH);
 		});
@@ -188,7 +188,7 @@
 		});
 
 		it(".rowV returns correct object after .setRowV is called", function () {
-			var rowV = new jsobj.Row();
+			var rowV = new jsobj.CellGroup();
 			x.setRowV(rowV);
 			expect(x.rowV()).toBe(rowV);
 		});
@@ -207,7 +207,7 @@
 		});
 
 		it(".block returns correct object after .setBlock is called", function () {
-			var block = new jsobj.Block();
+			var block = new jsobj.CellGroup();
 			x.setBlock(block);
 			expect(x.block()).toBe(block);
 		});
@@ -243,7 +243,7 @@
 		it("returns array with setValue missing from other cells in rowH", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.Row(),
+				row = new jsobj.CellGroup(),
 				poss;
 
 			y.setRowH(row);
@@ -258,7 +258,7 @@
 		it("returns array with setValue missing from other cells in rowV", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.Row(),
+				row = new jsobj.CellGroup(),
 				poss;
 
 			y.setRowV(row);
@@ -273,7 +273,7 @@
 		it("returns array with setValue missing from other cells in block", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.Row(),
+				row = new jsobj.CellGroup(),
 				poss;
 
 			y.setBlock(row);
@@ -290,9 +290,9 @@
 				b = new jsobj.Cell(),
 				c = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				rowH = new jsobj.Row(),
-				rowV = new jsobj.Row(),
-				block = new jsobj.Block(),
+				rowH = new jsobj.CellGroup(),
+				rowV = new jsobj.CellGroup(),
+				block = new jsobj.CellGroup(),
 				poss;
 
 			z.setRowH(rowH);
@@ -314,7 +314,7 @@
 		it("sets the value of a cell when one remaining possible value exists", function () {
 			var cells = [], row, i;
 
-			row = new jsobj.Row();
+			row = new jsobj.CellGroup();
 			for (i = 0; i < 9; i++) {
 				cells.push(new jsobj.Cell());
 				cells[i].setRowH(row);

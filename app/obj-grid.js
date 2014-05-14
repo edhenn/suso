@@ -14,9 +14,9 @@
 
 		// create 9 blocks, vrows, hrows
 		for (i = 0; i < 9; i++) {
-			blocks.push(new jsobj.Block());
-			vrows.push(new jsobj.Row());
-			hrows.push(new jsobj.Row());
+			blocks.push(new jsobj.CellGroup());
+			vrows.push(new jsobj.CellGroup());
+			hrows.push(new jsobj.CellGroup());
 		}
 
 		// create 81 cells each tied to correct block, vrow, hrow
