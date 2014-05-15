@@ -25,6 +25,10 @@
 			expect(x.cells).toBeDefined();
 		});
 
+		it("has a .name member", function () {
+			expect(x.name).toBeDefined();
+		});
+
 		it("has a .on member", function () {
 			expect(x.on).toBeDefined();
 		});
@@ -45,6 +49,10 @@
 			expect(typeof x.cells).toBe('function');
 		});
 
+		it(".name member is a function", function () {
+			expect(typeof x.name).toBe('function');
+		});
+
 		it(".on member is a function", function () {
 			expect(typeof x.on).toBe("function");
 		});
@@ -57,7 +65,7 @@
 			expect(typeof x.trigger).toBe("function");
 		});
 
-		it("has 5 non-prototype members", function () {
+		it("has 6 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -65,7 +73,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(5);
+			expect(members).toBe(6);
 		});
 	});
 }());

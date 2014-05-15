@@ -4,8 +4,8 @@
 (function (jsobj) {
 	"use strict";
 
-	function CellGroup() {
-		var cells = [], that = this;
+	function CellGroup(name) {
+		var cells = [], myname = name, that = this;
 
 		this.addCell = function (cell) {
 			cells.push(cell);
@@ -17,9 +17,13 @@
 		this.cells = function () {
 			return cells;
 		};
+
+		this.name = function () {
+			return myname;
+		};
 	}
 
-	jsobj.CellGroup = function () {
-		return jsobj.EventAware(new CellGroup());
+	jsobj.CellGroup = function (name) {
+		return jsobj.EventAware(new CellGroup(name));
 	};
 }(jsobj));
