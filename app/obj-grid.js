@@ -10,7 +10,8 @@
 			hrows = [],		// 9 horizontal rows of 9 cells each
 			i,
 			newCell,
-			cellnums = "created cells: ";
+			cellnums = "created cells: ",
+			allgroups;
 
 		// create 9 blocks, vrows, hrows
 		for (i = 0; i < 9; i++) {
@@ -38,6 +39,13 @@
 
 		this.block = function (index) {
 			return blocks[index];
+		};
+
+		this.allGroups = function () {
+			if (allgroups === undefined) {
+				allgroups = hrows.concat(vrows).concat(blocks);
+			}
+			return allgroups;
 		};
 	};
 }(jsobj));

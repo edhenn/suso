@@ -14,7 +14,7 @@
 		});
 	});
 
-	describe("Cell object members", function () {
+	describe("Grid object members", function () {
 		var x = new jsobj.Grid();
 
 		it("has a .vRow member", function () {
@@ -27,6 +27,37 @@
 
 		it("has a .block member", function () {
 			expect(x.block).toBeDefined();
+		});
+
+		it("has an .allGroups member", function () {
+			expect(x.allGroups).toBeDefined();
+		});
+
+		it(".vRow member is a function", function () {
+			expect(typeof x.vRow).toBe('function');
+		});
+
+		it(".hRow member is a function", function () {
+			expect(typeof x.hRow).toBe('function');
+		});
+
+		it(".block member is a function", function () {
+			expect(typeof x.block).toBe('function');
+		});
+
+		it(".allGroups member is a function", function () {
+			expect(typeof x.allGroups).toBe('function');
+		});
+
+		it("has 4 non-prototype members", function () {
+			var members = 0, prop;
+
+			for (prop in x) {
+				if (x.hasOwnProperty(prop) && prop !== 'prototype') {
+					members++;
+				}
+			}
+			expect(members).toBe(4);
 		});
 	});
 }());
