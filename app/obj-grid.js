@@ -60,7 +60,7 @@
 		};
 	}
 
-	jsobj.Grid = function () {
-		return jsobj.EventAware(new Grid());
+	jsobj.Grid = function (seeds) {
+		return jsobj.EventAware(new Grid(seeds));
 	};
 }(jsobj));
