@@ -4,16 +4,18 @@
 (function (jsobj) {
 	"use strict";
 
-	jsobj.Grid = function (seeds) {
+	function Grid(seeds) {
 		var blocks = [],	// 9 blocks of 9 cells each
 			vrows = [],		// 9 vertical rows of 9 cells each
 			hrows = [],		// 9 horizontal rows of 9 cells each
 			i,
 			newCell,
 			cellnums = "created cells: ",
-			allgroups;
+			allgroups,
+			that = this;
 
 		function cellUpdated(cell) {
+			that.trigger("update", cell);
 		}
 
 		function newCellGroup(type, num) {
@@ -56,5 +58,9 @@
 			}
 			return allgroups;
 		};
+	}
+
+	jsobj.Grid = function () {
+		return jsobj.EventAware(new Grid());
 	};
 }(jsobj));

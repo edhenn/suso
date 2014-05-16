@@ -33,6 +33,18 @@
 			expect(x.allGroups).toBeDefined();
 		});
 
+		it("has an .on member", function () {
+			expect(x.on).toBeDefined();
+		});
+
+		it("has an .off member", function () {
+			expect(x.off).toBeDefined();
+		});
+
+		it("has an .trigger member", function () {
+			expect(x.trigger).toBeDefined();
+		});
+
 		it(".vRow member is a function", function () {
 			expect(typeof x.vRow).toBe('function');
 		});
@@ -49,7 +61,19 @@
 			expect(typeof x.allGroups).toBe('function');
 		});
 
-		it("has 4 non-prototype members", function () {
+		it(".on member is a function", function () {
+			expect(typeof x.on).toBe('function');
+		});
+
+		it(".off member is a function", function () {
+			expect(typeof x.off).toBe('function');
+		});
+
+		it(".trigger member is a function", function () {
+			expect(typeof x.trigger).toBe('function');
+		});
+
+		it("has 7 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -57,7 +81,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(4);
+			expect(members).toBe(7);
 		});
 	});
 
