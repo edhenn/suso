@@ -69,6 +69,10 @@
 			expect(x.possibleValues).toBeDefined();
 		});
 
+		it("has a .grid member", function () {
+			expect(x.grid).toBeDefined();
+		});
+
 		it(".id member is a function", function () {
 			expect(typeof x.id).toBe("function");
 		});
@@ -121,7 +125,11 @@
 			expect(typeof x.possibleValues).toBe("function");
 		});
 
-		it("has 13 non-prototype members", function () {
+		it(".grid member is a function", function () {
+			expect(typeof x.grid).toBe("function");
+		});
+
+		it("has 14 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -129,7 +137,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(13);
+			expect(members).toBe(14);
 		});
 	});
 
@@ -314,9 +322,12 @@
 		it("sets the value of a cell when one remaining possible value exists", function () {
 			var cells = [], row, i;
 
+			function stateStub() {
+				return 'ready';
+			}
 			row = new jsobj.CellGroup();
 			for (i = 0; i < 9; i++) {
-				cells.push(new jsobj.Cell());
+				cells.push(new jsobj.Cell({ state: stateStub }));
 				cells[i].setRowH(row);
 			}
 			for (i = 0; i < 8; i++) {

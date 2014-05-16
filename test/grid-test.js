@@ -45,6 +45,10 @@
 			expect(x.trigger).toBeDefined();
 		});
 
+		it("has a .state member", function () {
+			expect(x.state).toBeDefined();
+		});
+
 		it(".vRow member is a function", function () {
 			expect(typeof x.vRow).toBe('function');
 		});
@@ -73,7 +77,11 @@
 			expect(typeof x.trigger).toBe('function');
 		});
 
-		it("has 7 non-prototype members", function () {
+		it(".state member is a function", function () {
+			expect(typeof x.state).toBe('function');
+		});
+
+		it("has 8 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -81,7 +89,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(7);
+			expect(members).toBe(8);
 		});
 	});
 
@@ -91,8 +99,8 @@
 		it("combines rows, cols, blocks", function () {
 			allgroups = x.allGroups();
 			for (i = 0; i < allgroups.length; i++) {
-				switch (allgroups[i].name().substring(0, 3)) {
-				case 'blo':
+				switch (allgroups[i].type()) {
+				case 'block':
 					blocks++;
 					break;
 				case 'row':

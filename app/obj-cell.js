@@ -6,7 +6,7 @@
 
 	var cellnum = 0;
 
-	function Cell(id) {
+	function Cell(id, grid) {
 		var cellId = id, val, myRowH, myRowV, myBlock,
 			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null },
 			possibleCount = 9,
@@ -17,7 +17,8 @@
 			if (possibles[newValue] !== undefined) {
 				delete possibles[newValue];
 				possibleCount--;
-				if (possibleCount === 1) {
+				if (possibleCount === 1 && grid.state() === 'ready') {
+					// grid is ready - done seeding. auto-solve cells with one remaining possible value.
 					that.setValue(that.possibleValues()[0]);
 				}
 			}
@@ -25,6 +26,10 @@
 
 		this.id = function () {
 			return cellId;
+		};
+
+		this.grid = function () {
+			return grid;
 		};
 
 		this.value = function () {
@@ -97,7 +102,7 @@
 		};
 	}
 
-	jsobj.Cell = function () {
-		return jsobj.EventAware(new Cell(cellnum++));
+	jsobj.Cell = function (grid) {
+		return jsobj.EventAware(new Cell(cellnum++, grid));
 	};
 }(jsobj));

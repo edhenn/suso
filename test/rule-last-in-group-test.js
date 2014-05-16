@@ -44,7 +44,7 @@
 			grid.hRow(6).cells()[0].setValue(5);			// 2  --- --- ---
 			grid.hRow(7).cells()[3].setValue(5);
 															// 3  --- --- --5
-			jsobj.ruleLastInGroup(grid);        			// 4  --- --- ---
+			jsobj.ruleLastInGroup(grid);					// 4  --- --- ---
 															// 5  --- --- ---
 			solved = listSolved(grid);
 			expect(solved.length).toBe(5);					// 6  5-- --- ---

@@ -12,6 +12,7 @@
 			newCell,
 			cellnums = "created cells: ",
 			allgroups,
+			gridState = 'init',
 			that = this;
 
 		function cellUpdated(cell) {
@@ -24,6 +25,25 @@
 			return newGroup;
 		}
 
+		function seedGrid(seeds) {
+			var row, col, seed;
+
+			if (seeds === undefined) {
+				return;
+			}
+
+			for (row = 0; row < seeds.length; row++) {
+				for (col = 0; col < seeds[row].length; col++) {
+					seed = seeds[row][col];
+					if (seed !== undefined && typeof seed === 'number') {
+						hrows[row][col].setValue(seed);
+					}
+				}
+			}
+		}
+
+		// *** CREATE GRID OBJECT ***
+
 		// create 9 blocks, vrows, hrows
 		for (i = 0; i < 9; i++) {
 			blocks.push(newCellGroup('block', i));
@@ -33,12 +53,18 @@
 
 		// create 81 cells each tied to correct block, vrow, hrow
 		for (i = 0; i < 81; i++) {
-			newCell = new jsobj.Cell();
+			newCell = new jsobj.Cell(this);
 			newCell.setRowH(hrows[Math.floor(i / 9)]);		// every 9 consecutive cells make an hrow
 			newCell.setRowV(vrows[i % 9]);					// every 9th cell belongs to the same vrow
 			newCell.setBlock(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3]);	// every 3rd set of 3 consecutive cells up to 9 make a block
 			cellnums += newCell.id().toString() + ',';
 		}
+
+		gridState = 'ready';
+
+		this.state = function () {
+			return gridState;
+		};
 
 		this.vRow = function (index) {
 			return vrows[index];
