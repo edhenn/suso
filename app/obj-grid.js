@@ -13,11 +13,20 @@
 			cellnums = "created cells: ",
 			allgroups;
 
+		function cellUpdated(cell) {
+		}
+
+		function newCellGroup(type, num) {
+			var newGroup = new jsobj.CellGroup(type + ' ' + num.toString());
+			newGroup.on("update", cellUpdated);
+			return newGroup;
+		}
+
 		// create 9 blocks, vrows, hrows
 		for (i = 0; i < 9; i++) {
-			blocks.push(new jsobj.CellGroup('block ' + i.toString()));
-			vrows.push(new jsobj.CellGroup('col ' + i.toString()));
-			hrows.push(new jsobj.CellGroup('row ' + i.toString()));
+			blocks.push(newCellGroup('block', i));
+			vrows.push(newCellGroup('col', i));
+			hrows.push(newCellGroup('row', i));
 		}
 
 		// create 81 cells each tied to correct block, vrow, hrow
