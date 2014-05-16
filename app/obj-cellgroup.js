@@ -4,8 +4,8 @@
 (function (jsobj) {
 	"use strict";
 
-	function CellGroup(name) {
-		var cells = [], myname = name, that = this;
+	function CellGroup(type, num, grid) {
+		var cells = [], that = this;
 
 		this.addCell = function (cell) {
 			cells.push(cell);
@@ -14,16 +14,24 @@
 			});
 		};
 
+		this.grid = function () {
+			return grid;
+		};
+
+		this.type = function () {
+			return type;
+		};
+
 		this.cells = function () {
 			return cells;
 		};
 
 		this.name = function () {
-			return myname;
+			return type + ' ' + num.toString();
 		};
 	}
 
-	jsobj.CellGroup = function (name) {
-		return jsobj.EventAware(new CellGroup(name));
+	jsobj.CellGroup = function (type, num, grid) {
+		return jsobj.EventAware(new CellGroup(type, num, grid));
 	};
 }(jsobj));

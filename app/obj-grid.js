@@ -19,7 +19,7 @@
 		}
 
 		function newCellGroup(type, num) {
-			var newGroup = new jsobj.CellGroup(type + ' ' + num.toString());
+			var newGroup = new jsobj.CellGroup(type, num, that);
 			newGroup.on("update", cellUpdated);
 			return newGroup;
 		}

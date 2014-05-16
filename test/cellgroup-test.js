@@ -41,6 +41,14 @@
 			expect(x.trigger).toBeDefined();
 		});
 
+		it("has a .grid member", function () {
+			expect(x.grid).toBeDefined();
+		});
+
+		it("has a .type member", function () {
+			expect(x.type).toBeDefined();
+		});
+
 		it(".addCell member is a function", function () {
 			expect(typeof x.addCell).toBe('function');
 		});
@@ -65,7 +73,15 @@
 			expect(typeof x.trigger).toBe("function");
 		});
 
-		it("has 6 non-prototype members", function () {
+		it(".grid member is a function", function () {
+			expect(typeof x.grid).toBe("function");
+		});
+
+		it(".type member is a function", function () {
+			expect(typeof x.type).toBe("function");
+		});
+
+		it("has 8 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -73,7 +89,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(6);
+			expect(members).toBe(8);
 		});
 	});
 }());
