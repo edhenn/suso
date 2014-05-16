@@ -12,7 +12,8 @@
 			possibleCount = 9,
 			that = this;
 
-		function updatePossibles(newValue) {
+		function updatePossibles(updatedCell) {
+			var newValue = updatedCell.value();
 			if (possibles[newValue] !== undefined) {
 				delete possibles[newValue];
 				possibleCount--;

@@ -10,7 +10,7 @@
 		this.addCell = function (cell) {
 			cells.push(cell);
 			cell.on("update", function () {
-				that.trigger("update", this.value());
+				that.trigger("update", this);	// passes solved cell to listeners
 			});
 		};
 
