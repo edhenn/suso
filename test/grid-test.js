@@ -60,4 +60,29 @@
 			expect(members).toBe(4);
 		});
 	});
+
+	describe("allGroups member", function () {
+		var x = new jsobj.Grid(), allgroups, rows = 0, cols = 0, blocks = 0, i;
+
+		it("combines rows, cols, blocks", function () {
+			allgroups = x.allGroups();
+			for (i = 0; i < allgroups.length; i++) {
+				switch (allgroups[i].name().substring(0, 3)) {
+				case 'blo':
+					blocks++;
+					break;
+				case 'row':
+					rows++;
+					break;
+				case 'col':
+					cols++;
+					break;
+				}
+			}
+			expect(i).toBe(27);
+			expect(blocks).toBe(9);
+			expect(rows).toBe(9);
+			expect(cols).toBe(9);
+		});
+	});
 }());
