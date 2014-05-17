@@ -4,6 +4,11 @@
 (function () {
 	"use strict";
 
+
+	function stateStub() {
+		return 'ready';
+	}
+
 	describe("CellGroup object", function () {
 		it("exists in jsobj namespace", function () {
 			expect(jsobj.CellGroup).toBeDefined();
@@ -60,4 +65,41 @@
 			expect(members).toBe(8);
 		});
 	});
+
+	describe("CellGroup constructor", function () {
+		it("sets .name from type and num", function () {
+			var x = new jsobj.CellGroup('row', 1, {});
+			expect(x.name()).toBe('row 1');
+		});
+
+		it("sets .type", function () {
+			var x = new jsobj.CellGroup('block', 5, {});
+			expect(x.type()).toBe('block');
+		});
+
+		it("sets .grid", function () {
+			var g = {},
+				x = new jsobj.CellGroup('col', 3, g);
+			expect(x.grid()).toBe(g);
+		});
+	});
+
+	describe("CellGroup .addCell function", function () {
+		var grid = { state: stateStub },
+			x = new jsobj.CellGroup('col', 3, grid);
+
+		it("adds cell to .cells() array", function () {
+			var a = new jsobj.Cell(grid),
+				b = new jsobj.Cell(grid),
+				cells;
+
+			x.addCell(a);
+			x.addCell(b);
+			cells = x.cells();
+			expect(cells.length).toBe(2);
+			expect(cells[0]).toBe(a);
+			expect(cells[1]).toBe(b);
+		});
+	});
+
 }());
