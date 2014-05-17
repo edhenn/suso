@@ -16,30 +16,16 @@
 			that = this;
 
 		function cellUpdated(cell) {
-			that.trigger("update", cell);
+			// only fire a grid update once the grid is ready - not during seeding
+			if (gridState === 'ready') {
+				that.trigger("update", cell);
+			}
 		}
 
 		function newCellGroup(type, num) {
 			var newGroup = new jsobj.CellGroup(type, num, that);
 			newGroup.on("update", cellUpdated);
 			return newGroup;
-		}
-
-		function seedGrid(seeds) {
-			var row, col, seed;
-
-			if (seeds === undefined) {
-				return;
-			}
-
-			for (row = 0; row < seeds.length; row++) {
-				for (col = 0; col < seeds[row].length; col++) {
-					seed = seeds[row][col];
-					if (seed !== undefined && typeof seed === 'number') {
-						hrows[row][col].setValue(seed);
-					}
-				}
-			}
 		}
 
 		// *** CREATE GRID OBJECT ***
@@ -60,7 +46,7 @@
 			cellnums += newCell.id().toString() + ',';
 		}
 
-		gridState = 'ready';
+		gridState = 'unseeded';
 
 		this.state = function () {
 			return gridState;
@@ -83,6 +69,21 @@
 				allgroups = hrows.concat(vrows).concat(blocks);
 			}
 			return allgroups;
+		};
+
+		this.addSeeds = function (seeds) {
+			var row, col, seed;
+
+			for (row = 0; row < seeds.length; row++) {
+				for (col = 0; col < seeds[row].length; col++) {
+					seed = seeds[row][col];
+					if (seed !== undefined && typeof seed === 'number') {
+						hrows[row].cells()[col].setValue(seed);
+					}
+				}
+			}
+
+			gridState = 'ready';
 		};
 	}
 
