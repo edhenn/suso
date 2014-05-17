@@ -20,6 +20,7 @@ module.exports = function(config) {
 	  'app/obj-cellgroup.js',
       'app/obj-cell.js',
 	  'app/rule-last-in-group.js',
+	  'app/display-pre.js',
 	  'test/*.js'
     ],
 
