@@ -13,7 +13,19 @@
 		});
 
 		it("returns all dashes for an empty grid, formatted correctly", function () {
-
+			expect(disp).toBe('<pre>\n' +
+				'--- --- ---\n' +
+				'--- --- ---\n' +
+				'--- --- ---\n' +
+				'\n' +
+				'--- --- ---\n' +
+				'--- --- ---\n' +
+				'--- --- ---\n' +
+				'\n' +
+				'--- --- ---\n' +
+				'--- --- ---\n' +
+				'--- --- ---\n' +
+				'</pre>');
 		});
 
 	});

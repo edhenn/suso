@@ -16,11 +16,11 @@
 		}
 
 		for (row = 0; row < 9; row++) {
-			if (row % 3 === 0) {
+			prebody += prerow.replace(/\{([0-9])\}/g, repl);
+			prebody += '\n';
+			if (row === 2 || row === 5) {
 				prebody += '\n';
 			}
-			prebody += prerow.replace(/\{([0-9])\}/, repl);
-			prebody += '\n';
 		}
 
 		if (ctrl === undefined) {
