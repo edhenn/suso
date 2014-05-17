@@ -100,6 +100,13 @@
 			}
 			return poss;
 		};
+
+		this.coords = function () {
+			if (myRowH === undefined || myRowV === undefined) {
+				return [];
+			}
+			return [ myRowH.num(), myRowV.num() ];
+		};
 	}
 
 	jsobj.Cell = function (grid) {

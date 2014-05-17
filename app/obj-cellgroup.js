@@ -23,6 +23,10 @@
 			return type;
 		};
 
+		this.num = function () {
+			return num;
+		};
+
 		this.cells = function () {
 			return cells;
 		};

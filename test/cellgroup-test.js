@@ -20,7 +20,7 @@
 	});
 
 	describe("CellGroup object members", function () {
-		var x = new jsobj.CellGroup();
+		var x = new jsobj.CellGroup('row', 1, {});
 
 		it(".addCell member is a function", function () {
 			expect(typeof x.addCell).toBe('function');
@@ -54,7 +54,11 @@
 			expect(typeof x.type).toBe("function");
 		});
 
-		it("has 8 non-prototype members", function () {
+		it(".num member is a function", function () {
+			expect(typeof x.num).toBe("function");
+		});
+
+		it("has 9 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -62,7 +66,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(8);
+			expect(members).toBe(9);
 		});
 	});
 

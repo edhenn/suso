@@ -17,62 +17,6 @@
 	describe("Event-Aware Cell object members", function () {
 		var x = new jsobj.Cell();
 
-		it("has a .id member", function () {
-			expect(x.id).toBeDefined();
-		});
-
-		it("has a .value member", function () {
-			expect(x.value).toBeDefined();
-		});
-
-		it("has a .setValue member", function () {
-			expect(x.setValue).toBeDefined();
-		});
-
-		it("has a .rowH member", function () {
-			expect(x.rowH).toBeDefined();
-		});
-
-		it("has a .setRowH member", function () {
-			expect(x.setRowH).toBeDefined();
-		});
-
-		it("has a .rowV member", function () {
-			expect(x.rowV).toBeDefined();
-		});
-
-		it("has a .setRowV member", function () {
-			expect(x.setRowV).toBeDefined();
-		});
-
-		it("has a .block member", function () {
-			expect(x.block).toBeDefined();
-		});
-
-		it("has a .setBlock member", function () {
-			expect(x.setBlock).toBeDefined();
-		});
-
-		it("has a .on member", function () {
-			expect(x.on).toBeDefined();
-		});
-
-		it("has a .off member", function () {
-			expect(x.off).toBeDefined();
-		});
-
-		it("has a .trigger member", function () {
-			expect(x.trigger).toBeDefined();
-		});
-
-		it("has a .possibleValues member", function () {
-			expect(x.possibleValues).toBeDefined();
-		});
-
-		it("has a .grid member", function () {
-			expect(x.grid).toBeDefined();
-		});
-
 		it(".id member is a function", function () {
 			expect(typeof x.id).toBe("function");
 		});
@@ -129,7 +73,11 @@
 			expect(typeof x.grid).toBe("function");
 		});
 
-		it("has 14 non-prototype members", function () {
+		it(".coords member is a function", function () {
+			expect(typeof x.coords).toBe('function');
+		});
+
+		it("has 15 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -137,7 +85,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(14);
+			expect(members).toBe(15);
 		});
 	});
 
@@ -334,6 +282,27 @@
 				cells[i].setValue(i + 1);
 			}
 			expect(cells[8].value()).toBe(9);
+		});
+	});
+
+	describe("Cell coords function", function () {
+		var r = new jsobj.CellGroup('row', 4, {}),
+			c = new jsobj.CellGroup('col', 8, {}),
+			x = new jsobj.Cell({});
+
+		it("returns empty array before row and col are set", function () {
+			expect(x.coords().length).toBe(0);
+		});
+
+		it("returns array of 2 numbers once row and col are set", function () {
+			x.setRowH(r);
+			x.setRowV(c);
+			expect(x.coords().length).toBe(2);
+		});
+
+		it("returns [ row, col ] numbers once row and col are set", function () {
+			expect(x.coords()[0]).toBe(4);
+			expect(x.coords()[1]).toBe(8);
 		});
 	});
 }());
