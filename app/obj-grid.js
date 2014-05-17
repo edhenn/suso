@@ -85,6 +85,9 @@
 
 			gridState = 'ready';
 		};
+
+		this.solve = function () {
+		};
 	}
 
 	jsobj.Grid = function (seeds) {

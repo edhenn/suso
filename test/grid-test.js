@@ -17,42 +17,6 @@
 	describe("Grid object members", function () {
 		var x = new jsobj.Grid();
 
-		it("has a .vRow member", function () {
-			expect(x.vRow).toBeDefined();
-		});
-
-		it("has a .hRow member", function () {
-			expect(x.hRow).toBeDefined();
-		});
-
-		it("has a .block member", function () {
-			expect(x.block).toBeDefined();
-		});
-
-		it("has an .allGroups member", function () {
-			expect(x.allGroups).toBeDefined();
-		});
-
-		it("has an .on member", function () {
-			expect(x.on).toBeDefined();
-		});
-
-		it("has an .off member", function () {
-			expect(x.off).toBeDefined();
-		});
-
-		it("has an .trigger member", function () {
-			expect(x.trigger).toBeDefined();
-		});
-
-		it("has a .state member", function () {
-			expect(x.state).toBeDefined();
-		});
-
-		it("has an .addSeeds member", function () {
-			expect(x.addSeeds).toBeDefined();
-		});
-
 		it(".vRow member is a function", function () {
 			expect(typeof x.vRow).toBe('function');
 		});
@@ -89,7 +53,11 @@
 			expect(typeof x.addSeeds).toBe('function');
 		});
 
-		it("has 9 non-prototype members", function () {
+		it(".solve member is a function", function () {
+			expect(typeof x.solve).toBe('function');
+		});
+
+		it("has 10 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -97,7 +65,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(9);
+			expect(members).toBe(10);
 		});
 	});
 

@@ -17,38 +17,6 @@
 	describe("CellGroup object members", function () {
 		var x = new jsobj.CellGroup();
 
-		it("has a .addCell member", function () {
-			expect(x.addCell).toBeDefined();
-		});
-
-		it("has a .cells member", function () {
-			expect(x.cells).toBeDefined();
-		});
-
-		it("has a .name member", function () {
-			expect(x.name).toBeDefined();
-		});
-
-		it("has a .on member", function () {
-			expect(x.on).toBeDefined();
-		});
-
-		it("has a .off member", function () {
-			expect(x.off).toBeDefined();
-		});
-
-		it("has a .trigger member", function () {
-			expect(x.trigger).toBeDefined();
-		});
-
-		it("has a .grid member", function () {
-			expect(x.grid).toBeDefined();
-		});
-
-		it("has a .type member", function () {
-			expect(x.type).toBeDefined();
-		});
-
 		it(".addCell member is a function", function () {
 			expect(typeof x.addCell).toBe('function');
 		});
