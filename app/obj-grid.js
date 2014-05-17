@@ -4,37 +4,34 @@
 (function (jsobj) {
 	"use strict";
 
-	function Grid(seeds) {
+	function Grid() {
 		var blocks = [],	// 9 blocks of 9 cells each
 			vrows = [],		// 9 vertical rows of 9 cells each
 			hrows = [],		// 9 horizontal rows of 9 cells each
+			rules,
 			i,
 			newCell,
-			cellnums = "created cells: ",
 			allgroups,
 			gridState = 'init',
-			that = this;
+			solvedThisRound = 0,
+			solvedTotal = 0,
+			me = this;
 
-		function cellUpdated(cell) {
+		function cellUpdated() {
+			solvedThisRound++;
 			// only fire a grid update once the grid is ready - not during seeding
 			if (gridState === 'ready') {
-				that.trigger("update", cell);
+				me.trigger("update", newCell);
 			}
-		}
-
-		function newCellGroup(type, num) {
-			var newGroup = new jsobj.CellGroup(type, num, that);
-			newGroup.on("update", cellUpdated);
-			return newGroup;
 		}
 
 		// *** CREATE GRID OBJECT ***
 
 		// create 9 blocks, vrows, hrows
 		for (i = 0; i < 9; i++) {
-			blocks.push(newCellGroup('block', i));
-			vrows.push(newCellGroup('col', i));
-			hrows.push(newCellGroup('row', i));
+			blocks.push(new jsobj.CellGroup('block', i, me));
+			vrows.push(new jsobj.CellGroup('col', i, me));
+			hrows.push(new jsobj.CellGroup('row', i, me));
 		}
 
 		// create 81 cells each tied to correct block, vrow, hrow
@@ -43,7 +40,7 @@
 			newCell.setRowH(hrows[Math.floor(i / 9)]);		// every 9 consecutive cells make an hrow
 			newCell.setRowV(vrows[i % 9]);					// every 9th cell belongs to the same vrow
 			newCell.setBlock(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3]);	// every 3rd set of 3 consecutive cells up to 9 make a block
-			cellnums += newCell.id().toString() + ',';
+			newCell.on("update", cellUpdated);
 		}
 
 		gridState = 'unseeded';
@@ -87,10 +84,29 @@
 		};
 
 		this.solve = function () {
+			var rule;
+
+			if (solvedTotal > 0) {
+				return;
+			}
+
+			// add rules to list - just a default rule for now, allow user to pass in rules later
+			rules = [ jsobj.ruleLastInGroup ];
+
+			// continually run all rules in the list until a full run causes no solutions.
+			while (solvedThisRound > 0) {
+				solvedTotal += solvedThisRound;
+				solvedThisRound = 0;
+				for (rule = 0; rule < rules.length; rule++) {
+					rules[rule](me);
+				}
+			}
+
+			gridState = (solvedTotal === 81 ? 'complete' : 'incomplete');
 		};
 	}
 
-	jsobj.Grid = function (seeds) {
-		return jsobj.EventAware(new Grid(seeds));
+	jsobj.Grid = function () {
+		return jsobj.EventAware(new Grid());
 	};
 }(jsobj));

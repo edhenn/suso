@@ -4,6 +4,19 @@
 (function () {
 	"use strict";
 
+	function listSolved(grid) {
+		var solved = [], row, cell, rowCells;
+		for (row = 0; row < 9; row++) {
+			rowCells = grid.hRow(row).cells();
+			for (cell = 0; cell < 9; cell++) {
+				if (rowCells[cell].value() !== undefined) {
+					solved.push(rowCells[cell]);
+				}
+			}
+		}
+		return solved;
+	}
+
 	describe("Grid object", function () {
 		it("exists in jsobj namespace", function () {
 			expect(jsobj.Grid).toBeDefined();
@@ -97,19 +110,6 @@
 	describe("Grid seeding", function () {
 		var x;
 
-		function listSolved(grid) {
-			var solved = [], row, cell, rowCells;
-			for (row = 0; row < 9; row++) {
-				rowCells = grid.hRow(row).cells();
-				for (cell = 0; cell < 9; cell++) {
-					if (rowCells[cell].value() !== undefined) {
-						solved.push(rowCells[cell]);
-					}
-				}
-			}
-			return solved;
-		}
-
 		beforeEach(function () {
 			x = new jsobj.Grid();
 		});
@@ -140,6 +140,36 @@
 			x.addSeeds([ [1, 2, 3, 4, 5, 6, 7, 8] ]);
 			expect(listSolved(x).length).toBe(8);
 		});
+	});
+
+	describe("Grid solve function", function () {
+		var x;
+
+		beforeEach(function () {
+			x = new jsobj.Grid();
+		});
+
+		it("sets grid state to incomplete if no cells solved or seeded", function () {
+			x.solve();
+			expect(x.state()).toBe('incomplete');
+		});
+
+		it("sets grid state to complete if all cells seeded", function () {
+			x.addSeeds([
+				[1, 2, 3, 4, 5, 6, 7, 8, 9],
+				[4, 5, 6, 7, 8, 9, 1, 2, 3],
+				[7, 8, 9, 1, 2, 3, 4, 5, 6],
+				[2, 3, 4, 5, 6, 7, 8, 9, 1],
+				[5, 6, 7, 8, 9, 1, 2, 3, 4],
+				[8, 9, 1, 2, 3, 4, 5, 6, 7],
+				[3, 4, 5, 6, 7, 8, 9, 1, 2],
+				[6, 7, 8, 9, 1, 2, 3, 4, 5],
+				[9, 1, 2, 3, 4, 5, 6, 7, 8]
+			]);
+			x.solve();
+			expect(x.state()).toBe('complete');
+		});
+
 	});
 
 }());
