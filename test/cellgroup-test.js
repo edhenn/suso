@@ -86,19 +86,56 @@
 
 	describe("CellGroup .addCell function", function () {
 		var grid = { state: stateStub },
-			x = new jsobj.CellGroup('col', 3, grid);
+			x = new jsobj.CellGroup('col', 3, grid),
+			a = new jsobj.Cell(grid),
+			b = new jsobj.Cell(grid),
+			cells;
+
+			x.addCell(a).addCell(b);
 
 		it("adds cell to .cells() array", function () {
-			var a = new jsobj.Cell(grid),
-				b = new jsobj.Cell(grid),
-				cells;
-
-			x.addCell(a);
-			x.addCell(b);
 			cells = x.cells();
 			expect(cells.length).toBe(2);
 			expect(cells[0]).toBe(a);
 			expect(cells[1]).toBe(b);
+		});
+	});
+
+	describe("CellGroup update event", function () {
+		var grid = { state: stateStub };
+
+		it("subscribes to cell update and responds with cellgroup update", function () {
+			var x = new jsobj.CellGroup('col', 3, grid),
+				a = new jsobj.Cell(grid),
+				b = new jsobj.Cell(grid),
+				cells,
+				cellGroupUpdateCalls = 0;
+
+			x.addCell(a).addCell(b);
+			x.on("update", function () {
+				cellGroupUpdateCalls++;
+			});
+			x.cells()[0].setValue(1);
+			x.cells()[1].setValue(2);
+			expect(cellGroupUpdateCalls).toBe(2);
+		});
+
+		it("passes solved cell with cellGroup update event", function () {
+			var x = new jsobj.CellGroup('col', 3, grid),
+				a = new jsobj.Cell(grid),
+				b = new jsobj.Cell(grid),
+				cells,
+				updatedCells = [];
+
+			x.addCell(a).addCell(b);
+			x.on("update", function (c) {
+				updatedCells.push(c);
+			});
+			x.cells()[0].setValue(1);
+			x.cells()[1].setValue(2);
+			expect(updatedCells.length).toBe(2);
+			expect(updatedCells[0]).toBe(a);
+			expect(updatedCells[1]).toBe(b);
 		});
 	});
 

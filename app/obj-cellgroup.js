@@ -12,6 +12,7 @@
 			cell.on("update", function () {
 				that.trigger("update", this);	// passes solved cell to listeners
 			});
+			return that;
 		};
 
 		this.grid = function () {
