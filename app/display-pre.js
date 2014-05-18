@@ -35,6 +35,7 @@
 		if (ctrl === undefined) {
 			ctrl = document.createElement('div');
 			ctrl.setAttribute('id', 'Grid-Display');
+			document.body.appendChild(ctrl);
 		}
 		pretag = document.createElement('pre');
 		ctrl.appendChild(pretag);
