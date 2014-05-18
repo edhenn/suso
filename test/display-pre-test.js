@@ -1,19 +1,24 @@
-/*global jsobj, describe, it, expect, beforeEach */
+/*global jsobj, describe, it, expect, beforeEach, document */
 /*jslint plusplus: true */
 
 (function () {
 	"use strict";
 
-	describe("displayPre function", function () {
+	describe("DisplayPre object", function () {
 		var grid = new jsobj.Grid(),
-			disp = jsobj.displayPre(grid);
+			ctrl,
+			disp;
 
 		it("returns result wrapped in <pre> tags", function () {
-			expect(disp.substring(0, 6)).toBe('<pre>\n');
+			ctrl = document.createElement('div');
+			disp = new jsobj.DisplayPre(grid, ctrl);
+			expect(ctrl.innerHTML.substring(0, 6)).toBe('<pre>\n');
 		});
 
 		it("returns all dashes for an empty grid, formatted correctly", function () {
-			expect(disp).toBe('<pre>\n' +
+			ctrl = document.createElement('div');
+			disp = new jsobj.DisplayPre(grid, ctrl);
+			expect(ctrl.innerHTML).toBe('<pre>\n' +
 				'--- --- ---\n' +
 				'--- --- ---\n' +
 				'--- --- ---\n' +
@@ -40,8 +45,9 @@
 				[6, 7, 8, 9, 1, 2, 3, 4, 5],
 				[9, 1, 2, 3, 4, 5, 6, 7, 8]
 			]);
-
-			expect(jsobj.displayPre(grid)).toBe('<pre>\n' +
+			ctrl = document.createElement('div');
+			disp = new jsobj.DisplayPre(grid, ctrl);
+			expect(ctrl.innerHTML).toBe('<pre>\n' +
 				'123 456 789\n' +
 				'456 789 123\n' +
 				'789 123 456\n' +

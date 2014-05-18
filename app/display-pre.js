@@ -1,30 +1,46 @@
-/*global jsobj */
+/*global jsobj, document */
 /*jslint plusplus: true */
 
 (function (jsobj) {
 	"use strict";
 
-	jsobj.displayPre = function (grid, ctrl) {
-		var row,
-			pre = '<pre>\n{0}</pre>',
-			prebody = '',
-			prerow = '{0}{1}{2} {3}{4}{5} {6}{7}{8}';
+	jsobj.DisplayPre = function (grid, ctrl) {
+		var pretag,
+			prebody,
+			prerow = '{0}{1}{2} {3}{4}{5} {6}{7}{8}',
+			row;
 
 		function repl(match, id) {
 			var val = grid.hRow(row).cells()[id].value();
 			return val === undefined ? '-' : val.toString();
 		}
 
-		for (row = 0; row < 9; row++) {
-			prebody += prerow.replace(/\{([0-9])\}/g, repl);
-			prebody += '\n';
-			if (row === 2 || row === 5) {
+		function display() {
+			prebody = '\n';
+			for (row = 0; row < 9; row++) {
+				prebody += prerow.replace(/\{([0-9])\}/g, repl);
 				prebody += '\n';
+				if (row === 2 || row === 5) {
+					prebody += '\n';
+				}
 			}
+
+			// display and refresh both just replace the entire display node with freshly generated results
+			pretag.innerHTML = prebody;
 		}
 
+		this.grid = grid;
+		this.ctrl = ctrl;
+
 		if (ctrl === undefined) {
-			return pre.replace('{0}', prebody);
+			ctrl = document.createElement('div');
+			ctrl.setAttribute('id', 'Grid-Display');
 		}
+		pretag = document.createElement('pre');
+		ctrl.appendChild(pretag);
+
+		grid.on("update", display);
+
+		return display();
 	};
 }(jsobj));
