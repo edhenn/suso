@@ -1,16 +1,37 @@
 /*global jsobj */
-/*jslint */
+/*jslint plusplus: true */
 
 (function (jsobj) {
 	"use strict";
 
 	function CellGroup(type, num, grid) {
-		var cells = [], that = this;
+		var cells = [],
+			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null, length: 9 },
+			that = this;
+
+		function updatePossibles(updatedCell) {
+			var newValue = updatedCell.value();
+			if (possibles[newValue] !== undefined) {
+				delete possibles[newValue];
+				possibles.length--;
+			}
+		}
+
+		this.possibleValues = function () {
+			var i, poss = [];
+			for (i = 1; i < 10; i++) {
+				if (possibles.hasOwnProperty(i)) {
+					poss.push(i);
+				}
+			}
+			return poss;
+		};
 
 		this.addCell = function (cell) {
 			cells.push(cell);
 			cell.on("update", function () {
 				that.trigger("update", this);	// passes solved cell to listeners
+				updatePossibles(this);
 			});
 			return that;
 		};
