@@ -49,6 +49,9 @@
 			return gridState;
 		};
 
+		this.rows = vrows;
+		this.cols = hrows;
+
 		this.vRow = function (index) {
 			return vrows[index];
 		};
@@ -81,6 +84,7 @@
 			}
 
 			gridState = 'ready';
+			return this;
 		};
 
 		this.solve = function () {
@@ -103,6 +107,7 @@
 			}
 
 			gridState = (solvedTotal === 81 ? 'complete' : 'incomplete');
+			return this;
 		};
 	}
 

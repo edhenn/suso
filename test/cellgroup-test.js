@@ -62,7 +62,11 @@
 			expect(typeof x.possibleValues).toBe("function");
 		});
 
-		it("has 10 non-prototype members", function () {
+		it("has a .possibles member", function () {
+			expect(typeof x.possibles).toBeDefined();
+		});
+
+		it("has 11 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -70,7 +74,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(10);
+			expect(members).toBe(11);
 		});
 	});
 

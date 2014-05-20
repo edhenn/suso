@@ -14,18 +14,24 @@
 
 		function updatePossibles(updatedCell) {
 			var newValue = updatedCell.value();
-			if (possibles[newValue] !== undefined) {
-				delete possibles[newValue];
+			that.removePossible(newValue);
+		}
+
+		this.id = function () {
+			return cellId;
+		};
+
+		this.possibles = possibles;
+
+		this.removePossible = function (value) {
+			if (possibles[value] !== undefined) {
+				delete possibles[value];
 				possibleCount--;
 				if (possibleCount === 1 && grid.state() === 'ready') {
 					// grid is ready - done seeding. auto-solve cells with one remaining possible value.
 					that.setValue(that.possibleValues()[0]);
 				}
 			}
-		}
-
-		this.id = function () {
-			return cellId;
 		};
 
 		this.grid = function () {

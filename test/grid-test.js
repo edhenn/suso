@@ -70,7 +70,15 @@
 			expect(typeof x.solve).toBe('function');
 		});
 
-		it("has 10 non-prototype members", function () {
+		it("has a .rows member", function () {
+			expect(x.rows).toBeDefined();
+		});
+
+		it("has a .cols member", function () {
+			expect(x.cols).toBeDefined();
+		});
+
+		it("has 12 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -78,7 +86,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(10);
+			expect(members).toBe(12);
 		});
 	});
 

@@ -77,7 +77,15 @@
 			expect(typeof x.coords).toBe('function');
 		});
 
-		it("has 15 non-prototype members", function () {
+		it(".removePossible is a function", function () {
+			expect(typeof x.removePossible).toBe('function');
+		});
+
+		it(".possibles is a member", function () {
+			expect(x.possibles).toBeDefined;
+		});
+
+		it("has 17 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -85,7 +93,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(15);
+			expect(members).toBe(17);
 		});
 	});
 
