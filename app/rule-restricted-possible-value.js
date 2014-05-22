@@ -14,7 +14,8 @@
 			possval,
 			cellnum,
 			blockcellnum,
-			blockcell;
+			blockcell,
+			progress = false;
 
 		// iterate every row and col's remaining values
 		// looking for values that are restricted to a single row and block
@@ -42,10 +43,14 @@
 						if (blockcell.rowH() !== row && blockcell.rowV() !== row &&
 								blockcell.possibles[possval] !== undefined) {
 							blockcell.removePossible(possval);
+							progress = true;
 						}
 					}
 				}
 			}
 		}
+
+		// rules return boolean indicating whether they made any progress
+		return progress;
 	};
 }(jsobj));

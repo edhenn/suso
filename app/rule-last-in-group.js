@@ -12,7 +12,8 @@
 			possvalues,
 			possx,
 			cellsByVal,
-			val;
+			val,
+			progress = false;
 
 		// iterate every row, col, and block (listed in allgroups)
 		// looking for remaining values that exist in only one cell of the group
@@ -37,8 +38,12 @@
 			for (val in cellsByVal) {
 				if (cellsByVal.hasOwnProperty(val) && cellsByVal[val].length === 1) {
 					cellsByVal[val][0].setValue(parseInt(val, 10));
+					progress = true;
 				}
 			}
 		}
+
+		// rules return boolean indicating whether they made any progress
+		return progress;
 	};
 }(jsobj));
