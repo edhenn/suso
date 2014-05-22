@@ -40,7 +40,7 @@
 			return posscount;
 		}
 
-		xit("does nothing to an empty grid", function () {
+		it("does nothing to an empty grid", function () {
 			var grid = new jsobj.Grid().addSeeds([]);
 
 			jsobj.ruleRestrictedPossibleValue(grid);
