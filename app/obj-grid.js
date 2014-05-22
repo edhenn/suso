@@ -49,8 +49,8 @@
 			return gridState;
 		};
 
-		this.rows = vrows;
-		this.cols = hrows;
+		this.rows = hrows;
+		this.cols = vrows;
 
 		this.vRow = function (index) {
 			return vrows[index];
