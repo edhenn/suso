@@ -7,7 +7,7 @@
 	var grid = new jsobj.Grid(),
 		disp;
 
-	// difficult
+	// difficult -- solved with rule last-in-group
 	/*
 	grid.addSeeds([
 		[  ,  ,  ,  ,  , 1,  , 8,  ],
@@ -22,8 +22,8 @@
 	]);
 	*/
 
-	/*
-	// diabolical 1
+
+	// diabolical 1	-- NOT solved with rules last-in-group and restricted-possible-value
 	grid.addSeeds([
 		[ 7,  ,  ,  , 9, 6,  ,  ,  ],
 		[ 8, 9,  ,  ,  , 5, 7,  ,  ],
@@ -35,9 +35,9 @@
 		[  ,  , 8, 9,  ,  ,  , 5, 1],
 		[  ,  ,  , 2, 3,  ,  ,  , 8],
 	]);
-	*/
 
-	// diabolical 2
+	/*
+	// diabolical 2	-- solved with rules last-in-group and restricted-possible-value
 	grid.addSeeds([
 		[ 9,  , 4,  ,  , 1,  ,  ,  ],
 		[  , 2,  ,  ,  , 3, 7, 1,  ],
@@ -49,6 +49,7 @@
 		[  , 8, 9, 5,  ,  ,  , 3,  ],
 		[  ,  ,  , 4,  ,  , 5,  , 8],
 	]);
+	*/
 
 	disp = new jsobj.DisplayPre(grid);
 	grid.solve();
