@@ -13,12 +13,11 @@
 			newCell,
 			allgroups,
 			gridState = 'init',
-			solvedThisRound = 0,
-			solvedTotal = 0,
+			cellsSolved = 0,
 			me = this;
 
 		function cellUpdated() {
-			solvedThisRound++;
+			cellsSolved++;
 			// only fire a grid update once the grid is ready - not during seeding
 			if (gridState === 'ready') {
 				me.trigger("update", newCell);
@@ -88,25 +87,24 @@
 		};
 
 		this.solve = function () {
-			var rule;
+			var rule, progress = true;
 
-			if (solvedTotal > 0) {
+			if (gridState === 'complete' || gridState === 'incomplete') {
 				return;
 			}
 
 			// add rules to list - just a default rule for now, allow user to pass in rules later
 			rules = [ jsobj.ruleLastInGroup ];
 
-			// continually run all rules in the list until a full run causes no solutions.
-			while (solvedThisRound > 0) {
-				solvedTotal += solvedThisRound;
-				solvedThisRound = 0;
-				for (rule = 0; rule < rules.length; rule++) {
-					rules[rule](me);
+			// continually run all rules in the list until a full run causes no progress.
+			while (progress && cellsSolved !== 81) {
+				progress = false;
+				for (rule = 0; rule < rules.length && cellsSolved !== 81; rule++) {
+					progress = progress || rules[rule](me);
 				}
 			}
 
-			gridState = (solvedTotal === 81 ? 'complete' : 'incomplete');
+			gridState = (cellsSolved === 81 ? 'complete' : 'incomplete');
 			return this;
 		};
 	}
