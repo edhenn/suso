@@ -29,7 +29,7 @@
 				// iterate cells in row, looking for possible value restricted to one block
 				for (cellnum = 0; cellnum < rowcells.length; cellnum++) {
 					if (rowcells[cellnum].possibles[possval] !== undefined) {
-						if (blocks.length === 0 && blocks[blocks.length - 1] !== rowcells[cellnum].block()) {
+						if (blocks.length === 0 || blocks[blocks.length - 1] !== rowcells[cellnum].block()) {
 							blocks.push(rowcells[cellnum].block());
 						}
 					}
