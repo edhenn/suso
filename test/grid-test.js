@@ -178,6 +178,21 @@
 			expect(x.state()).toBe('complete');
 		});
 
+		it("solves for cells with one remaining possible value after seeding ", function () {
+			x.addSeeds([
+				[1, 2, 3,  ,  , 6, 7, 8,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  , 4],
+				[ ,  ,  ,  ,  ,  ,  ,  , 5],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ]
+			]);
+			x.solve();
+			expect(x.rows[0].cells()[8].value()).toBe(9);
+		});
 	});
 
 }());
