@@ -23,7 +23,8 @@
 	*/
 
 
-	// diabolical 1	-- NOT solved with rules last-in-group and restricted-possible-value
+	// diabolical 1	-- solved with rules last-in-group and restricted-possible-value
+	/*
 	grid.addSeeds([
 		[ 7,  ,  ,  , 9, 6,  ,  ,  ],
 		[ 8, 9,  ,  ,  , 5, 7,  ,  ],
@@ -35,6 +36,7 @@
 		[  ,  , 8, 9,  ,  ,  , 5, 1],
 		[  ,  ,  , 2, 3,  ,  ,  , 8],
 	]);
+	*/
 
 	/*
 	// diabolical 2	-- solved with rules last-in-group and restricted-possible-value
@@ -50,6 +52,19 @@
 		[  ,  ,  , 4,  ,  , 5,  , 8],
 	]);
 	*/
+
+	// hard 3 - web sudoku -- not solved with rules last-in-group and restricted-possible-value
+	grid.addSeeds([
+		[ 8,  , 1, 7,  ,  , 3, 9,  ],
+		[  ,  ,  ,  ,  , 2, 4,  ,  ],
+		[ 4,  ,  ,  , 9,  ,  , 8,  ],
+		[  ,  , 5,  ,  , 8,  ,  ,  ],
+		[ 3,  ,  ,  , 6,  ,  ,  , 9],
+		[  ,  ,  , 2,  ,  , 8,  ,  ],
+		[  , 1,  ,  , 7,  ,  ,  , 5],
+		[  ,  , 3, 6,  ,  ,  ,  ,  ],
+		[  , 2, 7,  ,  , 9, 6,  , 3],
+	]);
 
 	disp = new jsobj.DisplayPre(grid);
 	grid.solve();
