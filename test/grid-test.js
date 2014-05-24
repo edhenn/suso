@@ -78,7 +78,11 @@
 			expect(x.cols).toBeDefined();
 		});
 
-		it("has 12 non-prototype members", function () {
+		it("has a .seedSolved member", function () {
+			expect(x.seedSolved).toBeDefined();
+		});
+
+		it("has 13 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -86,7 +90,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(12);
+			expect(members).toBe(13);
 		});
 	});
 
@@ -178,6 +182,21 @@
 			expect(x.state()).toBe('complete');
 		});
 
+		it("solves for cells with one remaining possible value after seeding ", function () {
+			x.addSeeds([
+				[1, 2, 3,  ,  , 6, 7, 8,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  , 4],
+				[ ,  ,  ,  ,  ,  ,  ,  , 5],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ],
+				[ ,  ,  ,  ,  ,  ,  ,  ,  ]
+			]);
+			x.solve();
+			expect(x.rows[0].cells()[8].value()).toBe(9);
+		});
 	});
 
 }());

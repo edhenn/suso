@@ -27,9 +27,14 @@
 			if (possibles[value] !== undefined) {
 				delete possibles[value];
 				possibleCount--;
-				if (possibleCount === 1 && grid.state() === 'ready') {
+				if (possibleCount === 1) {
 					// grid is ready - done seeding. auto-solve cells with one remaining possible value.
-					that.setValue(that.possibleValues()[0]);
+					if (grid.state() === 'ready') {
+						that.setValue(that.possibleValues()[0]);
+					}
+					else {
+						grid.seedSolved.push(that);
+					}
 				}
 			}
 		};

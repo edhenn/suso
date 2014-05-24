@@ -14,6 +14,7 @@
 			allgroups,
 			gridState = 'init',
 			cellsSolved = 0,
+			seedSolved = [],
 			me = this;
 
 		function cellUpdated() {
@@ -43,6 +44,8 @@
 		}
 
 		gridState = 'unseeded';
+
+		this.seedSolved = seedSolved;
 
 		this.state = function () {
 			return gridState;
@@ -87,10 +90,18 @@
 		};
 
 		this.solve = function () {
-			var rule, progress = true;
+			var rule, progress = true, cell, possVal;
 
 			if (gridState === 'complete' || gridState === 'incomplete') {
 				return;
+			}
+
+			// initial pass to solve for cells with one remaining value after seeding
+			for (cell = 0; cell < seedSolved.length; cell++) {
+				possVal = seedSolved[cell].possibleValues();
+				if (possVal.length === 1) {
+					seedSolved[cell].setValue(possVal[0]);
+				}
 			}
 
 			// add rules to list - just a default rule for now, allow user to pass in rules later
