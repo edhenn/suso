@@ -51,7 +51,7 @@
 	]);
 	*/
 
-	disp = new jsobj.DisplayPre(grid);
+	disp = new jsobj.ViewGridWithPossibles(grid);
 	grid.solve();
 
 }());

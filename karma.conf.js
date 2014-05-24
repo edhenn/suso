@@ -22,6 +22,7 @@ module.exports = function(config) {
 	  'app/rule-last-in-group.js',
 	  'app/rule-restricted-possible-value.js',
 	  'app/display-pre.js',
+	  'app/view-grid-with-possibles.js',
 	  'test/*.js'
     ],
 
