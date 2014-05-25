@@ -9,10 +9,12 @@
 			gridbody,
 			gridrow = '<div class="row"><span class="cell">{0}</span><span class="cell">{1}</span><span class="cell">{2}</span>' +
 				'<span class="cell">{3}</span><span class="cell">{4}</span><span class="cell">{5}</span>' +
-				'<span class="cell">{6}</span><span class="cell">{7}</span><span class="cell">{8}</span>',
+				'<span class="cell">{6}</span><span class="cell">{7}</span><span class="cell">{8}</span></div>',
 			row,
-			styles = '.cell { width: 30px; height: 30px; display: inline-block; }',
-			styletag;
+			styletag,
+			styles = '.cell { width: 30px; height: 30px; display: inline-block; border: solid 1px grey; }' +
+				'.poss { font-size: 0.5em }' +
+				'.value { font-weight: bold }';
 
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
