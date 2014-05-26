@@ -12,11 +12,13 @@
 				'<span class="cell">{6}</span><span class="cell">{7}</span><span class="cell">{8}</span></div>',
 			row,
 			styletag,
-			styles = '.grid { display: table; }' +
-				'.row { display: table-row; }' +
-				'.cell { width: 40px; height: 40px; display: table-cell; border: solid 1px grey; text-align: center; vertical-align: middle; }' +
-				'.poss { font-size: 12px; line-height: 10px }' +
-				'.value { font-size: 22px; font-weight: bold }';
+			styles = '.grid { display: table; border-top: solid 2px black; border-left: solid 2px black; }\n' +
+				'.row { display: table-row; border-bottom: solid 1px grey; }\n' +
+				'.row:nth-of-type(3n+0) .cell { border-bottom: solid 2px black; }\n' +
+				'.cell { width: 40px; height: 40px; display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; text-align: center; vertical-align: middle; }\n' +
+				'.cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n' +
+				'.poss { font-size: 12px; line-height: 10px }\n' +
+				'.value { font-size: 22px; font-weight: bold }\n';
 
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
