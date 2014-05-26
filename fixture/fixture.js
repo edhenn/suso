@@ -66,7 +66,7 @@
 		[  , 2, 7,  ,  , 9, 6,  , 3],
 	]);
 
-	disp = new jsobj.ViewGridWithPossibles(grid);
 	grid.solve();
+	disp = new jsobj.ViewGridWithPossibles(grid);
 
 }());
