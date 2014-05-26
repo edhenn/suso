@@ -12,9 +12,11 @@
 				'<span class="cell">{6}</span><span class="cell">{7}</span><span class="cell">{8}</span></div>',
 			row,
 			styletag,
-			styles = '.cell { width: 30px; height: 30px; display: inline-block; border: solid 1px grey; }' +
-				'.poss { font-size: 0.5em }' +
-				'.value { font-weight: bold }';
+			styles = '.grid { display: table; }' +
+				'.row { display: table-row; }' +
+				'.cell { width: 40px; height: 40px; display: table-cell; border: solid 1px grey; text-align: center; vertical-align: middle; }' +
+				'.poss { font-size: 12px; line-height: 10px }' +
+				'.value { font-size: 22px; font-weight: bold }';
 
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
@@ -24,7 +26,7 @@
 			if (val) {
 				return '<span class="value">' + val.toString() + '</span>';
 			}
-			return '<span class="poss">' + cell.possibleValues().join(',') + '</span>';
+			return '<span class="poss">' + cell.possibleValues().join(' ') + '</span>';
 		}
 
 		function display() {
