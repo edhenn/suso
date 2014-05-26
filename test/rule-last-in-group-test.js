@@ -48,8 +48,8 @@
 															// 5  --- --- ---
 			solved = listSolved(grid);
 			expect(solved.length).toBe(5);					// 6  5-- --- ---
-			expect(solved[4].rowH().name()).toBe('row 8');	// 7  --- 5-- ---
-			expect(solved[4].rowV().name()).toBe('col 6');	// 8  --- --- X--
+			expect(solved[4].row().name()).toBe('row 8');	// 7  --- 5-- ---
+			expect(solved[4].col().name()).toBe('col 6');	// 8  --- --- X--
 			expect(solved[4].value()).toBe(5);
 		});
 
@@ -65,8 +65,8 @@
 															// 5  --- --- ---
 			solved = listSolved(grid);
 			expect(solved.length).toBe(5);					// 6  --3 --- ---
-			expect(solved[4].rowH().name()).toBe('row 8');	// 7  --- -3- ---
-			expect(solved[4].rowV().name()).toBe('col 8');	// 8  --- --- 12X
+			expect(solved[4].row().name()).toBe('row 8');	// 7  --- -3- ---
+			expect(solved[4].col().name()).toBe('col 8');	// 8  --- --- 12X
 			expect(solved[4].value()).toBe(3);
 		});
 	});

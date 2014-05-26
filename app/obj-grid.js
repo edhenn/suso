@@ -6,8 +6,8 @@
 
 	function Grid() {
 		var blocks = [],	// 9 blocks of 9 cells each
-			vrows = [],		// 9 vertical rows of 9 cells each
-			hrows = [],		// 9 horizontal rows of 9 cells each
+			cols = [],		// 9 vertical rows of 9 cells each
+			rows = [],		// 9 horizontal rows of 9 cells each
 			rules,
 			i,
 			newCell,
@@ -27,18 +27,18 @@
 
 		// *** CREATE GRID OBJECT ***
 
-		// create 9 blocks, vrows, hrows
+		// create 9 blocks, cols, rows
 		for (i = 0; i < 9; i++) {
 			blocks.push(new jsobj.CellGroup('block', i, me));
-			vrows.push(new jsobj.CellGroup('col', i, me));
-			hrows.push(new jsobj.CellGroup('row', i, me));
+			cols.push(new jsobj.CellGroup('col', i, me));
+			rows.push(new jsobj.CellGroup('row', i, me));
 		}
 
 		// create 81 cells each tied to correct block, vrow, hrow
 		for (i = 0; i < 81; i++) {
 			newCell = new jsobj.Cell(this);
-			newCell.setRowH(hrows[Math.floor(i / 9)]);		// every 9 consecutive cells make an hrow
-			newCell.setRowV(vrows[i % 9]);					// every 9th cell belongs to the same vrow
+			newCell.setRow(rows[Math.floor(i / 9)]);		// every 9 consecutive cells make an hrow
+			newCell.setCol(cols[i % 9]);					// every 9th cell belongs to the same vrow
 			newCell.setBlock(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3]);	// every 3rd set of 3 consecutive cells up to 9 make a block
 			newCell.on("update", cellUpdated);
 		}
@@ -51,15 +51,15 @@
 			return gridState;
 		};
 
-		this.rows = hrows;
-		this.cols = vrows;
+		this.rows = rows;
+		this.cols = cols;
 
 		this.vRow = function (index) {
-			return vrows[index];
+			return cols[index];
 		};
 
 		this.hRow = function (index) {
-			return hrows[index];
+			return rows[index];
 		};
 
 		this.block = function (index) {
@@ -68,7 +68,7 @@
 
 		this.allGroups = function () {
 			if (allgroups === undefined) {
-				allgroups = hrows.concat(vrows).concat(blocks);
+				allgroups = rows.concat(cols).concat(blocks);
 			}
 			return allgroups;
 		};
@@ -80,7 +80,7 @@
 				for (col = 0; col < seeds[row].length; col++) {
 					seed = seeds[row][col];
 					if (seed !== undefined && typeof seed === 'number') {
-						hrows[row].cells()[col].setValue(seed);
+						rows[row].cells()[col].setValue(seed);
 					}
 				}
 			}

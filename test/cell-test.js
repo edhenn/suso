@@ -29,20 +29,20 @@
 			expect(typeof x.setValue).toBe("function");
 		});
 
-		it(".rowH member is a function", function () {
-			expect(typeof x.rowH).toBe("function");
+		it(".row member is a function", function () {
+			expect(typeof x.row).toBe("function");
 		});
 
-		it(".setRowH member is a function", function () {
-			expect(typeof x.setRowH).toBe("function");
+		it(".setRow member is a function", function () {
+			expect(typeof x.setRow).toBe("function");
 		});
 
-		it(".rowV member is a function", function () {
-			expect(typeof x.rowV).toBe("function");
+		it(".col member is a function", function () {
+			expect(typeof x.col).toBe("function");
 		});
 
-		it(".setRowV member is a function", function () {
-			expect(typeof x.setRowV).toBe("function");
+		it(".setCol member is a function", function () {
+			expect(typeof x.setCol).toBe("function");
 		});
 
 		it(".block member is a function", function () {
@@ -125,41 +125,41 @@
 		});
 	});
 
-	describe("Cell.rowH and setRowH functions", function () {
+	describe("Cell.row and setRow functions", function () {
 		var x = new jsobj.Cell();
 
-		it(".rowH returns undefined before a value is set", function () {
-			expect(x.rowH()).not.toBeDefined();
+		it(".row returns undefined before a value is set", function () {
+			expect(x.row()).not.toBeDefined();
 		});
 
-		it(".rowH returns correct object after .setRowH is called", function () {
-			var rowH = new jsobj.CellGroup();
-			x.setRowH(rowH);
-			expect(x.rowH()).toBe(rowH);
+		it(".row returns correct object after .setRow is called", function () {
+			var row = new jsobj.CellGroup();
+			x.setRow(row);
+			expect(x.row()).toBe(row);
 		});
 
-		it(".setRowH throws an error when called if .rowH is already defined", function () {
-			expect(function () { x.setRowH({}); })
-				.toThrow(new Error("Attempt to set rowH on a Cell that already has a rowH."));
+		it(".setRow throws an error when called if .row is already defined", function () {
+			expect(function () { x.setRow({}); })
+				.toThrow(new Error("Attempt to set row on a Cell that already has a row."));
 		});
 	});
 
-	describe("Cell.rowV and setRowV functions", function () {
+	describe("Cell.col and setCol functions", function () {
 		var x = new jsobj.Cell();
 
-		it(".rowV returns undefined before a value is set", function () {
-			expect(x.rowV()).not.toBeDefined();
+		it(".col returns undefined before a value is set", function () {
+			expect(x.col()).not.toBeDefined();
 		});
 
-		it(".rowV returns correct object after .setRowV is called", function () {
-			var rowV = new jsobj.CellGroup();
-			x.setRowV(rowV);
-			expect(x.rowV()).toBe(rowV);
+		it(".col returns correct object after .setCol is called", function () {
+			var col = new jsobj.CellGroup();
+			x.setCol(col);
+			expect(x.col()).toBe(col);
 		});
 
-		it(".setRowV throws an error when called if .rowV is already defined", function () {
-			expect(function () { x.setRowV({}); })
-				.toThrow(new Error("Attempt to set rowV on a Cell that already has a rowV."));
+		it(".setCol throws an error when called if .col is already defined", function () {
+			expect(function () { x.setCol({}); })
+				.toThrow(new Error("Attempt to set col on a Cell that already has a col."));
 		});
 	});
 
@@ -204,14 +204,14 @@
 			expect(poss.length).toBe(0);
 		});
 
-		it("returns array with setValue missing from other cells in rowH", function () {
+		it("returns array with setValue missing from other cells in row", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
 				row = new jsobj.CellGroup(),
 				poss;
 
-			y.setRowH(row);
-			z.setRowH(row);
+			y.setRow(row);
+			z.setRow(row);
 			y.setValue(4);
 			poss = z.possibleValues();
 			expect(poss.length).toBe(8);
@@ -219,14 +219,14 @@
 			expect(poss[3]).toBe(5);
 		});
 
-		it("returns array with setValue missing from other cells in rowV", function () {
+		it("returns array with setValue missing from other cells in col", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
 				row = new jsobj.CellGroup(),
 				poss;
 
-			y.setRowV(row);
-			z.setRowV(row);
+			y.setCol(row);
+			z.setCol(row);
 			y.setValue(4);
 			poss = z.possibleValues();
 			expect(poss.length).toBe(8);
@@ -254,16 +254,16 @@
 				b = new jsobj.Cell(),
 				c = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				rowH = new jsobj.CellGroup(),
-				rowV = new jsobj.CellGroup(),
+				row = new jsobj.CellGroup(),
+				col = new jsobj.CellGroup(),
 				block = new jsobj.CellGroup(),
 				poss;
 
-			z.setRowH(rowH);
-			z.setRowV(rowV);
+			z.setRow(row);
+			z.setCol(col);
 			z.setBlock(block);
-			a.setRowH(rowH);
-			b.setRowV(rowV);
+			a.setRow(row);
+			b.setCol(col);
 			c.setBlock(block);
 			a.setValue(1);
 			b.setValue(2);
@@ -284,7 +284,7 @@
 			row = new jsobj.CellGroup();
 			for (i = 0; i < 9; i++) {
 				cells.push(new jsobj.Cell({ state: stateStub }));
-				cells[i].setRowH(row);
+				cells[i].setRow(row);
 			}
 			for (i = 0; i < 8; i++) {
 				cells[i].setValue(i + 1);
@@ -303,8 +303,8 @@
 		});
 
 		it("returns array of 2 numbers once row and col are set", function () {
-			x.setRowH(r);
-			x.setRowV(c);
+			x.setRow(r);
+			x.setCol(c);
 			expect(x.coords().length).toBe(2);
 		});
 

@@ -7,7 +7,7 @@
 	var cellnum = 0;
 
 	function Cell(id, grid) {
-		var cellId = id, val, myRowH, myRowV, myBlock,
+		var cellId = id, val, myRow, myCol, myBlock,
 			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null },
 			possibleCount = 9,
 			that = this;
@@ -57,34 +57,34 @@
 			this.trigger("update");
 		};
 
-		this.rowH = function () {
-			return myRowH;
+		this.row = function () {
+			return myRow;
 		};
 
-		this.setRowH = function (row) {
-			if (myRowH !== undefined) {
-				throw new Error('Attempt to set rowH on a Cell that already has a rowH.');
+		this.setRow = function (row) {
+			if (myRow !== undefined) {
+				throw new Error('Attempt to set row on a Cell that already has a row.');
 			}
-			myRowH = row;
-			myRowH.addCell(this);
+			myRow = row;
+			myRow.addCell(this);
 
 			// update possible values of the cell when its row is updated
-			myRowH.on("update", updatePossibles);
+			myRow.on("update", updatePossibles);
 		};
 
-		this.rowV = function () {
-			return myRowV;
+		this.col = function () {
+			return myCol;
 		};
 
-		this.setRowV = function (row) {
-			if (myRowV !== undefined) {
-				throw new Error('Attempt to set rowV on a Cell that already has a rowV.');
+		this.setCol = function (row) {
+			if (myCol !== undefined) {
+				throw new Error('Attempt to set col on a Cell that already has a col.');
 			}
-			myRowV = row;
-			myRowV.addCell(this);
+			myCol = row;
+			myCol.addCell(this);
 
 			// update possible values of the cell when its row is updated
-			myRowV.on("update", updatePossibles);
+			myCol.on("update", updatePossibles);
 		};
 
 		this.block = function () {
@@ -113,10 +113,10 @@
 		};
 
 		this.coords = function () {
-			if (myRowH === undefined || myRowV === undefined) {
+			if (myRow === undefined || myCol === undefined) {
 				return [];
 			}
-			return [ myRowH.num(), myRowV.num() ];
+			return [ myRow.num(), myCol.num() ];
 		};
 	}
 

@@ -40,7 +40,7 @@
 				if (blocks.length === 1) {
 					for (blockcellnum = 0; blockcellnum < 9; blockcellnum++) {
 						blockcell = blocks[0].cells()[blockcellnum];
-						if (blockcell.rowH() !== row && blockcell.rowV() !== row &&
+						if (blockcell.row() !== row && blockcell.col() !== row &&
 								blockcell.possibles[possval] !== undefined) {
 							blockcell.removePossible(possval);
 							progress = true;
