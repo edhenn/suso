@@ -33,13 +33,13 @@ var jsobj = {};
 
 		// trigger all functions subscribed to the eventName.
 		obj.trigger = function (eventName) {
-			var i, sub;
-			if (subscribers[eventName] === undefined) {
+			var i, sub, subs = subscribers[eventName];
+			if (subs === undefined) {
 				return;
 			}
 			Array.prototype.splice.call(arguments, 0, 1);
-			for (i = 0; i < subscribers[eventName].length; i = i + 1) {
-				sub = subscribers[eventName][i];
+			for (i = 0; i < subs.length; i = i + 1) {
+				sub = subs[i];
 				if (sub !== undefined && typeof sub === 'function') {
 					sub.apply(this, arguments);
 				}
