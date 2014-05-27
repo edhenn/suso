@@ -21,8 +21,8 @@ module.exports = function(config) {
       'app/obj-cell.js',
 	  'app/rule-last-in-group.js',
 	  'app/rule-restricted-possible-value.js',
-	  'app/display-pre.js',
-	  'app/view-grid-with-possibles.js',
+	  'app/view-preformatted.js',
+	  'app/view-static-grid.js',
 	  'test/*.js'
     ],
 
@@ -65,7 +65,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'Firefox', 'IE'],	// ['karma-detect-browsers'],	//['Chrome'],
+    browsers: ['Chrome'],	// 'Firefox', 'IE'],	// ['karma-detect-browsers'],	//['Chrome'],
 
 
     // Continuous Integration mode

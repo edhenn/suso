@@ -4,7 +4,11 @@
 (function (jsobj) {
 	"use strict";
 
-	jsobj.ViewGridWithPossibles = function (grid, ctrl) {
+	if (jsobj.views === undefined) {
+		jsobj.views = {};
+	}
+
+	jsobj.views.StaticGrid = function (grid, ctrl) {
 		var gridtag,
 			gridbody,
 			gridrow = '<div class="row"><span class="cell">{0}</span><span class="cell">{1}</span><span class="cell">{2}</span>' +

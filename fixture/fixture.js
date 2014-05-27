@@ -67,6 +67,6 @@
 	]);
 
 	grid.solve();
-	disp = new jsobj.ViewGridWithPossibles(grid);
+	disp = new jsobj.views.StaticGrid(grid);
 
 }());

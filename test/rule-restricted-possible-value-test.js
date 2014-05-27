@@ -6,11 +6,11 @@
 
 	describe("rule-restricted-possible-value member", function () {
 		it("exists in jsobj namespace", function () {
-			expect(jsobj.ruleRestrictedPossibleValue).toBeDefined();
+			expect(jsobj.rules.restrictedPossibleValue).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof jsobj.ruleRestrictedPossibleValue).toBe("function");
+			expect(typeof jsobj.rules.restrictedPossibleValue).toBe("function");
 		});
 	});
 
@@ -43,7 +43,7 @@
 		it("does nothing to an empty grid", function () {
 			var grid = new jsobj.Grid().addSeeds([]);
 
-			jsobj.ruleRestrictedPossibleValue(grid);
+			jsobj.rules.restrictedPossibleValue(grid);
 
 			expect(listSolved(grid).length).toBe(0);
 			expect(countPossibles(grid)).toBe(9 * 9 * 9);
@@ -66,7 +66,7 @@
 			poss71 = grid.rows[7].cells()[1].possibleValues().length;       // 7  ~~~ --- ---
 			poss72 = grid.rows[7].cells()[2].possibleValues().length;       // 8  --1 2-3 456
 
-			jsobj.ruleRestrictedPossibleValue(grid);
+			jsobj.rules.restrictedPossibleValue(grid);
 
 			expect(listSolved(grid).length).toBe(solved);
 			expect(countPossibles(grid)).toBe(possible - 3);

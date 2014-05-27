@@ -4,7 +4,11 @@
 (function (jsobj) {
 	"use strict";
 
-	jsobj.DisplayPre = function (grid, ctrl) {
+	if (jsobj.views === undefined) {
+		jsobj.views = {};
+	}
+
+	jsobj.views.Preformatted = function (grid, ctrl) {
 		var pretag,
 			prebody,
 			prerow = '{0}{1}{2} {3}{4}{5} {6}{7}{8}',

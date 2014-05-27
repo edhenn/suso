@@ -4,20 +4,20 @@
 (function () {
 	"use strict";
 
-	describe("ViewGridWithPossibles object", function () {
+	describe("Static-Grid view", function () {
 		var grid = new jsobj.Grid(),
 			ctrl,
 			disp;
 
 		xit("returns result wrapped in div.grid tags", function () {
 			ctrl = document.createElement('div');
-			disp = new jsobj.ViewGridWithPossibles(grid, ctrl);
+			disp = new jsobj.views.StaticGrid(grid, ctrl);
 			expect(ctrl.innerHTML.substring(0, 18)).toBe('<div class="grid">');
 		});
 
 		xit("returns all dashes for an empty grid, formatted correctly", function () {
 			ctrl = document.createElement('div');
-			disp = new jsobj.ViewGridWithPossibles(grid, ctrl);
+			disp = new jsobj.views.StaticGrid(grid, ctrl);
 			expect(ctrl.innerHTML).toBe('<pre>\n' +
 				'--- --- ---\n' +
 				'--- --- ---\n' +
@@ -46,7 +46,7 @@
 				[9, 1, 2, 3, 4, 5, 6, 7, 8]
 			]);
 			ctrl = document.createElement('div');
-			disp = new jsobj.ViewGridWithPossibles(grid, ctrl);
+			disp = new jsobj.views.StaticGrid(grid, ctrl);
 			expect(ctrl.innerHTML).toBe('<pre>\n' +
 				'123 456 789\n' +
 				'456 789 123\n' +

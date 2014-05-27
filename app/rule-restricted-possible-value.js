@@ -4,7 +4,11 @@
 (function (jsobj) {
 	"use strict";
 
-	jsobj.ruleRestrictedPossibleValue = function (grid) {
+	if (jsobj.rules === undefined) {
+		jsobj.rules = {};
+	}
+
+	jsobj.rules.restrictedPossibleValue = function (grid) {
 		var rowsAndCols = grid.rows.concat(grid.cols),
 			rownum,
 			row,

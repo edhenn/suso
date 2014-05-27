@@ -4,7 +4,11 @@
 (function (jsobj) {
 	"use strict";
 
-	jsobj.ruleLastInGroup = function (grid) {
+	if (jsobj.rules === undefined) {
+		jsobj.rules = {};
+	}
+
+	jsobj.rules.lastInGroup = function (grid) {
 		var allgroups = grid.allGroups(),
 			groupx,
 			groupcells,

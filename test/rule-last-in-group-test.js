@@ -6,11 +6,11 @@
 
 	describe("rule-last-in-group member", function () {
 		it("exists in jsobj namespace", function () {
-			expect(jsobj.ruleLastInGroup).toBeDefined();
+			expect(jsobj.rules.lastInGroup).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof jsobj.ruleLastInGroup).toBe("function");
+			expect(typeof jsobj.rules.lastInGroup).toBe("function");
 		});
 	});
 
@@ -31,7 +31,7 @@
 		it("does nothing to an empty grid", function () {
 			var grid = new jsobj.Grid();
 
-			jsobj.ruleLastInGroup(grid);
+			jsobj.rules.lastInGroup(grid);
 
 			expect(listSolved(grid).length).toBe(0);
 		});
@@ -44,7 +44,7 @@
 			grid.hRow(6).cells()[0].setValue(5);			// 2  --- --- ---
 			grid.hRow(7).cells()[3].setValue(5);
 															// 3  --- --- --5
-			jsobj.ruleLastInGroup(grid);					// 4  --- --- ---
+			jsobj.rules.lastInGroup(grid);					// 4  --- --- ---
 															// 5  --- --- ---
 			solved = listSolved(grid);
 			expect(solved.length).toBe(5);					// 6  5-- --- ---
@@ -61,7 +61,7 @@
 			grid.hRow(8).cells()[6].setValue(1);			// 2  --- --- ---
 			grid.hRow(8).cells()[7].setValue(2);
 															// 3  --- --- ---
-			jsobj.ruleLastInGroup(grid);					// 4  --- --- ---
+			jsobj.rules.lastInGroup(grid);					// 4  --- --- ---
 															// 5  --- --- ---
 			solved = listSolved(grid);
 			expect(solved.length).toBe(5);					// 6  --3 --- ---

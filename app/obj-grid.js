@@ -105,7 +105,7 @@
 			}
 
 			// add rules to list - just a default rule for now, allow user to pass in rules later
-			rules = [ jsobj.ruleLastInGroup, jsobj.ruleRestrictedPossibleValue ];
+			rules = [ jsobj.rules.lastInGroup, jsobj.rules.restrictedPossibleValue ];
 
 			// continually run all rules in the list until a full run causes no progress.
 			while (progress && cellsSolved !== 81) {
