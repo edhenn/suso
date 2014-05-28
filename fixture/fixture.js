@@ -5,7 +5,7 @@
 	'use strict';
 
 	var grid = new jsobj.Grid(),
-		disp;
+		disp, rept;
 
 	// difficult -- solved with rule last-in-group
 	/*
@@ -66,7 +66,8 @@
 		[  , 2, 7,  ,  , 9, 6,  , 3]
 	]);
 
-	grid.solve();
 	disp = new jsobj.views.StaticGrid(grid);
+	rept = new jsobj.views.Report(grid);
+	grid.solve();
 
 }());

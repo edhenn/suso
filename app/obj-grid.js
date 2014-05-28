@@ -21,7 +21,8 @@
 			cellsSolved++;
 			// only fire a grid update once the grid is ready - not during seeding
 			if (gridState === 'ready') {
-				me.trigger("update", newCell);
+				me.trigger("update", this);
+				me.trigger("report", this);
 			}
 		}
 
@@ -86,6 +87,7 @@
 			}
 
 			gridState = 'ready';
+			me.trigger('report', 'grid seeded');
 			return this;
 		};
 

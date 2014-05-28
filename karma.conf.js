@@ -23,6 +23,7 @@ module.exports = function(config) {
 	  'app/rule-restricted-possible-value.js',
 	  'app/view-preformatted.js',
 	  'app/view-static-grid.js',
+	  'app/view-report.js',
 	  'test/*.js'
     ],
 
