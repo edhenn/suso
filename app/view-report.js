@@ -11,8 +11,8 @@
 	jsobj.views.Report = function (grid, ctrl) {
 		var reportContainer,
 			styletag,
-			styles = '.report-container { border: solid 2px blue; margin: 0.5em; width: 50%; }\n' +
-				'.report { border: solid 1px grey; margin: 1px }\n';
+			styles = '.report-container { border: solid 2px blue; margin-top: 1em; width: 50%; }\n' +
+				'.report { border-top: solid 1px grey; margin: 2px }\n';
 
 		function display(reportArg) {
 			// add a node to report container for every call to display
