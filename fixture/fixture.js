@@ -66,8 +66,8 @@
 		[  , 2, 7,  ,  , 9, 6,  , 3]
 	]);
 
+	grid.solve();
 	disp = new jsobj.views.StaticGrid(grid);
 	rept = new jsobj.views.Report(grid);
-	grid.solve();
 
 }());
