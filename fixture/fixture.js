@@ -53,7 +53,8 @@
 	]);
 	*/
 
-	// hard 3 - web sudoku -- not solved with rules last-in-group and restricted-possible-value
+	/*
+	// hard 3 - web sudoku -- solved after adding "pairs" rule
 	grid.addSeeds([
 		[ 8,  , 1, 7,  ,  , 3, 9,  ],
 		[  ,  ,  ,  ,  , 2, 4,  ,  ],
@@ -65,7 +66,36 @@
 		[  ,  , 3, 6,  ,  ,  ,  ,  ],
 		[  , 2, 7,  ,  , 9, 6,  , 3]
 	]);
+	*/
 
+	/*
+	// evil 4 - websudoku.com -- solved with pairs rule
+	grid.addSeeds([
+		[  ,  ,  ,  , 2,  , 7,  ,  ],
+		[  , 2,  ,  ,  ,  ,  ,  , 6],
+		[  , 8,  , 5,  , 9,  ,  ,  ],
+		[  ,  , 2,  , 9,  ,  , 6, 1],
+		[  ,  , 8, 1,  , 7, 9,  ,  ],
+		[ 9, 1,  ,  , 6,  , 8,  ,  ],
+		[  ,  ,  , 7,  , 6,  , 1,  ],
+		[ 5,  ,  ,  ,  ,  ,  , 7,  ],
+		[  ,  , 4,  , 3,  ,  ,  ,  ]
+	]);                
+	*/
+	
+	// evil 5 - websudoku.com -- 
+	grid.addSeeds([
+		[ 3,  ,  ,  ,  , 9,  ,  ,  ],
+		[  , 5,  ,  , 7,  , 8, 6,  ],
+		[  , 6,  ,  ,  ,  ,  , 2, 7],
+		[  , 4,  , 9,  , 5,  ,  , 8],
+		[  ,  ,  ,  ,  ,  ,  ,  ,  ],
+		[ 7,  ,  , 2,  , 6,  , 4,  ],
+		[ 4, 2,  ,  ,  ,  ,  , 9,  ],
+		[  , 1, 8,  , 9,  ,  , 5,  ],
+		[  ,  ,  , 5,  ,  ,  ,  , 1]
+	]);                
+	
 	grid.solve();
 	disp = new jsobj.views.StaticGrid(grid);
 	rept = new jsobj.views.Report(grid);
