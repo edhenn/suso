@@ -69,5 +69,22 @@
 			expect(solved[4].col().name()).toBe('col 8');	// 8  --- --- 12X
 			expect(solved[4].value()).toBe(3);
 		});
+
+		xit("bypasses cells that have already been solved in an earlier pass by the same rule", function () {
+			var grid = new jsobj.Grid(), solved;			//    012 345 678
+
+			grid.hRow(6).cells()[2].setValue(3);			// 0  **3 456 789
+			grid.hRow(7).cells()[4].setValue(3);			// 1  456 --- ---
+			grid.hRow(8).cells()[6].setValue(1);			// 2  789 --- ---
+			grid.hRow(8).cells()[7].setValue(2);
+															// 3  --- --- ---
+			jsobj.rules.lastInGroup(grid);					// 4  39- --- ---
+															// 5  56- --- ---
+			solved = listSolved(grid);
+			expect(solved.length).toBe(5);					// 6  67- --- ---
+			expect(solved[4].row().name()).toBe('row 8');	// 7  83- --- ---
+			expect(solved[4].col().name()).toBe('col 8');	// 8  94- --- ---
+			expect(solved[4].value()).toBe(3);
+		});
 	});
 }());

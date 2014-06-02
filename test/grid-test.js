@@ -162,13 +162,11 @@
 		});
 
 		it("sets grid state to incomplete if no cells solved or seeded", function () {
-			console.log('unseeded');
 			x.solve();
 			expect(x.state()).toBe('incomplete');
 		});
 
 		it("sets grid state to complete if all cells seeded", function () {
-			console.log('fully seeded');
 			x.addSeeds([
 				[1, 2, 3, 4, 5, 6, 7, 8, 9],
 				[4, 5, 6, 7, 8, 9, 1, 2, 3],
