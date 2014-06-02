@@ -110,7 +110,7 @@
 			rules = [
 				jsobj.rules.lastInGroup,
 				jsobj.rules.restrictedPossibleValue
-				,jsobj.rules.pairs
+				//,jsobj.rules.pairs
 			];
 
 			// continually run all rules in the list until a full run causes no progress.

@@ -40,7 +40,9 @@
 			// all cells in this group are now indexed by poss value.
 			// find each possible value that is in only one cell, and solve the cell
 			for (val in cellsByVal) {
-				if (cellsByVal.hasOwnProperty(val) && cellsByVal[val].length === 1) {
+				if (cellsByVal.hasOwnProperty(val) &&
+						cellsByVal[val].length === 1) {
+						//&& cellsByVal[val][0].value() === undefined) {
 					cellsByVal[val][0].setValue(parseInt(val, 10));
 					progress = true;
 				}
