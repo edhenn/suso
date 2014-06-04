@@ -5,7 +5,8 @@
 	'use strict';
 
 	var grid = new jsobj.Grid(),
-		disp, rept;
+		disp,
+		rept;
 
 	// difficult -- solved with rule last-in-group
 	/*
@@ -82,7 +83,8 @@
 		[  ,  , 4,  , 3,  ,  ,  ,  ]
 	]);                
 	*/
-	
+
+	/*
 	// evil 5 - websudoku.com -- 
 	grid.addSeeds([
 		[ 3,  ,  ,  ,  , 9,  ,  ,  ],
@@ -95,8 +97,25 @@
 		[  , 1, 8,  , 9,  ,  , 5,  ],
 		[  ,  ,  , 5,  ,  ,  ,  , 1]
 	]);                
-	
-	grid.solve();
+	*/
+
+	// rule test
+	/*
+	grid.addSeeds([
+		[  ,  ,  , 4, 5, 6, 7, 8, 9],
+		[  ,  ,  , 1, 2,  ,  ,  ,  ],
+		[  ,  ,  ,  ,  ,  , 1, 2,  ],
+		[  , 1,  ,  ,  ,  ,  ,  ,  ],
+		[ 2,  ,  ,  ,  ,  ,  ,  ,  ],
+		[  ,  ,  ,  ,  ,  ,  ,  ,  ],
+		[  ,  , 1,  ,  ,  ,  ,  ,  ],
+		[  ,  , 2,  ,  ,  ,  ,  ,  ],
+		[  , 3,  ,  ,  ,  ,  ,  ,  ]
+	]);
+	*/
+
+	//grid.solve();
+	jsobj.rules.lastInGroup(grid);
 	disp = new jsobj.views.StaticGrid(grid);
 	rept = new jsobj.views.Report(grid);
 
