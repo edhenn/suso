@@ -14,6 +14,8 @@
 			if (possibles[newValue] !== undefined) {
 				delete possibles[newValue];
 				possibles.length--;
+			} else {
+				throw new Error("Attempt to set a Cell to a value not contained in CellGroup's possibles list.");
 			}
 		}
 
