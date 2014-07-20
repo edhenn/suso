@@ -54,6 +54,19 @@
 	]);
 	*/
 
+	// diabolical 3
+	grid.addSeeds([
+		[  , 8, 4, 3,  , 2, 5, 6,  ],
+		[  ,  ,  , 8, 6, 9,  ,  ,  ],
+		[  ,  ,  ,  ,  ,  ,  ,  ,  ],
+		[  , 2, 9,  ,  ,  , 7, 5,  ],
+		[  ,  , 8,  ,  ,  , 2,  ,  ],
+		[  , 3, 6,  ,  ,  , 9, 8,  ],
+		[  ,  ,  ,  ,  ,  ,  ,  ,  ],
+		[  ,  ,  , 4, 9, 1,  ,  ,  ],
+		[  , 5, 2, 6,  , 7, 1, 9,  ],
+	]);
+
 	/*
 	// hard 3 - web sudoku -- solved after adding "pairs" rule
 	grid.addSeeds([
@@ -114,8 +127,8 @@
 	]);
 	*/
 
-	//grid.solve();
-	jsobj.rules.lastInGroup(grid);
+	grid.solve();
+	//jsobj.rules.lastInGroup(grid);
 	disp = new jsobj.views.StaticGrid(grid);
 	rept = new jsobj.views.Report(grid);
 
