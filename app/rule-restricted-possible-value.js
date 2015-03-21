@@ -46,8 +46,7 @@
 						blockcell = blocks[0].cells()[blockcellnum];
 						if (blockcell.row() !== row && blockcell.col() !== row &&
 								blockcell.possibles[possval] !== undefined) {
-							blockcell.removePossible(possval);
-							progress = true;
+							progress = blockcell.removePossible(possval);
 						}
 					}
 				}

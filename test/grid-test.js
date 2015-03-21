@@ -183,7 +183,6 @@
 		});
 
 		it("solves for cells with one remaining possible value after seeding ", function () {
-			console.log('partially seeded');
 			x.addSeeds([
 				[1, 2, 3,  ,  , 6, 7, 8,  ],
 				[ ,  ,  ,  ,  ,  ,  ,  , 4],

@@ -31,12 +31,13 @@
 					// grid is ready - done seeding. auto-solve cells with one remaining possible value.
 					if (grid.state() === 'ready') {
 						that.setValue(that.possibleValues()[0]);
-					}
-					else {
+					} else {
 						grid.seedSolved.push(that);
 					}
 				}
+				return true;
 			}
+			return false;
 		};
 
 		this.grid = function () {
