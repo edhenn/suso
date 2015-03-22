@@ -160,6 +160,7 @@
 	*/
 
 	// evil http://www.websudoku.com/?level=4&set_id=8745440277
+	/*
 	grid.addSeeds([
 		[  , 8,  ,  , 3,  ,  , 4, 5],
 		[  ,  ,  ,  ,  ,  , 1, 2,  ],
@@ -170,6 +171,21 @@
 		[ 6,  ,  ,  ,  , 8,  ,  ,  ],
 		[  , 7, 2,  ,  ,  ,  ,  ,  ],
 		[ 5, 3,  ,  , 1,  ,  , 7,  ]
+	]);
+	*/
+
+	// "worlds hardest sudoku" http://www.telegraph.co.uk/news/science/science-news/9359579/Worlds-hardest-sudoku-can-you-crack-it.html
+	// not a single number filled in by base ruleset (last-in-group, restricted-possible, pairs)
+	grid.addSeeds([
+		[ 8,  ,  ,  ,  ,  ,  ,  ,  ],
+		[  ,  , 3, 6,  ,  ,  ,  ,  ],
+		[  , 7,  ,  , 9,  , 2,  ,  ],
+		[  , 5,  ,  ,  , 7,  ,  ,  ],
+		[  ,  ,  ,  , 4, 5, 7,  ,  ],
+		[  ,  ,  , 1,  ,  ,  , 3,  ],
+		[  ,  , 1,  ,  ,  ,  , 6, 8],
+		[  ,  , 8, 5,  ,  ,  , 1,  ],
+		[  , 9,  ,  ,  ,  , 4,  ,  ]
 	]);
 
 	grid.solve();
