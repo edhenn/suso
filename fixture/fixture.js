@@ -174,8 +174,22 @@
 	]);
 	*/
 
+	// diabolical - sunday enterprise 3/22/15
+	grid.addSeeds([
+		[  ,  ,  , 5,  ,  , 7, 1,  ],
+		[  , 7, 4, 9,  ,  ,  ,  ,  ],
+		[  , 3,  ,  ,  ,  , 9,  , 8],
+		[  ,  ,  ,  ,  ,  , 4, 2,  ],
+		[ 5,  ,  ,  , 3,  ,  ,  , 6],
+		[  , 2, 1,  ,  ,  ,  ,  ,  ],
+		[ 2,  , 3,  ,  ,  ,  , 8,  ],
+		[  ,  ,  ,  ,  , 2, 6, 9,  ],
+		[  , 8, 9,  ,  , 7,  ,  ,  ]
+	]);
+
 	// "worlds hardest sudoku" http://www.telegraph.co.uk/news/science/science-news/9359579/Worlds-hardest-sudoku-can-you-crack-it.html
 	// not a single number filled in by base ruleset (last-in-group, restricted-possible, pairs)
+	/*
 	grid.addSeeds([
 		[ 8,  ,  ,  ,  ,  ,  ,  ,  ],
 		[  ,  , 3, 6,  ,  ,  ,  ,  ],
@@ -187,6 +201,7 @@
 		[  ,  , 8, 5,  ,  ,  , 1,  ],
 		[  , 9,  ,  ,  ,  , 4,  ,  ]
 	]);
+	*/
 
 	grid.solve();
 	//jsobj.rules.lastInGroup(grid);
