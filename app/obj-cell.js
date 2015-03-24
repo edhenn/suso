@@ -1,5 +1,5 @@
 /*global jsobj */
-/*jslint plusplus: true */
+/*jslint plusplus: true, bitwise: true */
 
 (function (jsobj) {
 	"use strict";
@@ -111,6 +111,14 @@
 				}
 			}
 			return poss;
+		};
+
+		this.possibleFlags = function () {
+			var i, flags = 0;
+			for (i = 1; i < 10; i++) {
+				flags = (flags << 1) | (possibles.hasOwnProperty(i) ? 1 : 0);
+			}
+			return flags;
 		};
 
 		this.coords = function () {

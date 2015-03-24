@@ -1,4 +1,4 @@
-/*global jsobj, describe, it, expect, beforeEach */
+/*global jsobj, describe, it, xit, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
@@ -69,6 +69,10 @@
 			expect(typeof x.possibleValues).toBe("function");
 		});
 
+		it(".possibleFlags member is a function", function () {
+			expect(typeof x.possibleFlags).toBe("function");
+		});
+
 		it(".grid member is a function", function () {
 			expect(typeof x.grid).toBe("function");
 		});
@@ -82,10 +86,10 @@
 		});
 
 		it(".possibles is a member", function () {
-			expect(x.possibles).toBeDefined;
+			expect(x.possibles).toBeDefined();
 		});
 
-		it("has 17 non-prototype members", function () {
+		it("has 18 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -93,7 +97,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(17);
+			expect(members).toBe(18);
 		});
 	});
 
@@ -290,6 +294,84 @@
 				cells[i].setValue(i + 1);
 			}
 			expect(cells[8].value()).toBe(9);
+		});
+	});
+
+	describe("Cell.possibleFlags function", function () {
+		var x = new jsobj.Cell();
+
+		it("starts as 9 binary flags all set", function () {
+			var poss = x.possibleFlags();
+			expect(poss).toBe(Math.pow(2, 9) - 1);
+		});
+
+		it("returns 0 once .setValue is called", function () {
+			var poss;
+			x.setValue(4);
+			poss = x.possibleFlags();
+			expect(poss).toBe(0);
+		});
+
+		it("returns flags with setValue missing from other cells in row", function () {
+			var y = new jsobj.Cell(),
+				z = new jsobj.Cell(),
+				row = new jsobj.CellGroup(),
+				poss;
+
+			y.setRow(row);
+			z.setRow(row);
+			y.setValue(4);
+			poss = z.possibleFlags();
+			expect(poss).toBe((Math.pow(2, 9) - 1) - Math.pow(2, 5));	// 111011111
+		});
+
+		it("returns array with setValue missing from other cells in col", function () {
+			var y = new jsobj.Cell(),
+				z = new jsobj.Cell(),
+				row = new jsobj.CellGroup(),
+				poss;
+
+			y.setCol(row);
+			z.setCol(row);
+			y.setValue(4);
+			poss = z.possibleFlags();
+			expect(poss).toBe((Math.pow(2, 9) - 1) - Math.pow(2, 5));	// 111011111
+		});
+
+		it("returns array with setValue missing from other cells in block", function () {
+			var y = new jsobj.Cell(),
+				z = new jsobj.Cell(),
+				row = new jsobj.CellGroup(),
+				poss;
+
+			y.setBlock(row);
+			z.setBlock(row);
+			y.setValue(4);
+			poss = z.possibleFlags();
+			expect(poss).toBe((Math.pow(2, 9) - 1) - Math.pow(2, 5));	// 111011111
+		});
+
+		it("cumulatively removes all set values from all row and block siblings", function () {
+			var a = new jsobj.Cell(),
+				b = new jsobj.Cell(),
+				c = new jsobj.Cell(),
+				z = new jsobj.Cell(),
+				row = new jsobj.CellGroup(),
+				col = new jsobj.CellGroup(),
+				block = new jsobj.CellGroup(),
+				poss;
+
+			z.setRow(row);
+			z.setCol(col);
+			z.setBlock(block);
+			a.setRow(row);
+			b.setCol(col);
+			c.setBlock(block);
+			a.setValue(1);
+			b.setValue(2);
+			c.setValue(3);
+			poss = z.possibleFlags();
+			expect(poss).toBe((Math.pow(2, 6) - 1));	// 000111111
 		});
 	});
 
