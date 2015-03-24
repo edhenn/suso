@@ -21,7 +21,9 @@
 			twoValueCells,
 			pairs,
 			pairindex,
-			pairnum;
+			pairnum,
+			removal1,
+			removal2;
 
 		// Iterate through each row, column, and block looking for pairs
 		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
@@ -45,9 +47,9 @@
 					for (cellnum = 0; cellnum < 9; cellnum++) {
 						cell = group.cells()[cellnum];
 						if (cell !== pairs[twoValueCells][0] && cell !== pairs[twoValueCells][1]) {
-							progress = progress ||
-								cell.removePossible(parseInt(twoValueCells.split('')[0], 10)) ||
-								cell.removePossible(parseInt(twoValueCells.split('')[1], 10));
+							removal1 = cell.removePossible(parseInt(twoValueCells.split('')[0], 10));
+							removal2 = cell.removePossible(parseInt(twoValueCells.split('')[1], 10));
+							progress = progress || removal1 || removal2;
 						}
 					}
 				}
