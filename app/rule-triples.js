@@ -1,5 +1,5 @@
 /*global jsobj */
-/*jslint plusplus: true, bitwise: true */
+/*jslint plusplus: true, bitwise: true, continue: true */
 
 (function (jsobj) {
 	"use strict";
@@ -22,10 +22,31 @@
 
 		while (flags > 0) {
 			bits += (flags & 1);
-			bits = bits >> 1;
+			flags = flags >> 1;
 		}
 
 		return bits;
+	}
+
+	function flagNumbers(flags) {
+		var i, nums = [];
+
+		if (typeof flags !== 'number') {
+			return null;
+		}
+
+		if (flags <= 0) {
+			return nums;
+		}
+
+		for (i = 9; i > 0; i--) {
+			if ((flags & 1) === 1) {
+				nums.push(i);
+			}
+			flags = flags >> 1;
+		}
+
+		return nums;
 	}
 
 	// Triples rule removes possible values from cells.
@@ -38,7 +59,7 @@
 			group,
 			cellnum,
 			cell,
-			twoValueCells,
+			targetCell,
 			twoOrThreePossibles,
 			cellindex,
 			pairs,
@@ -46,16 +67,15 @@
 			pairindex,
 			pair,
 			tripletFlags,
-			removal1,
-			removal2,
-			removal3;
+			tripletNums,
+			numIndex,
+			result;
 
 		// Iterate through each row, column, and block looking for triples
 		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
 			group = allGroups[groupnum];
 			twoOrThreePossibles = [];
 			pairs = [];
-
 			// first, find all pairs of cells in group that share 2 or 3 possible values
 			for (cellnum = 0; cellnum < 9; cellnum++) {
 				cell = group.cells()[cellnum];
@@ -72,41 +92,42 @@
 					}
 				}
 			}
-
 			// now for each pair, find any triplets that share exactly 3 possible values
 			for (pairindex = 0; pairindex < pairs.length; pairindex++) {
 				pair = pairs[pairindex];
 				// test triples with each other candidate cell that had 2 or 3 possible values
 				for (cellindex = 0; cellindex < twoOrThreePossibles.length; cellindex++) {
-					cell = twoOrThreePossibles[cellindex];
-					if (cell !== pair[0] && cell !== pair[1]) {
-						tripletFlags = pair[0].possibleFlags() &
-							pair[1].possibleFlags() &
-							cell.possibleFlags();
-						if (countBits(tripletFlags) === 3) {
-							// remove triplet possible values from all other cells in group
 
-						}
+					cell = twoOrThreePossibles[cellindex];
+
+					if (cell === pair[0] || cell === pair[1]) {
+						continue;
 					}
-				}
-			}
-/*
-			// look through the found cells for ones that are pairs (two cells with the same two possible values)
-			for (twoValueCells in pairs) {
-				if (pairs.hasOwnProperty(twoValueCells) && pairs[twoValueCells].length === 2) {
-					// delete those possible values from other cells in the group
+
+					tripletFlags = pair[0].possibleFlags() |
+						pair[1].possibleFlags() |
+						cell.possibleFlags();
+
+					if (countBits(tripletFlags) !== 3) {
+						continue;
+					}
+
+					// remove triplet possible values from all other cells in group
+					tripletNums = flagNumbers(tripletFlags);
 					for (cellnum = 0; cellnum < 9; cellnum++) {
-						cell = group.cells()[cellnum];
-						if (cell !== pairs[twoValueCells][0] && cell !== pairs[twoValueCells][1]) {
-							removal1 = cell.removePossible(parseInt(twoValueCells.split('')[0], 10));
-							removal2 = cell.removePossible(parseInt(twoValueCells.split('')[1], 10));
-							progress = progress || removal1 || removal2;
+						targetCell = group.cells()[cellnum];
+						if (targetCell === pair[0] || targetCell === pair[1] || targetCell === cell) {
+							continue;
+						}
+						for (numIndex = 0; numIndex < 3; numIndex++) {
+							result = targetCell.removePossible(tripletNums[numIndex]);
+							progress = progress || result;
 						}
 					}
 				}
 			}
-*/
 		}
+
 		// rules return boolean indicating whether they made any progress
 		return progress;
 	};
