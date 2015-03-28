@@ -73,6 +73,10 @@
 			expect(grid.rows[7].cells()[0].possibleValues().length).toBe(poss70 - 1);
 			expect(grid.rows[7].cells()[1].possibleValues().length).toBe(poss71 - 1);
 			expect(grid.rows[7].cells()[2].possibleValues().length).toBe(poss72 - 1);
+			// value 9 is removed from row 7 first three cells
+			expect(grid.rows[7].cells()[0].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8]);
+			expect(grid.rows[7].cells()[1].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8]);
+			expect(grid.rows[7].cells()[2].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8]);
 		});
 	});
 }());
