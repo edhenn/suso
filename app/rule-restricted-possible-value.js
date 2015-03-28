@@ -8,6 +8,7 @@
 		jsobj.rules = {};
 	}
 
+	// sometimes called "number claiming"
 	jsobj.rules.restrictedPossibleValue = function (grid) {
 		var rowsAndCols = grid.rows.concat(grid.cols),
 			rownum,

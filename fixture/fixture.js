@@ -174,7 +174,23 @@
 	]);
 	*/
 
+	// evil http://www.websudoku.com/?level=4&set_id=8224374645
+	/*
+	grid.addSeeds([
+		[  ,  , 4,  ,  , 6, 9, 2,  ],
+		[  ,  ,  ,  ,  ,  ,  ,  ,  ],
+		[  , 1,  , 5, 9,  ,  , 8,  ],
+		[  ,  , 2,  , 7, 9,  , 4,  ],
+		[  ,  , 1,  ,  ,  , 7,  ,  ],
+		[  , 8,  , 2, 1,  , 6,  ,  ],
+		[  , 6,  ,  , 4, 3,  , 5,  ],
+		[  ,  ,  ,  ,  ,  ,  ,  ,  ],
+		[  , 4, 8, 9,  ,  , 3,  ,  ]
+	]);
+	*/
+
 	// diabolical - sunday enterprise 3/22/15
+	/*
 	grid.addSeeds([
 		[  ,  ,  , 5,  ,  , 7, 1,  ],
 		[  , 7, 4, 9,  ,  ,  ,  ,  ],
@@ -186,9 +202,26 @@
 		[  ,  ,  ,  ,  , 2, 6, 9,  ],
 		[  , 8, 9,  ,  , 7,  ,  ,  ]
 	]);
+	*/
+
+	// evil - 1sudoku.net - n° 524146 - Evil
+	// http://1sudoku.net/play/sudoku-free-online/sudoku-evil/
+	// not completely solved with pairs & triples rules
+	grid.addSeeds([
+		[  ,  ,  ,  , 5,  ,  ,  ,  ],
+		[  , 3,  , 2, 8, 6,  , 1,  ],
+		[  ,  , 5, 7,  , 4, 2,  ,  ],
+		[  , 4, 6,  ,  ,  , 8, 2,  ],
+		[ 8, 7,  ,  ,  ,  ,  , 5, 3],
+		[  , 2, 1,  ,  ,  , 6, 7,  ],
+		[  ,  , 2, 1,  , 8, 7,  ,  ],
+		[  , 9,  , 4, 2, 5,  , 6,  ],
+		[  ,  ,  ,  , 6,  ,  ,  ,  ]
+	]);
 
 	// "worlds hardest sudoku" http://www.telegraph.co.uk/news/science/science-news/9359579/Worlds-hardest-sudoku-can-you-crack-it.html
 	// not a single number filled in by base ruleset (last-in-group, restricted-possible, pairs)
+	// requires guessing and checking several levels deep - we are not designed for that.
 	/*
 	grid.addSeeds([
 		[ 8,  ,  ,  ,  ,  ,  ,  ,  ],
