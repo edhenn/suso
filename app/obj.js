@@ -5,6 +5,19 @@ var jsobj = {};
 (function (jsobj) {
 	"use strict";
 
+	// add bool Array.contains method
+	if (Array.prototype.contains === undefined) {
+		Array.prototype.contains = function (obj) {
+			var item = this.length;
+			while (item--) {
+				if (this[item] === obj) {
+					return true;
+				}
+			}
+			return false;
+		};
+	}
+
 	// amend jsobj with an EventAware object with three functions to augment passed in objects with observable methods
 	jsobj.EventAware = function (obj) {
 		var subscribers = {};

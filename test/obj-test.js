@@ -15,6 +15,37 @@
 		});
 	});
 
+	describe("Array.contains member", function () {
+		var arr = [];
+
+		it("exists on the prototype", function () {
+			expect(arr.contains).toBeDefined();
+		});
+
+		it("is a function", function () {
+			expect(typeof arr.contains).toBe('function');
+		});
+
+		it("does not find objects in an empty array", function () {
+			expect(arr.contains('x')).toBe(false);
+		});
+
+		it("does not find type-coerced objects in an array", function () {
+			arr.push(1);
+			expect(arr.contains('1')).toBe(false);
+		});
+
+		it("finds type-equivalent objects in first array position", function () {
+			arr.push(1, 2, 3);
+			expect(arr.contains(1)).toBe(true);
+		});
+
+		it("finds type-equivalent objects in last array position", function () {
+			arr.push(1, 2, 3);
+			expect(arr.contains(3)).toBe(true);
+		});
+	});
+
 	describe("EventAware object", function () {
 		var x = jsobj.EventAware({});
 
