@@ -49,7 +49,7 @@
 			expect(countPossibles(grid)).toBe(9 * 9 * 9);
 		});
 
-		it("removes possible values from elswhere in block when restricted to a row", function () {
+		it("removes possible values from elswhere in block when restricted to a row in that block", function () {
 			var grid = new jsobj.Grid(), solved, possible, poss70, poss71, poss72;
 
 			grid.hRow(6).cells()[4].setValue(9);							//    012 345 678
@@ -77,6 +77,36 @@
 			expect(grid.rows[7].cells()[0].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8]);
 			expect(grid.rows[7].cells()[1].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8]);
 			expect(grid.rows[7].cells()[2].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8]);
+		});
+
+		it("removes possible values from elswhere in col when restricted to a block in that col", function () {
+			var grid = new jsobj.Grid(), solved, possible, poss65, poss75, poss85;
+
+			grid.hRow(1).cells()[3].setValue(9);							//    012 345 678
+			grid.hRow(3).cells()[3].setValue(1);
+			grid.hRow(3).cells()[4].setValue(2);		                    // 0  --- --- ---
+			grid.hRow(4).cells()[4].setValue(3);                            // 1  --- 9-- ---
+			grid.hRow(4).cells()[5].setValue(4);                            // 2  --- --- ---
+			grid.hRow(5).cells()[3].setValue(5);
+			grid.hRow(5).cells()[4].setValue(6);                            // 3  --- 12- ---
+														                    // 4  --- -34 ---
+			solved = listSolved(grid).length;                               // 5  --- 56- ---
+			possible = countPossibles(grid);
+			poss65 = grid.rows[6].cells()[5].possibleValues().length;       // 6  --- --~ ---
+			poss75 = grid.rows[7].cells()[5].possibleValues().length;       // 7  --- --~ ---
+			poss85 = grid.rows[8].cells()[5].possibleValues().length;       // 8  --- --~ ---
+2
+			jsobj.rules.restrictedPossibleValue(grid);
+
+			expect(listSolved(grid).length).toBe(solved);
+			expect(countPossibles(grid)).toBe(possible - 3);
+			expect(grid.rows[6].cells()[5].possibleValues().length).toBe(poss65 - 1);
+			expect(grid.rows[7].cells()[5].possibleValues().length).toBe(poss75 - 1);
+			expect(grid.rows[8].cells()[5].possibleValues().length).toBe(poss85 - 1);
+			// value 9 is removed from col 5 last three cells
+			expect(grid.rows[6].cells()[5].possibleValues()).toEqual([1, 2, 3, 5, 6, 7, 8]);
+			expect(grid.rows[7].cells()[5].possibleValues()).toEqual([1, 2, 3, 5, 6, 7, 8]);
+			expect(grid.rows[8].cells()[5].possibleValues()).toEqual([1, 2, 3, 5, 6, 7, 8]);
 		});
 	});
 }());
