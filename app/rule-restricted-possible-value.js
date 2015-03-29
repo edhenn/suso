@@ -10,44 +10,74 @@
 
 	// sometimes called "number claiming"
 	jsobj.rules.restrictedPossibleValue = function (grid) {
-		var rowsAndCols = grid.rows.concat(grid.cols),
-			rownum,
-			row,
-			rowcells,
-			blocks,
+		var houses = grid.allGroups(),
+			houseNum,
+			house,
+			houseCells,
 			possnum,
 			possval,
+			intersects,
+			blocks,
+			rows,
+			cols,
 			cellnum,
-			blockcellnum,
-			blockcell,
+			cell,
+			intersectCell,
+			rowOrCol,
 			progress = false;
 
-		// iterate every row and col's remaining values
-		// looking for values that are restricted to a single row and block
-		// to remove the remaining value from other cells in the same block
-		for (rownum = 0; rownum < rowsAndCols.length; rownum++) {
-			row = rowsAndCols[rownum];
-			// iterate remaining possible values in this row
-			for (possnum = 0; possnum < row.possibleValues().length; possnum++) {
-				rowcells = row.cells();
-				possval = row.possibleValues()[possnum];
-				blocks = [];
-				// iterate cells in row, looking for possible value restricted to one block
-				for (cellnum = 0; cellnum < rowcells.length; cellnum++) {
-					if (rowcells[cellnum].possibles[possval] !== undefined) {
-						if (blocks.length === 0 || blocks[blocks.length - 1] !== rowcells[cellnum].block()) {
-							blocks.push(rowcells[cellnum].block());
+		// iterate every house's remaining values (row, col, block)
+		// looking for values that are restricted to one intersecting house
+		// (row or col w/ val in one block only; block w/ val in one row or col only)
+		// to remove the value from other cells in the intersecting house.
+		for (houseNum = 0; houseNum < houses.length; houseNum++) {
+			house = houses[houseNum];
+			// iterate remaining possible values in this house
+			for (possnum = 0; possnum < house.possibleValues().length; possnum++) {
+				houseCells = house.cells();
+				possval = house.possibleValues()[possnum];
+				intersects = [[], []];	// [blocks, empty] for rows/cols; [rows, cols] for blocks
+				// iterate cells in house, looking for possible value restricted to one intersecting house
+				for (cellnum = 0; cellnum < houseCells.length; cellnum++) {
+					cell = houseCells[cellnum];
+					if (cell.possibles[possval] !== undefined) {
+						if (house.type() === 'block') {
+							rows = intersects[0];
+							cols = intersects[1];
+							if (!rows.contains(cell.row())) {
+								rows.push(cell.row());
+							}
+							if (!cols.contains(cell.col())) {
+								cols.push(cell.col());
+							}
+						} else {
+							blocks = intersects[0];
+							if (!blocks.contains(cell.block())) {
+								blocks.push(cell.block());
+							}
 						}
 					}
 				}
-				// if possible value for row is restricted to one block,
-				// it can be removed from all other cells in that block
-				if (blocks.length === 1) {
-					for (blockcellnum = 0; blockcellnum < 9; blockcellnum++) {
-						blockcell = blocks[0].cells()[blockcellnum];
-						if (blockcell.row() !== row && blockcell.col() !== row &&
-								blockcell.possibles[possval] !== undefined) {
-							progress = blockcell.removePossible(possval);
+				// if possible value is in only one intersecting house, remove it from other cells of the intersecting house.
+				if (house.type() === 'block') {
+					for (rowOrCol = 0; rowOrCol < 2; rowOrCol++) {
+						if (intersects[rowOrCol].length === 1) {
+							for (cellnum = 0; cellnum < 9; cellnum++) {
+								intersectCell = intersects[rowOrCol][0].cells()[cellnum];
+								if (intersectCell.block() !== house && intersectCell.possibles[possval] !== undefined) {
+									progress = intersectCell.removePossible(possval);
+								}
+							}
+						}
+					}
+				} else {
+					if (intersects[0].length === 1) {
+						for (cellnum = 0; cellnum < 9; cellnum++) {
+							intersectCell = intersects[0][0].cells()[cellnum];
+							if (intersectCell.row() !== house && intersectCell.col() !== house &&
+									intersectCell.possibles[possval] !== undefined) {
+								progress = intersectCell.removePossible(possval);
+							}
 						}
 					}
 				}
