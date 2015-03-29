@@ -25,7 +25,7 @@
 			removal1,
 			removal2;
 
-		// Iterate through each row, column, and block looking for pairs
+		// Iterate through each row, column, and block looking for pairs ("naked pairs")
 		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
 			group = allGroups[groupnum];
 			pairs = {};
