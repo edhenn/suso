@@ -21,7 +21,6 @@
 			twoValueCells,
 			pairs,
 			pairindex,
-			pairnum,
 			removal1,
 			removal2;
 
