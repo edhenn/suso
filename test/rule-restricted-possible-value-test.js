@@ -49,8 +49,16 @@
 			expect(countPossibles(grid)).toBe(9 * 9 * 9);
 		});
 
+		it("returns false when it does nothing", function () {
+			var grid = new jsobj.Grid().addSeeds([]), result;
+
+			result = jsobj.rules.restrictedPossibleValue(grid);
+
+			expect(result).toBe(false);
+		});
+
 		it("removes possible values from elswhere in block when restricted to a row in that block", function () {
-			var grid = new jsobj.Grid(), solved, possible, poss70, poss71, poss72;
+			var grid = new jsobj.Grid(), solved, possible, poss70, poss71, poss72, result;
 
 			grid.hRow(6).cells()[4].setValue(9);							//    012 345 678
 			grid.hRow(8).cells()[2].setValue(1);
@@ -66,8 +74,9 @@
 			poss71 = grid.rows[7].cells()[1].possibleValues().length;       // 7  ~~~ --- ---
 			poss72 = grid.rows[7].cells()[2].possibleValues().length;       // 8  --1 2-3 456
 
-			jsobj.rules.restrictedPossibleValue(grid);
+			result = jsobj.rules.restrictedPossibleValue(grid);
 
+			expect(result).toBe(true);
 			expect(listSolved(grid).length).toBe(solved);
 			expect(countPossibles(grid)).toBe(possible - 3);
 			expect(grid.rows[7].cells()[0].possibleValues().length).toBe(poss70 - 1);

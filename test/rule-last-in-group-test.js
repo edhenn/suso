@@ -36,21 +36,30 @@
 			expect(listSolved(grid).length).toBe(0);
 		});
 
+		it("returns false when it does nothing", function () {
+			var grid = new jsobj.Grid(), result;
+
+			result = jsobj.rules.lastInGroup(grid);
+
+			expect(result).toBe(false);
+		});
+
 		it("solves for a given value when its 4 neighboring blocks each contain the value", function () {
-			var grid = new jsobj.Grid(), solved;			//    012 345 678
+			var grid = new jsobj.Grid(), solved, result;	//    012 345 678
 
 			grid.hRow(0).cells()[7].setValue(5);			// 0  --- --- -5-
 			grid.hRow(3).cells()[8].setValue(5);			// 1  --- --- ---            
 			grid.hRow(6).cells()[0].setValue(5);			// 2  --- --- ---
 			grid.hRow(7).cells()[3].setValue(5);
 															// 3  --- --- --5
-			jsobj.rules.lastInGroup(grid);					// 4  --- --- ---
+			result = jsobj.rules.lastInGroup(grid);			// 4  --- --- ---
 															// 5  --- --- ---
 			solved = listSolved(grid);
 			expect(solved.length).toBe(5);					// 6  5-- --- ---
 			expect(solved[4].row().name()).toBe('row 8');	// 7  --- 5-- ---
 			expect(solved[4].col().name()).toBe('col 6');	// 8  --- --- X--
 			expect(solved[4].value()).toBe(5);
+			expect(result).toBe(true);
 		});
 
 		it("solves for a given value when 2 neighbor blocks restrict it to one row with only one space left in the block", function () {
