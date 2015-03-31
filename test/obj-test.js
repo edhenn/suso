@@ -199,6 +199,51 @@
 		});
 	});
 
+	describe("Object.each member", function () {
+		var emptyObj = {}, fullObj = { a: 1, b: 2, c: 3 };
+
+		it("exists on the prototype", function () {
+			expect(emptyObj.each).toBeDefined();
+		});
+
+		it("is a function", function () {
+			expect(typeof emptyObj.each).toBe('function');
+		});
+
+		it("throws an exception when no function is passed", function () {
+			expect(function () { emptyObj.each(); }).toThrow(new Error("Each function not specified"));
+		});
+
+		it("throws an exception when non-function is passed", function () {
+			expect(function () { emptyObj.each(0); }).toThrow(new Error("Each function not specified"));
+		});
+
+		it("calls function for each property of object", function () {
+			var count = 0;
+
+			fullObj.each(function () { count++; });
+
+			expect(count).toBe(3);
+		});
+
+		it("returns copy of source obj when no value returned from passed function", function () {
+			var result, count = 0;
+
+			result = fullObj.each(function (el) { count++; });
+
+			expect(result).toEqual(fullObj);	// it's a new object with the same properties.
+			expect(result).not.toBe(fullObj);	// it's not the same object.
+		});
+
+		it("returns mapped properties when value is returned from passed function", function () {
+			var result;
+
+			result = fullObj.each(function (el) { return el * 2; });
+
+			expect(result).toEqual({ a: 2, b: 4, c: 6 });
+		});
+	});
+
 	describe("EventAware object", function () {
 		var x = jsobj.EventAware({});
 

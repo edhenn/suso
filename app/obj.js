@@ -76,6 +76,26 @@ var jsobj = {};
 		};
 	}
 
+	// Object.each
+	if (Object.prototype.each === undefined) {
+		Object.prototype.each = function (fn) {
+			var index, eachResult, result = {};
+
+			if (fn === undefined || typeof fn !== 'function') {
+				throw new Error('Each function not specified');
+			}
+
+			for (index in this) {
+				if (this.hasOwnProperty(index)) {
+					eachResult = fn(this[index], index);
+					result[index] = (eachResult || this[index]);
+				}
+			}
+
+			return result;
+		};
+	}
+
 	// amend jsobj with an EventAware object with three functions to augment passed in objects with observable methods
 	jsobj.EventAware = function (obj) {
 		var subscribers = {};
