@@ -1,0 +1,107 @@
+/*global jsobj */
+/*jslint plusplus: true, continue: true, bitwise: true */
+
+(function (jsobj) {
+	"use strict";
+
+	if (jsobj.rules === undefined) {
+		jsobj.rules = {};
+	}
+
+	// Hidden Pairs rule removes possible values from cells.
+	// It looks in rows, columns, and blocks for any 2 cells containing the only instances of two possible remaining values,
+	// and removes any other possible values from those 2 cells.
+	jsobj.rules.hiddenpairs = function (grid) {
+		var progress = false,
+			allGroups = grid.allGroups(),	// rows, cols, blocks
+			groupnum,
+			group,
+			cellsByVal,
+			cellIndex,
+			cell,
+			cellValues,
+			possIndex,
+			safeFlags,
+			targetIdx,
+			targetFlags,
+			flagValue;
+
+		// Iterate through each row, column, and block looking for Hidden Pairs
+		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
+			group = allGroups[groupnum];
+			cellsByVal = {};
+			if (group.possibleValues().length < 3) {
+				continue;
+			}
+			// index cells in group by which possible values they contain
+			for (cellIndex = 0; cellIndex < 9; cellIndex++) {
+				cell = group.cells()[cellIndex];
+				if (cell.value() !== undefined) {
+					continue;
+				}
+				cellValues = cell.possibleValues();
+				for (possIndex = 0; possIndex < cellValues.length; possIndex++) {
+					if (cellsByVal[cellValues[possIndex]] === undefined) {
+						cellsByVal[cellValues[possIndex]] = [];
+					}
+					cellsByVal[cellValues[possIndex]].push(cell);
+				}
+			}
+			// filter down to possible values existing in exactly 2 cells
+			cellsByVal = cellsByVal.where(function (el) {
+				return el.length === 2;
+			});
+			// for each possible value with 2 cells, check all others for a matching set of cells
+			cellsByVal.each(function (el, idx) {
+				cellsByVal.each(function (otherEl, otherIdx) {
+					if (otherIdx > idx && el[0] === otherEl[0] && el[1] === otherEl[1]) {
+						for (targetIdx = 0; targetIdx < 2; targetIdx++) {
+							// remove all other possible values from the cell pair
+							safeFlags = Math.pow(2, idx) | Math.pow(2, otherIdx);
+							targetFlags = el[targetIdx].possibleFlags() ^ safeFlags;	// remaining flags can be removed
+							flagValue = 9;
+							while (targetFlags > 0) {
+								if ((targetFlags & 1) > 0) {
+									el[targetIdx].removePossibleValue(flagValue);
+								}
+								flagValue--;
+								targetFlags = targetFlags << 1;
+							}
+						}
+					}
+				});
+			});
+
+		}
+/*
+			// find all cells containing each possible value
+			for (cellnum = 0; cellnum < 9; cellnum++) {
+				cell = group.cells()[cellnum];
+				if (cell.value() === undefined && cell.possibleValues().length === 2) {
+					pairindex = cell.possibleValues().join('');
+					if (pairs[pairindex] === undefined) {
+						pairs[pairindex] = [];
+					}
+					pairs[pairindex].push(cell);
+				}
+			}
+			// look through the found cells for ones that are pairs (two cells with the same two possible values)
+			for (twoValueCells in pairs) {
+				if (pairs.hasOwnProperty(twoValueCells) && pairs[twoValueCells].length === 2) {
+					// delete those possible values from other cells in the group
+					for (cellnum = 0; cellnum < 9; cellnum++) {
+						cell = group.cells()[cellnum];
+						if (cell !== pairs[twoValueCells][0] && cell !== pairs[twoValueCells][1]) {
+							removal1 = cell.removePossible(parseInt(twoValueCells.split('')[0], 10));
+							removal2 = cell.removePossible(parseInt(twoValueCells.split('')[1], 10));
+							progress = progress || removal1 || removal2;
+						}
+					}
+				}
+			}
+		}
+*/
+		// rules return boolean indicating whether they made any progress
+		return progress;
+	};
+}(jsobj));

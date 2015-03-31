@@ -22,6 +22,7 @@ module.exports = function(config) {
 	  'app/rule-last-in-group.js',
 	  'app/rule-restricted-possible-value.js',
 	  'app/rule-pairs.js',
+	  'app/rule-hidden-pairs.js',
 	  'app/rule-triples.js',
 	  'app/view-preformatted.js',
 	  'app/view-static-grid.js',
