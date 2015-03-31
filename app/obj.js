@@ -18,7 +18,7 @@ var jsobj = {};
 		};
 	}
 
-	// where & each for arrays and objects
+	// Array.where
 	if (Array.prototype.where === undefined) {
 		Array.prototype.where = function (fn) {
 			var index, result = [];
@@ -37,6 +37,25 @@ var jsobj = {};
 		};
 	}
 
+	// Array.each
+	if (Array.prototype.each === undefined) {
+		Array.prototype.each = function (fn) {
+			var index, eachResult, result = [];
+
+			if (fn === undefined || typeof fn !== 'function') {
+				throw new Error('Each function not specified');
+			}
+
+			for (index = 0; index < this.length; index++) {
+				eachResult = fn(this[index], index);
+				result.push(eachResult || this[index]);
+			}
+
+			return result;
+		};
+	}
+
+	// Object.where
 	if (Object.prototype.where === undefined) {
 		Object.prototype.where = function (fn) {
 			var index, result = {};

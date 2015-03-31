@@ -102,6 +102,51 @@
 		});
 	});
 
+	describe("Array.each member", function () {
+		var arr = [1, 2, 3];
+
+		it("exists on the prototype", function () {
+			expect(arr.each).toBeDefined();
+		});
+
+		it("is a function", function () {
+			expect(typeof arr.each).toBe('function');
+		});
+
+		it("throws an exception when no function is passed", function () {
+			expect(function () { arr.each(); }).toThrow(new Error("Each function not specified"));
+		});
+
+		it("throws an exception when non-function is passed", function () {
+			expect(function () { arr.each(0); }).toThrow(new Error("Each function not specified"));
+		});
+
+		it("calls function for each element of array", function () {
+			var count = 0;
+
+			arr.each(function () { count++; });
+
+			expect(count).toBe(3);
+		});
+
+		it("returns source array when no value returned from passed function", function () {
+			var result, count = 0;
+
+			result = arr.each(function (el) { count++; });
+
+			expect(result).toEqual(arr);	// it's a new array with the same elements.
+			expect(result).not.toBe(arr);	// it's not the same array.
+		});
+
+		it("returns mapped array when value is returned from passed function", function () {
+			var result;
+
+			result = arr.each(function (el) { return el * 2; });
+
+			expect(result).toEqual([2, 4, 6]);
+		});
+	});
+
 	describe("Object.where member", function () {
 		var emptyObj = {}, sourceObj = { a: 3, b: 4 };
 
@@ -140,7 +185,7 @@
 		it("returns object with expected properties when function filters by value", function () {
 			var result;
 
-			result = sourceObj.where(function (el, idx) { return el === 3; });
+			result = sourceObj.where(function (el) { return el === 3; });
 
 			expect(result).toEqual({ a: 3 });
 		});
