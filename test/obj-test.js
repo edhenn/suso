@@ -102,6 +102,58 @@
 		});
 	});
 
+	describe("Object.where member", function () {
+		var emptyObj = {}, sourceObj = { a: 3, b: 4 };
+
+		it("exists on the prototype", function () {
+			expect(emptyObj.where).toBeDefined();
+		});
+
+		it("is a function", function () {
+			expect(typeof emptyObj.where).toBe('function');
+		});
+
+		it("throws an exception when no function is passed", function () {
+			expect(function () { emptyObj.where(); }).toThrow(new Error("Where function not specified"));
+		});
+
+		it("throws an exception when non-function is passed", function () {
+			expect(function () { emptyObj.where(0); }).toThrow(new Error("Where function not specified"));
+		});
+
+		it("returns object with all properties when function always returns true", function () {
+			var result;
+
+			result = sourceObj.where(function () { return true; });
+
+			expect(result).toEqual(sourceObj);
+		});
+
+		it("returns object with no properties when function always returns false", function () {
+			var result;
+
+			result = sourceObj.where(function () { return false; });
+
+			expect(result).toEqual(emptyObj);
+		});
+
+		it("returns object with expected properties when function filters by value", function () {
+			var result;
+
+			result = sourceObj.where(function (el, idx) { return el === 3; });
+
+			expect(result).toEqual({ a: 3 });
+		});
+
+		it("returns object with expected properties when function filters by index", function () {
+			var result;
+
+			result = sourceObj.where(function (el, idx) { return idx === 'b'; });
+
+			expect(result).toEqual({ b: 4 });
+		});
+	});
+
 	describe("EventAware object", function () {
 		var x = jsobj.EventAware({});
 

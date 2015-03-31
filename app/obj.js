@@ -37,6 +37,26 @@ var jsobj = {};
 		};
 	}
 
+	if (Object.prototype.where === undefined) {
+		Object.prototype.where = function (fn) {
+			var index, result = {};
+
+			if (fn === undefined || typeof fn !== 'function') {
+				throw new Error('Where function not specified');
+			}
+
+			for (index in this) {
+				if (this.hasOwnProperty(index)) {
+					if (fn(this[index], index)) {
+						result[index] = this[index];
+					}
+				}
+			}
+
+			return result;
+		};
+	}
+
 	// amend jsobj with an EventAware object with three functions to augment passed in objects with observable methods
 	jsobj.EventAware = function (obj) {
 		var subscribers = {};
