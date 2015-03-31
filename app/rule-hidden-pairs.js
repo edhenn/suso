@@ -24,7 +24,8 @@
 			safeFlags,
 			targetIdx,
 			targetFlags,
-			flagValue;
+			flagValue,
+			removed;
 
 		// Iterate through each row, column, and block looking for Hidden Pairs
 		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
@@ -62,7 +63,8 @@
 							flagValue = 9;
 							while (targetFlags > 0) {
 								if ((targetFlags & 1) > 0) {
-									el[targetIdx].removePossibleValue(flagValue);
+									removed = el[targetIdx].removePossible(flagValue);
+									progress = progress || removed;
 								}
 								flagValue--;
 								targetFlags = targetFlags << 1;
@@ -73,34 +75,7 @@
 			});
 
 		}
-/*
-			// find all cells containing each possible value
-			for (cellnum = 0; cellnum < 9; cellnum++) {
-				cell = group.cells()[cellnum];
-				if (cell.value() === undefined && cell.possibleValues().length === 2) {
-					pairindex = cell.possibleValues().join('');
-					if (pairs[pairindex] === undefined) {
-						pairs[pairindex] = [];
-					}
-					pairs[pairindex].push(cell);
-				}
-			}
-			// look through the found cells for ones that are pairs (two cells with the same two possible values)
-			for (twoValueCells in pairs) {
-				if (pairs.hasOwnProperty(twoValueCells) && pairs[twoValueCells].length === 2) {
-					// delete those possible values from other cells in the group
-					for (cellnum = 0; cellnum < 9; cellnum++) {
-						cell = group.cells()[cellnum];
-						if (cell !== pairs[twoValueCells][0] && cell !== pairs[twoValueCells][1]) {
-							removal1 = cell.removePossible(parseInt(twoValueCells.split('')[0], 10));
-							removal2 = cell.removePossible(parseInt(twoValueCells.split('')[1], 10));
-							progress = progress || removal1 || removal2;
-						}
-					}
-				}
-			}
-		}
-*/
+
 		// rules return boolean indicating whether they made any progress
 		return progress;
 	};
