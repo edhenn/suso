@@ -46,6 +46,62 @@
 		});
 	});
 
+	describe("Array.where member", function () {
+		var arr = [];
+
+		it("exists on the prototype", function () {
+			expect(arr.where).toBeDefined();
+		});
+
+		it("is a function", function () {
+			expect(typeof arr.where).toBe('function');
+		});
+
+		it("throws an exception when no function is passed", function () {
+			expect(function () { arr.where(); }).toThrow(new Error("Where function not specified"));
+		});
+
+		it("throws an exception when non-function is passed", function () {
+			expect(function () { arr.where(0); }).toThrow(new Error("Where function not specified"));
+		});
+
+		it("returns all elements of array when function returns true", function () {
+			var source = [1, 2], result;
+
+			result = source.where(function () { return true; });
+
+			expect(result.length).toBe(2);
+			expect(result).toEqual(source);
+		});
+
+		it("returns empty array when function returns false", function () {
+			var source = [1, 2], result;
+
+			result = source.where(function () { return false; });
+
+			expect(result.length).toBe(0);
+			expect(result).toEqual([]);
+		});
+
+		it("returns expected array elements when function filters by element", function () {
+			var source = [1, 2], result;
+
+			result = source.where(function (el) { return el === 1; });
+
+			expect(result.length).toBe(1);
+			expect(result).toEqual([1]);
+		});
+
+		it("returns expected array elements when function filters by index", function () {
+			var source = [1, 2], result;
+
+			result = source.where(function (el, idx) { return idx === 1; });
+
+			expect(result.length).toBe(1);
+			expect(result).toEqual([2]);
+		});
+	});
+
 	describe("EventAware object", function () {
 		var x = jsobj.EventAware({});
 

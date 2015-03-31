@@ -18,6 +18,25 @@ var jsobj = {};
 		};
 	}
 
+	// where & each for arrays and objects
+	if (Array.prototype.where === undefined) {
+		Array.prototype.where = function (fn) {
+			var index, result = [];
+
+			if (fn === undefined || typeof fn !== 'function') {
+				throw new Error('Where function not specified');
+			}
+
+			for (index = 0; index < this.length; index++) {
+				if (fn(this[index], index)) {
+					result.push(this[index]);
+				}
+			}
+
+			return result;
+		};
+	}
+
 	// amend jsobj with an EventAware object with three functions to augment passed in objects with observable methods
 	jsobj.EventAware = function (obj) {
 		var subscribers = {};
