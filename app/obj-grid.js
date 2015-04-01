@@ -129,6 +129,7 @@
 
 			gridState = (cellsSolved === 81 ? 'complete' : 'incomplete');
 			me.trigger('report', me, 'grid ' + gridState);
+			me.trigger('update', me, 'grid ' + gridState);
 			return this;
 		};
 	}
