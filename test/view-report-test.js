@@ -20,10 +20,17 @@
 			expect(ctrl.innerHTML.indexOf('<div class="report-container">')).toBeGreaterThan(-1);
 		});
 
-		it("returns a list of divs with class report", function () {
+		it("creates a div to conatin reports", function () {
 			ctrl = document.createElement('div');
 			disp = new jsobj.views.Report(grid, ctrl);
-			expect(ctrl.innerHTML.indexOf('<div class="report">')).toBeGreaterThan(-1);
+			expect(ctrl.innerHTML.indexOf('<div class="report-container"><h1>Report</h1></div>')).toBeGreaterThan(-1);
+		});
+
+		it("creates divs inside container for each report", function () {
+			ctrl = document.createElement('div');
+			disp = new jsobj.views.Report(grid, ctrl);
+			grid.addSeeds([[1]]);
+			expect(ctrl.innerHTML.indexOf('<div class="report-container"><h1>Report</h1><div class="report">')).toBeGreaterThan(-1);
 		});
 	});
 }());
