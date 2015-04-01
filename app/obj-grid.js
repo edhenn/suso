@@ -115,6 +115,7 @@
 				jsobj.rules.lastInGroup,
 				jsobj.rules.restrictedPossibleValue,
 				jsobj.rules.pairs,
+				jsobj.rules.hiddenpairs,
 				jsobj.rules.triples
 			];
 
