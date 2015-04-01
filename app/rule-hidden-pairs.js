@@ -56,9 +56,9 @@
 			cellsByVal.each(function (el, idx) {
 				cellsByVal.each(function (otherEl, otherIdx) {
 					if (otherIdx > idx && el[0] === otherEl[0] && el[1] === otherEl[1]) {
+						safeFlags = Math.pow(2, idx) | Math.pow(2, otherIdx);
 						for (targetIdx = 0; targetIdx < 2; targetIdx++) {
 							// remove all other possible values from the cell pair
-							safeFlags = Math.pow(2, idx) | Math.pow(2, otherIdx);
 							targetFlags = el[targetIdx].possibleFlags() ^ safeFlags;	// remaining flags can be removed
 							flagValue = 9;
 							while (targetFlags > 0) {
@@ -67,7 +67,7 @@
 									progress = progress || removed;
 								}
 								flagValue--;
-								targetFlags = targetFlags << 1;
+								targetFlags = targetFlags >> 1;
 							}
 						}
 					}
