@@ -56,7 +56,7 @@
 			cellsByVal.each(function (el, idx) {
 				cellsByVal.each(function (otherEl, otherIdx) {
 					if (otherIdx > idx && el[0] === otherEl[0] && el[1] === otherEl[1]) {
-						safeFlags = Math.pow(2, idx) | Math.pow(2, otherIdx);
+						safeFlags = Math.pow(2, 9 - idx) | Math.pow(2, 9 - otherIdx);	// flags for poss vals to keep
 						for (targetIdx = 0; targetIdx < 2; targetIdx++) {
 							// remove all other possible values from the cell pair
 							targetFlags = el[targetIdx].possibleFlags() ^ safeFlags;	// remaining flags can be removed
