@@ -77,6 +77,10 @@
 		this.addSeeds = function (seeds) {
 			var row, col, seed;
 
+			if (gridState !== 'unseeded') {
+				return;
+			}
+
 			for (row = 0; row < seeds.length; row++) {
 				for (col = 0; col < seeds[row].length; col++) {
 					seed = seeds[row][col];
