@@ -43,7 +43,7 @@
 				if (cellsByVal.hasOwnProperty(val) &&
 						cellsByVal[val].length === 1 &&
 						cellsByVal[val][0].value() === undefined) {
-					cellsByVal[val][0].setValue(parseInt(val, 10));
+					cellsByVal[val][0].setValue(parseInt(val, 10), "last in group - " + allgroups[groupx].name());
 					progress = true;
 				}
 			}

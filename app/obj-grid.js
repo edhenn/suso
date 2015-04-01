@@ -17,12 +17,12 @@
 			seedSolved = [],
 			me = this;
 
-		function cellUpdated() {
+		function cellUpdated(cell, note) {
 			cellsSolved++;
 			// only fire a grid update once the grid is ready - not during seeding
 			if (gridState === 'ready') {
 				me.trigger("update", me);
-				me.trigger("report", me);
+				me.trigger("report", cell, note);
 			}
 		}
 
@@ -87,7 +87,7 @@
 			}
 
 			gridState = 'ready';
-			me.trigger('report', 'grid seeded');
+			me.trigger('report', me, 'grid seeded');
 			return this;
 		};
 
@@ -102,7 +102,7 @@
 			for (cell = 0; cell < seedSolved.length; cell++) {
 				possVal = seedSolved[cell].possibleValues();
 				if (possVal.length === 1) {
-					seedSolved[cell].setValue(possVal[0]);
+					seedSolved[cell].setValue(possVal[0], "one remaining value after seeding");
 				}
 			}
 
@@ -123,6 +123,7 @@
 			}
 
 			gridState = (cellsSolved === 81 ? 'complete' : 'incomplete');
+			me.trigger('report', me, 'grid ' + gridState);
 			return this;
 		};
 	}

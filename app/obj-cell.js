@@ -30,7 +30,7 @@
 				if (possibleCount === 1) {
 					// grid is ready - done seeding. auto-solve cells with one remaining possible value.
 					if (grid.state() === 'ready') {
-						that.setValue(that.possibleValues()[0]);
+						that.setValue(that.possibleValues()[0], "last remaining possible value in cell");
 					} else {
 						grid.seedSolved.push(that);
 					}
@@ -48,14 +48,14 @@
 			return val;
 		};
 
-		this.setValue = function (newValue) {
+		this.setValue = function (newValue, note) {
 			if (val !== undefined) {
 				throw new Error("Attempt to set value on a Cell that already has a value.");
 			}
 			val = newValue;
 			that.possibles = possibles = {};
 			possibleCount = 0;
-			this.trigger("update");
+			this.trigger("update", this, note);
 		};
 
 		this.row = function () {

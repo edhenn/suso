@@ -14,20 +14,24 @@
 			styles = '.report-container { border: solid 2px blue; margin-top: 1em; width: 50%; }\n' +
 				'.report { border-top: solid 1px grey; margin: 2px }\n';
 
-		function display(reportArg) {
+		function display(reportArg, note) {
 			// add a node to report container for every call to display
 			var report = document.createElement('div');
 			report.setAttribute('class', 'report');
 			reportContainer.appendChild(report);
 			if (typeof reportArg === "string") {
 				report.innerHTML = reportArg;
-			} else if (typeof reportArg === "object") {	// assume Cell
+			} else if (typeof reportArg === "object" && reportArg.hasOwnProperty("coords")) {	// Cell
 				report.innerHTML = "cell solved: " +
 					reportArg.row().name() +
 					", " +
 					reportArg.col().name() +
 					" = " +
-					reportArg.value().toString();
+					reportArg.value().toString() +
+					" -- " +
+					note;
+			} else {
+				report.innerHTML = note;
 			}
 		}
 
@@ -51,6 +55,6 @@
 
 		grid.on("report", display);
 
-		return display("grid initialized");
+		//return display("grid initialized");
 	};
 }(jsobj));

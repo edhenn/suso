@@ -4,9 +4,12 @@
 (function () {
 	'use strict';
 
-	var grid = new jsobj.Grid(),
+	var grid,
 		disp,
 		rept;
+
+	grid = new jsobj.Grid();
+	rept = new jsobj.views.Report(grid);
 
 	// difficult -- solved with rule last-in-group
 	/*
@@ -239,6 +242,5 @@
 	grid.solve();
 	//jsobj.rules.lastInGroup(grid);
 	disp = new jsobj.views.StaticGrid(grid);
-	rept = new jsobj.views.Report(grid);
 
 }());
