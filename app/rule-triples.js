@@ -55,53 +55,39 @@
 	jsobj.rules.triples = function (grid) {
 		var progress = false,
 			allGroups = grid.allGroups(),	// rows, cols, blocks
-			groupnum,
-			group,
-			cellnum,
-			cell,
-			targetCell,
 			twoOrThreePossibles,
-			cellindex,
 			pairs,
 			countPossibles,
-			pairindex,
-			pair,
 			tripletFlags,
 			tripletNums,
 			numIndex,
 			result;
 
 		// Iterate through each row, column, and block looking for triples
-		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
-			group = allGroups[groupnum];
+		allGroups.each(function (group) {
 			twoOrThreePossibles = [];
 			pairs = [];
 			// first, find all pairs of cells in group that share 2 or 3 possible values
-			for (cellnum = 0; cellnum < 9; cellnum++) {
-				cell = group.cells()[cellnum];
-				if (cell.value() === undefined) {
-					countPossibles = countBits(cell.possibleFlags());
-					if (countPossibles === 2 || countPossibles === 3) {
-						// make pairs with all other found cells that share a possible value
-						for (cellindex = 0; cellindex < twoOrThreePossibles.length; cellindex++) {
-							if (twoOrThreePossibles[cellindex].possibleFlags() & cell.possibleFlags() > 0) {
-								pairs.push([twoOrThreePossibles[cellindex], cell]);
-							}
+			group.cells().where(function (cell) {
+				return cell.value() === undefined;
+			}).each(function (cell) {
+				countPossibles = countBits(cell.possibleFlags());
+				if (countPossibles === 2 || countPossibles === 3) {
+					// make pairs with all other found cells that share a possible value
+					twoOrThreePossibles.each(function (twoOrThree) {
+						if (twoOrThree.possibleFlags() & cell.possibleFlags() > 0) {
+							pairs.push([twoOrThree, cell]);
 						}
-						twoOrThreePossibles.push(cell);
-					}
+					});
+					twoOrThreePossibles.push(cell);
 				}
-			}
+			});
 			// now for each pair, find any triplets that share exactly 3 possible values
-			for (pairindex = 0; pairindex < pairs.length; pairindex++) {
-				pair = pairs[pairindex];
+			pairs.each(function (pair) {
 				// test triples with each other candidate cell that had 2 or 3 possible values
-				for (cellindex = 0; cellindex < twoOrThreePossibles.length; cellindex++) {
-
-					cell = twoOrThreePossibles[cellindex];
-
+				twoOrThreePossibles.each(function (cell) {
 					if (cell === pair[0] || cell === pair[1]) {
-						continue;
+						return;
 					}
 
 					tripletFlags = pair[0].possibleFlags() |
@@ -109,20 +95,19 @@
 						cell.possibleFlags();
 
 					if (countBits(tripletFlags) !== 3) {
-						continue;
+						return;
 					}
 
 					// remove triplet possible values from all other cells in group
 					tripletNums = flagNumbers(tripletFlags);
-					for (cellnum = 0; cellnum < 9; cellnum++) {
-						targetCell = group.cells()[cellnum];
+					group.cells().each(function (targetCell) {
 						if (targetCell === pair[0] || targetCell === pair[1] || targetCell === cell) {
-							continue;
+							return;
 						}
 						for (numIndex = 0; numIndex < 3; numIndex++) {
 							result = result | targetCell.removePossible(tripletNums[numIndex]);
 						}
-					}
+					});
 
 					if (result) {
 						result = false;
@@ -130,9 +115,9 @@
 						grid.trigger('report', group, 'triplet ' + tripletNums +
 							' in ' + group.name() + ' - remove other possibles');
 					}
-				}
-			}
-		}
+				});
+			});
+		});
 
 		// rules return boolean indicating whether they made any progress
 		return progress;
