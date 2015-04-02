@@ -30,7 +30,7 @@
 			ctrl = document.createElement('div');
 			disp = new jsobj.views.Report(grid, ctrl);
 			grid.addSeeds([[1]]);
-			expect(ctrl.innerHTML.indexOf('<div class="report-container"><h1>Report</h1><div class="report">')).toBeGreaterThan(-1);
+			expect(ctrl.innerHTML.indexOf('<div class="report-container"><h1>Report</h1><div class="report"')).toBeGreaterThan(-1);
 		});
 	});
 }());
