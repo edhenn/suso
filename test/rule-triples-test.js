@@ -14,7 +14,7 @@
 		});
 	});
 
-	describe("rule-pairs function", function () {
+	describe("rule-triples function", function () {
 		function listSolved(grid) {
 			var solved = [], row, cell, rowCells;
 			for (row = 0; row < 9; row++) {
