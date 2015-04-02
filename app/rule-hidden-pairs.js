@@ -63,8 +63,10 @@
 							flagValue = 9;
 							while (targetFlags > 0) {
 								if ((targetFlags & 1) > 0) {
-									removed = el[targetIdx].removePossible(flagValue);
-									progress = progress || removed;
+									if (el[targetIdx].removePossible(flagValue)) {
+										grid.trigger('report', el[targetIdx], 'hidden pairs - remove possible ' + flagValue);
+										progress = true;
+									}
 								}
 								flagValue--;
 								targetFlags = targetFlags >> 1;

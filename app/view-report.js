@@ -22,14 +22,10 @@
 			if (typeof reportArg === "string") {
 				report.innerHTML = reportArg;
 			} else if (typeof reportArg === "object" && reportArg.hasOwnProperty("coords")) {	// Cell
-				report.innerHTML = "cell solved: " +
-					reportArg.row().name() +
-					", " +
-					reportArg.col().name() +
-					" = " +
-					reportArg.value().toString() +
-					" -- " +
-					note;
+				report.innerHTML = "cell action: " +
+					reportArg.coords() +
+					(reportArg.value() === undefined ? "" : (" = " + reportArg.value().toString())) +
+					(note === undefined ? "" : (" -- " + note));
 			} else {
 				report.innerHTML = note;
 			}
