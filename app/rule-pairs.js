@@ -18,7 +18,6 @@
 			group,
 			cellnum,
 			cell,
-			twoValueCells,
 			pairs,
 			pairindex,
 			removal1,
@@ -43,15 +42,21 @@
 			pairs.where(function (paircells) {
 				return paircells.length === 2;
 			}).each(function (paircell, pairIdx) {
+				var groupProgress = false;
 				// delete those possible values from other cells in the group
 				group.cells().each(function (cell) {
 					var possVals = pairIdx.split('');
 					if (cell !== paircell[0] && cell !== paircell[1]) {
 						removal1 = cell.removePossible(parseInt(possVals[0], 10));
 						removal2 = cell.removePossible(parseInt(possVals[1], 10));
-						progress = progress || removal1 || removal2;
+						groupProgress = groupProgress || removal1 || removal2;
 					}
 				});
+				if (groupProgress) {
+					progress = true;
+					grid.trigger('report', group,
+						'pairs rule - remove possible vals ' + pairIdx + ' from ' + group.name());
+				}
 			});
 		}
 
