@@ -51,8 +51,13 @@
 						return rowOrCol.length === 1;
 					}).each(function (rowOrCol) {
 						rowOrCol[0].cells().each(function (intersectCell) {
-							if (intersectCell.block() !== house && intersectCell.possibles[possval] !== undefined) {
-								progress = intersectCell.removePossible(possval);
+							if (intersectCell.block() !== house &&
+									intersectCell.possibles[possval] !== undefined &&
+									intersectCell.removePossible(possval)) {
+								progress = true;
+								grid.trigger('report', rowOrCol[0],
+									'claimed ' + possval.toString() + ' in ' + house.name() +
+									' - remove possibles from intersecting ' + rowOrCol[0].name());
 							}
 						});
 					});
@@ -61,8 +66,12 @@
 						intersects[0][0].cells().each(function (intersectCell) {
 							if (intersectCell.row() !== house &&
 									intersectCell.col() !== house &&
-									intersectCell.possibles[possval] !== undefined) {
-								progress = intersectCell.removePossible(possval);
+									intersectCell.possibles[possval] !== undefined &&
+									intersectCell.removePossible(possval)) {
+								progress = true;
+								grid.trigger('report', intersects[0][0],
+									'claimed ' + possval.toString() + ' in ' + house.name() +
+									' - remove possibles from intersecting ' + intersects[0][0].name());
 							}
 						});
 					}
