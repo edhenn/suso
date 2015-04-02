@@ -120,9 +120,15 @@
 							continue;
 						}
 						for (numIndex = 0; numIndex < 3; numIndex++) {
-							result = targetCell.removePossible(tripletNums[numIndex]);
-							progress = progress || result;
+							result = result | targetCell.removePossible(tripletNums[numIndex]);
 						}
+					}
+
+					if (result) {
+						result = false;
+						progress = true;
+						grid.trigger('report', group, 'triplet ' + tripletNums +
+							' in ' + group.name() + ' - remove other possibles');
 					}
 				}
 			}
