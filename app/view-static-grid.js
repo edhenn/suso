@@ -67,6 +67,7 @@
 		ctrl.appendChild(gridtag);
 
 		grid.on("update", display);
+		grid.on("report", display);
 
 		return display();
 	};
