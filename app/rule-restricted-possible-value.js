@@ -8,7 +8,7 @@
 		jsobj.rules = {};
 	}
 
-	// sometimes called "number claiming"
+	// sometimes called "number claiming" or "omission"
 	jsobj.rules.restrictedPossibleValue = function (grid) {
 		var houses = grid.allGroups(),
 			houseNum,

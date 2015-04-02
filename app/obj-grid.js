@@ -118,6 +118,8 @@
 				jsobj.rules.hiddenpairs,
 				jsobj.rules.triples
 			];
+			// xwing http://www.learn-sudoku.com/x-wing.html
+			// ywing http://www.learn-sudoku.com/xy-wing.html (like a naked triple)
 
 			// continually run all rules in the list until a full run causes no progress.
 			while (progress && cellsSolved !== 81) {
