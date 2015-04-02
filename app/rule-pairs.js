@@ -42,10 +42,10 @@
 			pairs.where(function (paircells) {
 				return paircells.length === 2;
 			}).each(function (paircell, pairIdx) {
-				var groupProgress = false;
+				var groupProgress = false,
+					possVals = pairIdx.split('');
 				// delete those possible values from other cells in the group
 				group.cells().each(function (cell) {
-					var possVals = pairIdx.split('');
 					if (cell !== paircell[0] && cell !== paircell[1]) {
 						removal1 = cell.removePossible(parseInt(possVals[0], 10));
 						removal2 = cell.removePossible(parseInt(possVals[1], 10));
@@ -55,7 +55,7 @@
 				if (groupProgress) {
 					progress = true;
 					grid.trigger('report', group,
-						'pairs rule - remove possible vals ' + pairIdx + ' from ' + group.name());
+						'pairs rule - remove possible vals ' + possVals + ' from ' + group.name());
 				}
 			});
 		}
