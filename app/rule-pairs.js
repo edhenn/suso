@@ -40,19 +40,19 @@
 				}
 			}
 			// look through the found cells for ones that are pairs (two cells with the same two possible values)
-			for (twoValueCells in pairs) {
-				if (pairs.hasOwnProperty(twoValueCells) && pairs[twoValueCells].length === 2) {
-					// delete those possible values from other cells in the group
-					for (cellnum = 0; cellnum < 9; cellnum++) {
-						cell = group.cells()[cellnum];
-						if (cell !== pairs[twoValueCells][0] && cell !== pairs[twoValueCells][1]) {
-							removal1 = cell.removePossible(parseInt(twoValueCells.split('')[0], 10));
-							removal2 = cell.removePossible(parseInt(twoValueCells.split('')[1], 10));
-							progress = progress || removal1 || removal2;
-						}
+			pairs.where(function (paircells) {
+				return paircells.length === 2;
+			}).each(function (paircell, pairIdx) {
+				// delete those possible values from other cells in the group
+				group.cells().each(function (cell) {
+					var possVals = pairIdx.split('');
+					if (cell !== paircell[0] && cell !== paircell[1]) {
+						removal1 = cell.removePossible(parseInt(possVals[0], 10));
+						removal2 = cell.removePossible(parseInt(possVals[1], 10));
+						progress = progress || removal1 || removal2;
 					}
-				}
-			}
+				});
+			});
 		}
 
 		// rules return boolean indicating whether they made any progress
