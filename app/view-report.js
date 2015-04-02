@@ -1,4 +1,4 @@
-/*global jsobj, document */
+/*global jsobj, document, alert */
 /*jslint plusplus: true */
 
 (function (jsobj) {
@@ -11,9 +11,28 @@
 	jsobj.views.Report = function (grid, ctrl) {
 		var reportContainer,
 			styletag,
-			styles = '.report-container { border: solid 2px blue; margin-top: 1em; width: 50%; }\n' +
+			styles = '.report-container { border: solid 2px blue; margin-top: 1em; width: 100%; }\n' +
 				'.report { border-top: solid 1px grey; margin: 2px }\n',
-			steps = [];
+			steps = [],
+			ready = false;	// ready indicates the report is complete and can start displaying history
+
+		function remember() {
+			var step;
+
+			if (!ready) {
+				return;
+			}
+
+			if (this.id.indexOf("step") === 0) {
+				step = parseInt(this.id.substring(4), 10);
+			}
+
+			if (isNaN(step)) {
+				return;
+			}
+
+			alert(step);
+		}
 
 		function display(reportArg, note) {
 			// add a node to report container for every call to display
@@ -28,9 +47,15 @@
 					reportArg.coords() +
 					(reportArg.value() === undefined ? "" : (" = " + reportArg.value().toString())) +
 					(note === undefined ? "" : (" -- " + note));
+			} else if (typeof reportArg === "object" && reportArg.hasOwnProperty("state")) {	// Grid
+				report.innerHTML = note;
+				if (reportArg.state() === "complete" || reportArg.state() === "incomplete") {
+					ready = true;
+				}
 			} else {
 				report.innerHTML = note;
 			}
+			report.addEventListener('click', remember);
 			steps.push(report);
 		}
 
