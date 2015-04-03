@@ -22,7 +22,8 @@
 				'.cell { width: 38px; height: 40px; display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; text-align: center; vertical-align: middle; }\n' +
 				'.cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n' +
 				'.poss { font-size: 12px; line-height: 10px }\n' +
-				'.value { font-size: 22px; font-weight: bold }\n';
+				'.value { font-size: 22px; font-weight: bold }\n',
+			steps = [];
 
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
@@ -48,6 +49,15 @@
 			// display and refresh both just replace the entire display node with freshly generated results
 			gridtag.innerHTML = gridbody;
 		}
+
+		this.createStep = function () {
+			steps[steps.length] = gridtag.innerHTML;
+			return steps.length - 1;
+		};
+
+		this.renderStep = function (step) {
+			gridtag.innerHTML = steps[step];
+		};
 
 		this.grid = grid;
 		this.ctrl = ctrl;

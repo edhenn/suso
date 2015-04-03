@@ -12,7 +12,8 @@
 		var pretag,
 			prebody,
 			prerow = '{0}{1}{2} {3}{4}{5} {6}{7}{8}',
-			row;
+			row,
+			steps = [];
 
 		function repl(match, id) {
 			var val = grid.hRow(row).cells()[id].value();
@@ -32,6 +33,15 @@
 			// display and refresh both just replace the entire display node with freshly generated results
 			pretag.innerHTML = prebody;
 		}
+
+		this.createStep = function () {
+			steps[steps.length] = pretag.innerHTML;
+			return steps.length - 1;
+		};
+
+		this.renderStep = function (step) {
+			pretag.innerHTML = steps[step];
+		};
 
 		this.grid = grid;
 		this.ctrl = ctrl;

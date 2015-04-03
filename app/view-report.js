@@ -8,12 +8,13 @@
 		jsobj.views = {};
 	}
 
-	jsobj.views.Report = function (grid, ctrl) {
+	jsobj.views.Report = function (settings) {	// grid, ctrl, gridView
 		var reportContainer,
 			styletag,
 			styles = '.report-container { border: solid 2px blue; margin-top: 1em; width: 100%; }\n' +
 				'.report { border-top: solid 1px grey; margin: 2px }\n',
-			ready = false;	// ready indicates the report is complete and can start displaying history
+			ready = false,	// ready indicates the report is complete and can start displaying history
+			gridView = settings.gridView;
 
 		function remember() {
 			var step;
@@ -30,15 +31,15 @@
 				return;
 			}
 
-			grid.renderStep(step);
+			gridView.renderStep(step);
 		}
 
 		function display(reportArg, note) {
 			var report, step;
 
-			// create a grid step-point to remember its state later
-			if (grid.hasOwnProperty("createStep")) {
-				step = grid.createStep();
+			// create a grid-view step-point to remember its state later
+			if (gridView !== undefined && gridView.hasOwnProperty("createStep")) {
+				step = gridView.createStep();
 			}
 
 			// add a node to report container for every call to display
@@ -66,27 +67,27 @@
 			}
 		}
 
-		this.grid = grid;
-		this.ctrl = ctrl;
+		this.grid = settings.grid;
+		this.ctrl = settings.ctrl;
 
 		// set grid step awareness
 
-		if (ctrl === undefined) {
-			ctrl = document.createElement('div');
-			ctrl.setAttribute('id', 'Report-Display');
-			document.body.appendChild(ctrl);
+		if (this.ctrl === undefined) {
+			this.ctrl = document.createElement('div');
+			this.ctrl.setAttribute('id', 'Report-Display');
+			document.body.appendChild(this.ctrl);
 		}
 		// append styles
 		styletag = document.createElement('style');
-		ctrl.appendChild(styletag);
+		this.ctrl.appendChild(styletag);
 		styletag.innerHTML = styles;
 		// append report container
 		reportContainer = document.createElement('div');
 		reportContainer.setAttribute('class', 'report-container');
-		ctrl.appendChild(reportContainer);
+		this.ctrl.appendChild(reportContainer);
 		reportContainer.innerHTML = "<h1>Report</h1>";
 
-		grid.on("report", display);
+		this.grid.on("report", display);
 
 		//return display("grid initialized");
 	};
