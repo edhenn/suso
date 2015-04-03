@@ -13,7 +13,6 @@
 			styletag,
 			styles = '.report-container { border: solid 2px blue; margin-top: 1em; width: 100%; }\n' +
 				'.report { border-top: solid 1px grey; margin: 2px }\n',
-			steps = [],
 			ready = false;	// ready indicates the report is complete and can start displaying history
 
 		function remember() {
@@ -31,14 +30,24 @@
 				return;
 			}
 
-			alert(step);
+			grid.renderStep(step);
 		}
 
 		function display(reportArg, note) {
+			var report, step;
+
+			// create a grid step-point to remember its state later
+			if (grid.hasOwnProperty("createStep")) {
+				step = grid.createStep();
+			}
+
 			// add a node to report container for every call to display
-			var report = document.createElement('div');
+			report = document.createElement('div');
 			report.setAttribute('class', 'report');
-			report.setAttribute('id', 'step' + steps.length);
+			if (step !== undefined) {
+				report.setAttribute('id', 'step' + step);
+				report.addEventListener('click', remember);
+			}
 			reportContainer.appendChild(report);
 			if (typeof reportArg === "string") {
 				report.innerHTML = reportArg;
@@ -55,12 +64,12 @@
 			} else {
 				report.innerHTML = note;
 			}
-			report.addEventListener('click', remember);
-			steps.push(report);
 		}
 
 		this.grid = grid;
 		this.ctrl = ctrl;
+
+		// set grid step awareness
 
 		if (ctrl === undefined) {
 			ctrl = document.createElement('div');
