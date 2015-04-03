@@ -35,21 +35,19 @@
 		}
 
 		function display(reportArg, note) {
-			var report, step;
-
-			// create a grid-view step-point to remember its state later
-			if (gridView !== undefined && gridView.hasOwnProperty("createStep")) {
-				step = gridView.createStep();
-			}
+			var report;
 
 			// add a node to report container for every call to display
 			report = document.createElement('div');
 			report.setAttribute('class', 'report');
-			if (step !== undefined) {
-				report.setAttribute('id', 'step' + step);
+			reportContainer.appendChild(report);
+
+			// if supported, create a step-point in grid-view to remember its state later
+			if (gridView !== undefined && gridView.hasOwnProperty("createStep")) {
+				report.setAttribute('id', 'step' + gridView.createStep());
 				report.addEventListener('click', remember);
 			}
-			reportContainer.appendChild(report);
+
 			if (typeof reportArg === "string") {
 				report.innerHTML = reportArg;
 			} else if (typeof reportArg === "object" && reportArg.hasOwnProperty("coords")) {	// Cell
