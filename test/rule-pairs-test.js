@@ -50,7 +50,9 @@
 
 		it("removes pairs of possible values from a row when two cells in row have same pair of possible values", function () {
 			var grid = new jsobj.Grid(),					//    012 345 678
-				progress, solved, poss;
+				progress,
+				solved,
+				poss;
 
 			grid.hRow(0).cells()[0].setValue(1);			// 0  123 --- ---
 			grid.hRow(0).cells()[1].setValue(2);			// 1  --6 --- ---  <-- this row should not have possible vals 4,5 in cells 4-9.
@@ -75,7 +77,9 @@
 
 		it("does nothing when 2 different pairs of possible values exist in a group", function () {
 			var grid = new jsobj.Grid(),					//    012 345 678
-				progress, solved, poss;
+				progress,
+				solved,
+				poss;
 
 			grid.hRow(0).cells()[0].setValue(1);			// 0  123 --- ---
 			grid.hRow(0).cells()[1].setValue(2);			// 1  --- --- ---  <-- cells 0,1,2 should have 5/6, 4/6, 4/5 as poss values.  no pairs.
