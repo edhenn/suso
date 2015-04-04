@@ -38,10 +38,10 @@
 		// create 81 cells each tied to correct block, vrow, hrow
 		for (i = 0; i < 81; i++) {
 			newCell = new jsobj.Cell(this);
+			newCell.on("update", cellUpdated);
 			newCell.setRow(rows[Math.floor(i / 9)]);		// every 9 consecutive cells make an hrow
 			newCell.setCol(cols[i % 9]);					// every 9th cell belongs to the same vrow
 			newCell.setBlock(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3]);	// every 3rd set of 3 consecutive cells up to 9 make a block
-			newCell.on("update", cellUpdated);
 		}
 
 		gridState = 'unseeded';
