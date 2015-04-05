@@ -45,7 +45,7 @@
 			// if supported, create a step-point in grid-view to remember its state later
 			if (gridView !== undefined && gridView.hasOwnProperty("createStep")) {
 				report.setAttribute('id', 'step' + gridView.createStep());
-				report.addEventListener('click', remember);
+				report.addEventListener('mouseover', remember);
 			}
 
 			if (typeof reportArg === "string") {
