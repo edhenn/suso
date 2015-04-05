@@ -121,6 +121,17 @@
 		});
 	});
 
+	describe("Cell.setHouse function", function () {
+		var x = new jsobj.Cell();
+
+		it("throws an error when called if house.type() is not row, col, or block", function () {
+			var badHouse = { type: function () { return 'wrong'; }};
+
+			expect(function () { x.setHouse(badHouse); })
+				.toThrow(new Error("invalid house"));
+		});
+	});
+
 	describe("Cell.row and setHouse(row) functions", function () {
 		var x = new jsobj.Cell();
 
