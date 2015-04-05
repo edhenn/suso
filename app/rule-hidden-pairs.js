@@ -49,12 +49,12 @@
 				}
 			}
 			// filter down to possible values existing in exactly 2 cells
-			cellsByVal = cellsByVal.where(function (el) {
+			cellsByVal = suso.filter(cellsByVal, function (el) {
 				return el.length === 2;
 			});
 			// for each possible value with 2 cells, check all others for a matching set of cells
-			cellsByVal.each(function (el, idx) {
-				cellsByVal.each(function (otherEl, otherIdx) {
+			suso.forEach(cellsByVal, function (el, idx) {
+				suso.forEach(cellsByVal, function (otherEl, otherIdx) {
 					if (otherIdx > idx && el[0] === otherEl[0] && el[1] === otherEl[1]) {
 						safeFlags = Math.pow(2, 9 - idx) | Math.pow(2, 9 - otherIdx);	// flags for poss vals to keep
 						for (targetIdx = 0; targetIdx < 2; targetIdx++) {

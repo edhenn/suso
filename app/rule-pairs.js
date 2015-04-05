@@ -40,13 +40,14 @@
 				}
 			}
 			// look through the found cells for ones that are pairs (two cells with the same two possible values)
-			pairs.where(function (paircells) {
+			pairs = suso.filter(pairs, function (paircells) {
 				return paircells.length === 2;
-			}).each(function (paircell, pairIdx) {
+			});
+			suso.forEach(pairs, function (paircell, pairIdx) {
 				var groupProgress = false,
 					possVals = pairIdx.split("");
 				// delete those possible values from other cells in the group
-				group.cells().each(function (cel) {
+				suso.forEach(group.cells(), function (cel) {
 					if (cel !== paircell[0] && cel !== paircell[1]) {
 						removal1 = cel.removePossible(parseInt(possVals[0], 10));
 						removal2 = cel.removePossible(parseInt(possVals[1], 10));

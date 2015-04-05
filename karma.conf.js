@@ -17,6 +17,7 @@ module.exports = function(config) {
     files: [
 	  'app/suso-namespace.js',
       'app/obj.js',
+	  'app/obj-query.js',
 	  'app/obj-grid.js',
 	  'app/obj-house.js',
       'app/obj-cell.js',

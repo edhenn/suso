@@ -4,47 +4,6 @@
 (function (suso) {
 	"use strict";
 
-	// Object.where
-	if (Object.prototype.where === undefined) {
-		Object.prototype.where = function (fn) {
-			var index, result = {};
-
-			if (fn === undefined || typeof fn !== "function") {
-				throw new Error("Where function not specified");
-			}
-
-			for (index in this) {
-				if (this.hasOwnProperty(index)) {
-					if (fn(this[index], index)) {
-						result[index] = this[index];
-					}
-				}
-			}
-
-			return result;
-		};
-	}
-
-	// Object.each
-	if (Object.prototype.each === undefined) {
-		Object.prototype.each = function (fn) {
-			var index, eachResult, result = {};
-
-			if (fn === undefined || typeof fn !== "function") {
-				throw new Error("Each function not specified");
-			}
-
-			for (index in this) {
-				if (this.hasOwnProperty(index)) {
-					eachResult = fn(this[index], index);
-					result[index] = (eachResult || this[index]);
-				}
-			}
-
-			return result;
-		};
-	}
-
 	// amend suso with an EventAware object with three functions to augment passed in objects with observable methods
 	suso.EventAware = function (obj) {
 		var subscribers = {};
