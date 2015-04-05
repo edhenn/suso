@@ -8,9 +8,9 @@
 		disp,
 		rept;
 
-	grid = new jsobj.Grid();
-	disp = new jsobj.views.StaticGrid(grid);
-	rept = new jsobj.views.Report(grid);
+	grid = new suso.Grid();
+	disp = new suso.views.StaticGrid(grid);
+	rept = new suso.views.Report({ grid: grid, gridView: disp });
 
 	// difficult -- solved with rule last-in-group
 	/*
@@ -26,7 +26,6 @@
 		[  , 7,  , 1,  ,  ,  ,  ,  ]
 	]);
 	*/
-
 
 	// diabolical 1	-- solved with rules last-in-group and restricted-possible-value
 	/*
@@ -73,7 +72,6 @@
 	]);
 	*/
 
-	/*
 	// hard 3 - web sudoku -- solved after adding "pairs" rule
 	grid.addSeeds([
 		[ 8,  , 1, 7,  ,  , 3, 9,  ],
@@ -86,7 +84,6 @@
 		[  ,  , 3, 6,  ,  ,  ,  ,  ],
 		[  , 2, 7,  ,  , 9, 6,  , 3]
 	]);
-	*/
 
 	/*
 	// evil 4 - websudoku.com -- solved with pairs rule
@@ -211,6 +208,7 @@
 	// evil - 1sudoku.net - n° 524146 - Evil
 	// http://1sudoku.net/play/sudoku-free-online/sudoku-evil/
 	// not completely solved with pairs & triples rules
+	/*
 	grid.addSeeds([
 		[  ,  ,  ,  , 5,  ,  ,  ,  ],
 		[  , 3,  , 2, 8, 6,  , 1,  ],
@@ -222,7 +220,8 @@
 		[  , 9,  , 4, 2, 5,  , 6,  ],
 		[  ,  ,  ,  , 6,  ,  ,  ,  ]
 	]);
-
+	*/
+	
 	// "worlds hardest sudoku" http://www.telegraph.co.uk/news/science/science-news/9359579/Worlds-hardest-sudoku-can-you-crack-it.html
 	// not a single number filled in by base ruleset (last-in-group, restricted-possible, pairs)
 	// requires guessing and checking several levels deep - we are not designed for that.
