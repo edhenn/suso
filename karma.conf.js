@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+	  'app/suso-namespace.js',
       'app/obj.js',
 	  'app/obj-grid.js',
 	  'app/obj-house.js',

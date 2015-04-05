@@ -1,5 +1,6 @@
 /*global suso */
 /*jslint plusplus: true, bitwise: true */
+/*eslint plusplus: true, bitwise: true */
 
 (function (suso) {
 	"use strict";
@@ -116,6 +117,6 @@
 	}
 
 	suso.Cell = function (grid) {
-		return suso.EventAware(new Cell(cellnum++, grid));
+		return new suso.EventAware(new Cell(cellnum++, grid));
 	};
 }(suso));

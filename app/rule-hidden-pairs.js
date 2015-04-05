@@ -24,8 +24,7 @@
 			safeFlags,
 			targetIdx,
 			targetFlags,
-			flagValue,
-			removed;
+			flagValue;
 
 		// Iterate through each row, column, and block looking for Hidden Pairs
 		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {

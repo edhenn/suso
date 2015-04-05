@@ -45,10 +45,10 @@
 				var groupProgress = false,
 					possVals = pairIdx.split("");
 				// delete those possible values from other cells in the group
-				group.cells().each(function (cell) {
-					if (cell !== paircell[0] && cell !== paircell[1]) {
-						removal1 = cell.removePossible(parseInt(possVals[0], 10));
-						removal2 = cell.removePossible(parseInt(possVals[1], 10));
+				group.cells().each(function (cel) {
+					if (cel !== paircell[0] && cel !== paircell[1]) {
+						removal1 = cel.removePossible(parseInt(possVals[0], 10));
+						removal2 = cel.removePossible(parseInt(possVals[1], 10));
 						groupProgress = groupProgress || removal1 || removal2;
 					}
 				});

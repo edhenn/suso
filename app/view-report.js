@@ -1,4 +1,4 @@
-/*global suso, document, alert */
+/*global suso, document */
 /*jslint plusplus: true */
 
 (function (suso) {

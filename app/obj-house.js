@@ -61,6 +61,6 @@
 	}
 
 	suso.House = function (type, num, grid) {
-		return suso.EventAware(new House(type, num, grid));
+		return new suso.EventAware(new House(type, num, grid));
 	};
 }(suso));

@@ -114,7 +114,7 @@
 		obj.off = function (eventName) {
 			// make sure there is a list of subscribers for this eventName
 			if (subscribers[eventName] === undefined) {
-				return;
+				return obj;
 			}
 			// remove subscribers from the array
 			subscribers[eventName] = [];
@@ -125,7 +125,7 @@
 		obj.trigger = function (eventName) {
 			var i, sub, subs = subscribers[eventName];
 			if (subs === undefined) {
-				return;
+				return obj;
 			}
 			Array.prototype.splice.call(arguments, 0, 1);
 			for (i = 0; i < subs.length; i = i + 1) {

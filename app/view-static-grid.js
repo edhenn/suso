@@ -27,8 +27,7 @@
 
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
-				val = cell.value(),
-				poss;
+				val = cell.value();
 
 			if (val) {
 				return "<span class='value'>" + val.toString() + "</span>";

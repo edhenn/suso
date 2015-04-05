@@ -78,7 +78,7 @@
 			var row, col, seed;
 
 			if (gridState !== "unseeded") {
-				return;
+				return this;
 			}
 
 			for (row = 0; row < seeds.length; row++) {
@@ -99,7 +99,7 @@
 			var rule, progress = true, cell, possVal;
 
 			if (gridState === "complete" || gridState === "incomplete") {
-				return;
+				return this;
 			}
 
 			// initial pass to solve for cells with one remaining value after seeding
@@ -136,6 +136,6 @@
 	}
 
 	suso.Grid = function () {
-		return suso.EventAware(new Grid());
+		return new suso.EventAware(new Grid());
 	};
 }(suso));
