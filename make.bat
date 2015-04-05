@@ -1,0 +1,2 @@
+copy /b app\suso-namespace.js + app\obj.js + app\obj-query.js + app\obj-grid.js + app\obj-house.js + app\obj-cell.js + app\rule-last-in-group.js + app\rule-restricted-possible-value.js + app\rule-pairs.js + app\rule-hidden-pairs.js + app\rule-triples.js + app\view-preformatted.js + app\view-static-grid.js + app\view-report.js suso.js
+node node_modules\uglify-js\bin\uglifyjs -o suso.min.js suso.js
