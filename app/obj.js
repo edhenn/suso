@@ -1,6 +1,5 @@
+/*global suso */
 /*jslint undef: true, newcap: true, nomen: true, regexp: true, plusplus: true, bitwise: true, maxerr: 50, indent: 4 */
-
-var suso = {};
 
 (function (suso) {
 	"use strict";
