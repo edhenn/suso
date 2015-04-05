@@ -30,9 +30,9 @@
 
 		// create 9 blocks, cols, rows
 		for (i = 0; i < 9; i++) {
-			blocks.push(new jsobj.CellGroup('block', i, me));
-			cols.push(new jsobj.CellGroup('col', i, me));
-			rows.push(new jsobj.CellGroup('row', i, me));
+			blocks.push(new jsobj.House('block', i, me));
+			cols.push(new jsobj.House('col', i, me));
+			rows.push(new jsobj.House('row', i, me));
 		}
 
 		// create 81 cells each tied to correct block, vrow, hrow

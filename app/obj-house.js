@@ -4,7 +4,7 @@
 (function (jsobj) {
 	"use strict";
 
-	function CellGroup(type, num, grid) {
+	function House(type, num, grid) {
 		var cells = [],
 			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null, length: 9 },
 			that = this;
@@ -15,7 +15,7 @@
 				delete possibles[newValue];
 				possibles.length--;
 			} else {
-				throw new Error("Attempt to set a Cell to a value not contained in CellGroup's possibles list.");
+				throw new Error("Attempt to set a Cell to a value not contained in House's possibles list.");
 			}
 		}
 
@@ -60,7 +60,7 @@
 		};
 	}
 
-	jsobj.CellGroup = function (type, num, grid) {
-		return jsobj.EventAware(new CellGroup(type, num, grid));
+	jsobj.House = function (type, num, grid) {
+		return jsobj.EventAware(new House(type, num, grid));
 	};
 }(jsobj));

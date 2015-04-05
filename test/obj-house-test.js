@@ -9,18 +9,18 @@
 		return 'ready';
 	}
 
-	describe("CellGroup object", function () {
+	describe("House object", function () {
 		it("exists in jsobj namespace", function () {
-			expect(jsobj.CellGroup).toBeDefined();
+			expect(jsobj.House).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof jsobj.CellGroup).toBe("function");
+			expect(typeof jsobj.House).toBe("function");
 		});
 	});
 
-	describe("CellGroup object members", function () {
-		var x = new jsobj.CellGroup('row', 1, {});
+	describe("House object members", function () {
+		var x = new jsobj.House('row', 1, {});
 
 		it(".addCell member is a function", function () {
 			expect(typeof x.addCell).toBe('function');
@@ -78,32 +78,32 @@
 		});
 	});
 
-	describe("CellGroup constructor", function () {
+	describe("House constructor", function () {
 		it("sets .name from type and num", function () {
-			var x = new jsobj.CellGroup('row', 1, {});
+			var x = new jsobj.House('row', 1, {});
 			expect(x.name()).toBe('row 1');
 		});
 
 		it("sets .type", function () {
-			var x = new jsobj.CellGroup('block', 5, {});
+			var x = new jsobj.House('block', 5, {});
 			expect(x.type()).toBe('block');
 		});
 
 		it("sets .grid", function () {
 			var g = {},
-				x = new jsobj.CellGroup('col', 3, g);
+				x = new jsobj.House('col', 3, g);
 			expect(x.grid()).toBe(g);
 		});
 	});
 
-	describe("CellGroup .addCell function", function () {
+	describe("House .addCell function", function () {
 		var grid = { state: stateStub },
-			x = new jsobj.CellGroup('col', 3, grid),
+			x = new jsobj.House('col', 3, grid),
 			a = new jsobj.Cell(grid),
 			b = new jsobj.Cell(grid),
 			cells;
 
-			x.addCell(a).addCell(b);
+		x.addCell(a).addCell(b);
 
 		it("adds cell to .cells() array", function () {
 			cells = x.cells();
@@ -113,27 +113,27 @@
 		});
 	});
 
-	describe("CellGroup update event", function () {
+	describe("House update event", function () {
 		var grid = { state: stateStub };
 
-		it("subscribes to cell update and responds with cellgroup update", function () {
-			var x = new jsobj.CellGroup('col', 3, grid),
+		it("subscribes to cell update and responds with House update", function () {
+			var x = new jsobj.House('col', 3, grid),
 				a = new jsobj.Cell(grid),
 				b = new jsobj.Cell(grid),
 				cells,
-				cellGroupUpdateCalls = 0;
+				houseUpdateCalls = 0;
 
 			x.addCell(a).addCell(b);
 			x.on("update", function () {
-				cellGroupUpdateCalls++;
+				houseUpdateCalls++;
 			});
 			x.cells()[0].setValue(1);
 			x.cells()[1].setValue(2);
-			expect(cellGroupUpdateCalls).toBe(2);
+			expect(houseUpdateCalls).toBe(2);
 		});
 
-		it("passes solved cell with cellGroup update event", function () {
-			var x = new jsobj.CellGroup('col', 3, grid),
+		it("passes solved cell with House update event", function () {
+			var x = new jsobj.House('col', 3, grid),
 				a = new jsobj.Cell(grid),
 				b = new jsobj.Cell(grid),
 				cells,

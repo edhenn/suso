@@ -17,7 +17,7 @@ module.exports = function(config) {
     files: [
       'app/obj.js',
 	  'app/obj-grid.js',
-	  'app/obj-cellgroup.js',
+	  'app/obj-house.js',
       'app/obj-cell.js',
 	  'app/rule-last-in-group.js',
 	  'app/rule-restricted-possible-value.js',
