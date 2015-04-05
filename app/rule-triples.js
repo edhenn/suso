@@ -64,17 +64,17 @@
 			result;
 
 		// Iterate through each row, column, and block looking for triples
-		allGroups.each(function (group) {
+		allGroups.forEach(function (group) {
 			twoOrThreePossibles = [];
 			pairs = [];
 			// first, find all pairs of cells in group that share 2 or 3 possible values
-			group.cells().where(function (cell) {
+			group.cells().filter(function (cell) {
 				return cell.value() === undefined;
-			}).each(function (cell) {
+			}).forEach(function (cell) {
 				countPossibles = countBits(cell.possibleFlags());
 				if (countPossibles === 2 || countPossibles === 3) {
 					// make pairs with all other found cells that share a possible value
-					twoOrThreePossibles.each(function (twoOrThree) {
+					twoOrThreePossibles.forEach(function (twoOrThree) {
 						if (twoOrThree.possibleFlags() & cell.possibleFlags() > 0) {
 							pairs.push([twoOrThree, cell]);
 						}
@@ -83,9 +83,9 @@
 				}
 			});
 			// now for each pair, find any triplets that share exactly 3 possible values
-			pairs.each(function (pair) {
+			pairs.forEach(function (pair) {
 				// test triples with each other candidate cell that had 2 or 3 possible values
-				twoOrThreePossibles.each(function (cell) {
+				twoOrThreePossibles.forEach(function (cell) {
 					if (cell === pair[0] || cell === pair[1]) {
 						return;
 					}
@@ -100,7 +100,7 @@
 
 					// remove triplet possible values from all other cells in group
 					tripletNums = flagNumbers(tripletFlags);
-					group.cells().each(function (targetCell) {
+					group.cells().forEach(function (targetCell) {
 						if (targetCell === pair[0] || targetCell === pair[1] || targetCell === cell) {
 							return;
 						}

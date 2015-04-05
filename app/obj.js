@@ -4,56 +4,6 @@
 (function (suso) {
 	"use strict";
 
-	// add bool Array.contains method
-	if (Array.prototype.contains === undefined) {
-		Array.prototype.contains = function (obj) {
-			var item = this.length;
-			while (item--) {
-				if (this[item] === obj) {
-					return true;
-				}
-			}
-			return false;
-		};
-	}
-
-	// Array.where
-	if (Array.prototype.where === undefined) {
-		Array.prototype.where = function (fn) {
-			var index, result = [];
-
-			if (fn === undefined || typeof fn !== "function") {
-				throw new Error("Where function not specified");
-			}
-
-			for (index = 0; index < this.length; index++) {
-				if (fn(this[index], index)) {
-					result.push(this[index]);
-				}
-			}
-
-			return result;
-		};
-	}
-
-	// Array.each
-	if (Array.prototype.each === undefined) {
-		Array.prototype.each = function (fn) {
-			var index, eachResult, result = [];
-
-			if (fn === undefined || typeof fn !== "function") {
-				throw new Error("Each function not specified");
-			}
-
-			for (index = 0; index < this.length; index++) {
-				eachResult = fn(this[index], index);
-				result.push(eachResult || this[index]);
-			}
-
-			return result;
-		};
-	}
-
 	// Object.where
 	if (Object.prototype.where === undefined) {
 		Object.prototype.where = function (fn) {
