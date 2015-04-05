@@ -1,16 +1,16 @@
-/*global jsobj, describe, xdescribe, it, xit, expect, beforeEach */
+/*global suso, describe, xdescribe, it, xit, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
 	"use strict";
 
 	describe("rule-restricted-possible-value member", function () {
-		it("exists in jsobj namespace", function () {
-			expect(jsobj.rules.restrictedPossibleValue).toBeDefined();
+		it("exists in suso namespace", function () {
+			expect(suso.rules.restrictedPossibleValue).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof jsobj.rules.restrictedPossibleValue).toBe("function");
+			expect(typeof suso.rules.restrictedPossibleValue).toBe("function");
 		});
 	});
 
@@ -41,24 +41,24 @@
 		}
 
 		it("does nothing to an empty grid", function () {
-			var grid = new jsobj.Grid().addSeeds([]);
+			var grid = new suso.Grid().addSeeds([]);
 
-			jsobj.rules.restrictedPossibleValue(grid);
+			suso.rules.restrictedPossibleValue(grid);
 
 			expect(listSolved(grid).length).toBe(0);
 			expect(countPossibles(grid)).toBe(9 * 9 * 9);
 		});
 
 		it("returns false when it does nothing", function () {
-			var grid = new jsobj.Grid().addSeeds([]), result;
+			var grid = new suso.Grid().addSeeds([]), result;
 
-			result = jsobj.rules.restrictedPossibleValue(grid);
+			result = suso.rules.restrictedPossibleValue(grid);
 
 			expect(result).toBe(false);
 		});
 
 		it("removes possible values from elswhere in block when restricted to a row in that block", function () {
-			var grid = new jsobj.Grid(), solved, possible, poss70, poss71, poss72, result;
+			var grid = new suso.Grid(), solved, possible, poss70, poss71, poss72, result;
 
 			grid.hRow(6).cells()[4].setValue(9);							//    012 345 678
 			grid.hRow(8).cells()[2].setValue(1);
@@ -74,7 +74,7 @@
 			poss71 = grid.rows[7].cells()[1].possibleValues().length;       // 7  ~~~ --- ---
 			poss72 = grid.rows[7].cells()[2].possibleValues().length;       // 8  --1 2-3 456
 
-			result = jsobj.rules.restrictedPossibleValue(grid);
+			result = suso.rules.restrictedPossibleValue(grid);
 
 			expect(result).toBe(true);
 			expect(listSolved(grid).length).toBe(solved);
@@ -89,7 +89,7 @@
 		});
 
 		it("removes possible values from elswhere in col when restricted to a block in that col", function () {
-			var grid = new jsobj.Grid(), solved, possible, poss65, poss75, poss85;
+			var grid = new suso.Grid(), solved, possible, poss65, poss75, poss85;
 
 			grid.hRow(1).cells()[3].setValue(9);							//    012 345 678
 			grid.hRow(3).cells()[3].setValue(1);
@@ -105,7 +105,7 @@
 			poss75 = grid.rows[7].cells()[5].possibleValues().length;       // 7  --- --~ ---
 			poss85 = grid.rows[8].cells()[5].possibleValues().length;       // 8  --- --~ ---
 2
-			jsobj.rules.restrictedPossibleValue(grid);
+			suso.rules.restrictedPossibleValue(grid);
 
 			expect(listSolved(grid).length).toBe(solved);
 			expect(countPossibles(grid)).toBe(possible - 3);

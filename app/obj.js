@@ -1,8 +1,8 @@
 /*jslint undef: true, newcap: true, nomen: true, regexp: true, plusplus: true, bitwise: true, maxerr: 50, indent: 4 */
 
-var jsobj = {};
+var suso = {};
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
 	// add bool Array.contains method
@@ -96,8 +96,8 @@ var jsobj = {};
 		};
 	}
 
-	// amend jsobj with an EventAware object with three functions to augment passed in objects with observable methods
-	jsobj.EventAware = function (obj) {
+	// amend suso with an EventAware object with three functions to augment passed in objects with observable methods
+	suso.EventAware = function (obj) {
 		var subscribers = {};
 
 		// .on - registers a callback function to be called when the named event occurs on the object
@@ -140,4 +140,4 @@ var jsobj = {};
 
 		return obj;
 	};
-}(jsobj));
+}(suso));

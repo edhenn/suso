@@ -1,16 +1,16 @@
-/*global jsobj, describe, it, expect, beforeEach */
+/*global suso, describe, it, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
 	"use strict";
 
 	describe("rule-last-in-group member", function () {
-		it("exists in jsobj namespace", function () {
-			expect(jsobj.rules.lastInGroup).toBeDefined();
+		it("exists in suso namespace", function () {
+			expect(suso.rules.lastInGroup).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof jsobj.rules.lastInGroup).toBe("function");
+			expect(typeof suso.rules.lastInGroup).toBe("function");
 		});
 	});
 
@@ -29,30 +29,30 @@
 		}
 
 		it("does nothing to an empty grid", function () {
-			var grid = new jsobj.Grid();
+			var grid = new suso.Grid();
 
-			jsobj.rules.lastInGroup(grid);
+			suso.rules.lastInGroup(grid);
 
 			expect(listSolved(grid).length).toBe(0);
 		});
 
 		it("returns false when it does nothing", function () {
-			var grid = new jsobj.Grid(), result;
+			var grid = new suso.Grid(), result;
 
-			result = jsobj.rules.lastInGroup(grid);
+			result = suso.rules.lastInGroup(grid);
 
 			expect(result).toBe(false);
 		});
 
 		it("solves for a given value when its 4 neighboring blocks each contain the value", function () {
-			var grid = new jsobj.Grid(), solved, result;	//    012 345 678
+			var grid = new suso.Grid(), solved, result;		//    012 345 678
 
 			grid.hRow(0).cells()[7].setValue(5);			// 0  --- --- -5-
 			grid.hRow(3).cells()[8].setValue(5);			// 1  --- --- ---            
 			grid.hRow(6).cells()[0].setValue(5);			// 2  --- --- ---
 			grid.hRow(7).cells()[3].setValue(5);
 															// 3  --- --- --5
-			result = jsobj.rules.lastInGroup(grid);			// 4  --- --- ---
+			result = suso.rules.lastInGroup(grid);			// 4  --- --- ---
 															// 5  --- --- ---
 			solved = listSolved(grid);
 			expect(solved.length).toBe(5);					// 6  5-- --- ---
@@ -63,14 +63,14 @@
 		});
 
 		it("solves for a given value when 2 neighbor blocks restrict it to one row with only one space left in the block", function () {
-			var grid = new jsobj.Grid(), solved;			//    012 345 678
+			var grid = new suso.Grid(), solved;				//    012 345 678
 
 			grid.hRow(6).cells()[2].setValue(3);			// 0  --- --- ---
 			grid.hRow(7).cells()[4].setValue(3);			// 1  --- --- ---
 			grid.hRow(8).cells()[6].setValue(1);			// 2  --- --- ---
 			grid.hRow(8).cells()[7].setValue(2);
 															// 3  --- --- ---
-			jsobj.rules.lastInGroup(grid);					// 4  --- --- ---
+			suso.rules.lastInGroup(grid);					// 4  --- --- ---
 															// 5  --- --- ---
 			solved = listSolved(grid);
 			expect(solved.length).toBe(5);					// 6  --3 --- ---
@@ -80,14 +80,14 @@
 		});
 
 		xit("bypasses cells that have already been solved in an earlier pass by the same rule", function () {
-			var grid = new jsobj.Grid(), solved;			//    012 345 678
+			var grid = new suso.Grid(), solved;				//    012 345 678
 
 			grid.hRow(6).cells()[2].setValue(3);			// 0  **3 456 789
 			grid.hRow(7).cells()[4].setValue(3);			// 1  456 --- ---
 			grid.hRow(8).cells()[6].setValue(1);			// 2  789 --- ---
 			grid.hRow(8).cells()[7].setValue(2);
 															// 3  --- --- ---
-			jsobj.rules.lastInGroup(grid);					// 4  39- --- ---
+			suso.rules.lastInGroup(grid);					// 4  39- --- ---
 															// 5  56- --- ---
 			solved = listSolved(grid);
 			expect(solved.length).toBe(5);					// 6  67- --- ---

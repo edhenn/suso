@@ -1,14 +1,14 @@
-/*global jsobj, document, alert */
+/*global suso, document, alert */
 /*jslint plusplus: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
-	if (jsobj.views === undefined) {
-		jsobj.views = {};
+	if (suso.views === undefined) {
+		suso.views = {};
 	}
 
-	jsobj.views.Report = function (settings) {	// grid, ctrl, gridView
+	suso.views.Report = function (settings) {	// grid, ctrl, gridView
 		var reportContainer,
 			styletag,
 			styles = '.report-container { border: solid 2px blue; margin-top: 1em; width: 100%; }\n' +
@@ -89,4 +89,4 @@
 
 		//return display("grid initialized");
 	};
-}(jsobj));
+}(suso));

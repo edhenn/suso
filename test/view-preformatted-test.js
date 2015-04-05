@@ -1,23 +1,23 @@
-/*global jsobj, describe, it, expect, beforeEach, document */
+/*global suso, describe, it, expect, beforeEach, document */
 /*jslint plusplus: true */
 
 (function () {
 	"use strict";
 
 	describe("Preformatted view", function () {
-		var grid = new jsobj.Grid(),
+		var grid = new suso.Grid(),
 			ctrl,
 			disp;
 
 		it("returns result wrapped in <pre> tags", function () {
 			ctrl = document.createElement('div');
-			disp = new jsobj.views.Preformatted(grid, ctrl);
+			disp = new suso.views.Preformatted(grid, ctrl);
 			expect(ctrl.innerHTML.substring(0, 6)).toBe('<pre>\n');
 		});
 
 		it("returns all dashes for an empty grid, formatted correctly", function () {
 			ctrl = document.createElement('div');
-			disp = new jsobj.views.Preformatted(grid, ctrl);
+			disp = new suso.views.Preformatted(grid, ctrl);
 			expect(ctrl.innerHTML).toBe('<pre>\n' +
 				'--- --- ---\n' +
 				'--- --- ---\n' +
@@ -46,7 +46,7 @@
 				[9, 1, 2, 3, 4, 5, 6, 7, 8]
 			]);
 			ctrl = document.createElement('div');
-			disp = new jsobj.views.Preformatted(grid, ctrl);
+			disp = new suso.views.Preformatted(grid, ctrl);
 			expect(ctrl.innerHTML).toBe('<pre>\n' +
 				'123 456 789\n' +
 				'456 789 123\n' +

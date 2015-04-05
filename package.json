@@ -1,6 +1,6 @@
 {
-  "name": "obj-test",
-  "version": "0.0.1",
+  "name": "suso",
+  "version": "0.1.0",
   "devDependencies": {
     "karma-jasmine": "~0.1.5",
     "karma-chrome-launcher": "~0.1.3",

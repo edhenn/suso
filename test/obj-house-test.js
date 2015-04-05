@@ -1,4 +1,4 @@
-/*global jsobj, describe, it, expect, beforeEach */
+/*global suso, describe, it, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
@@ -10,17 +10,17 @@
 	}
 
 	describe("House object", function () {
-		it("exists in jsobj namespace", function () {
-			expect(jsobj.House).toBeDefined();
+		it("exists in suso namespace", function () {
+			expect(suso.House).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof jsobj.House).toBe("function");
+			expect(typeof suso.House).toBe("function");
 		});
 	});
 
 	describe("House object members", function () {
-		var x = new jsobj.House('row', 1, {});
+		var x = new suso.House('row', 1, {});
 
 		it(".addCell member is a function", function () {
 			expect(typeof x.addCell).toBe('function');
@@ -80,27 +80,27 @@
 
 	describe("House constructor", function () {
 		it("sets .name from type and num", function () {
-			var x = new jsobj.House('row', 1, {});
+			var x = new suso.House('row', 1, {});
 			expect(x.name()).toBe('row 1');
 		});
 
 		it("sets .type", function () {
-			var x = new jsobj.House('block', 5, {});
+			var x = new suso.House('block', 5, {});
 			expect(x.type()).toBe('block');
 		});
 
 		it("sets .grid", function () {
 			var g = {},
-				x = new jsobj.House('col', 3, g);
+				x = new suso.House('col', 3, g);
 			expect(x.grid()).toBe(g);
 		});
 	});
 
 	describe("House .addCell function", function () {
 		var grid = { state: stateStub },
-			x = new jsobj.House('col', 3, grid),
-			a = new jsobj.Cell(grid),
-			b = new jsobj.Cell(grid),
+			x = new suso.House('col', 3, grid),
+			a = new suso.Cell(grid),
+			b = new suso.Cell(grid),
 			cells;
 
 		x.addCell(a).addCell(b);
@@ -117,9 +117,9 @@
 		var grid = { state: stateStub };
 
 		it("subscribes to cell update and responds with House update", function () {
-			var x = new jsobj.House('col', 3, grid),
-				a = new jsobj.Cell(grid),
-				b = new jsobj.Cell(grid),
+			var x = new suso.House('col', 3, grid),
+				a = new suso.Cell(grid),
+				b = new suso.Cell(grid),
 				cells,
 				houseUpdateCalls = 0;
 
@@ -133,9 +133,9 @@
 		});
 
 		it("passes solved cell with House update event", function () {
-			var x = new jsobj.House('col', 3, grid),
-				a = new jsobj.Cell(grid),
-				b = new jsobj.Cell(grid),
+			var x = new suso.House('col', 3, grid),
+				a = new suso.Cell(grid),
+				b = new suso.Cell(grid),
 				cells,
 				updatedCells = [];
 

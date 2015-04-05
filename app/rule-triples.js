@@ -1,11 +1,11 @@
-/*global jsobj */
+/*global suso */
 /*jslint plusplus: true, bitwise: true, continue: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
-	if (jsobj.rules === undefined) {
-		jsobj.rules = {};
+	if (suso.rules === undefined) {
+		suso.rules = {};
 	}
 
 	// counts number of bits set in flags
@@ -52,7 +52,7 @@
 	// Triples rule removes possible values from cells.
 	// It looks in rows, columns, and blocks for any 3 cells containing the same three possible remaining values between them.
 	// The three values can be removed from all other cells in that group.
-	jsobj.rules.triples = function (grid) {
+	suso.rules.triples = function (grid) {
 		var progress = false,
 			allGroups = grid.allGroups(),	// rows, cols, blocks
 			twoOrThreePossibles,
@@ -122,4 +122,4 @@
 		// rules return boolean indicating whether they made any progress
 		return progress;
 	};
-}(jsobj));
+}(suso));

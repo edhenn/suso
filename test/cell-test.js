@@ -1,21 +1,21 @@
-/*global jsobj, describe, it, xit, expect, beforeEach */
+/*global suso, describe, it, xit, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
 	"use strict";
 
 	describe("Cell object", function () {
-		it("exists in jsobj namespace", function () {
-			expect(jsobj.Cell).toBeDefined();
+		it("exists in suso namespace", function () {
+			expect(suso.Cell).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof jsobj.Cell).toBe("function");
+			expect(typeof suso.Cell).toBe("function");
 		});
 	});
 
 	describe("Event-Aware Cell object members", function () {
-		var x = new jsobj.Cell();
+		var x = new suso.Cell();
 
 		it(".id member is a function", function () {
 			expect(typeof x.id).toBe("function");
@@ -94,7 +94,7 @@
 	});
 
 	describe("Cell.value and setValue functions", function () {
-		var x = new jsobj.Cell();
+		var x = new suso.Cell();
 
 		it(".value returns undefined before a value is set", function () {
 			expect(x.value()).not.toBeDefined();
@@ -112,7 +112,7 @@
 
 		it(".setValue triggers an update event", function () {
 			var y, z;
-			y = new jsobj.Cell();
+			y = new suso.Cell();
 			y.on("update", function () {
 				z = this;
 			});
@@ -122,7 +122,7 @@
 	});
 
 	describe("Cell.setHouse function", function () {
-		var x = new jsobj.Cell();
+		var x = new suso.Cell();
 
 		it("throws an error when called if house.type() is not row, col, or block", function () {
 			var badHouse = { type: function () { return 'wrong'; }};
@@ -133,64 +133,64 @@
 	});
 
 	describe("Cell.row and setHouse(row) functions", function () {
-		var x = new jsobj.Cell();
+		var x = new suso.Cell();
 
 		it(".row returns undefined before a value is set", function () {
 			expect(x.row()).not.toBeDefined();
 		});
 
 		it(".row returns correct object after .setHouse(row) is called", function () {
-			var row = new jsobj.House('row');
+			var row = new suso.House('row');
 			x.setHouse(row);
 			expect(x.row()).toBe(row);
 		});
 
 		it(".setHouse(row) throws an error when called if .row is already defined", function () {
-			expect(function () { x.setHouse(new jsobj.House('row')); })
+			expect(function () { x.setHouse(new suso.House('row')); })
 				.toThrow(new Error("Attempt to set row on a Cell that already has a row."));
 		});
 	});
 
 	describe("Cell.col and setHouse(col) functions", function () {
-		var x = new jsobj.Cell();
+		var x = new suso.Cell();
 
 		it(".col returns undefined before a value is set", function () {
 			expect(x.col()).not.toBeDefined();
 		});
 
 		it(".col returns correct object after .setHouse(col) is called", function () {
-			var col = new jsobj.House('col');
+			var col = new suso.House('col');
 			x.setHouse(col);
 			expect(x.col()).toBe(col);
 		});
 
 		it(".setHouse(col) throws an error when called if .col is already defined", function () {
-			expect(function () { x.setHouse(new jsobj.House('col')); })
+			expect(function () { x.setHouse(new suso.House('col')); })
 				.toThrow(new Error("Attempt to set col on a Cell that already has a col."));
 		});
 	});
 
 	describe("Cell.block and setHouse(block) functions", function () {
-		var x = new jsobj.Cell();
+		var x = new suso.Cell();
 
 		it(".block returns undefined before a value is set", function () {
 			expect(x.block()).not.toBeDefined();
 		});
 
 		it(".block returns correct object after .setHouse(block) is called", function () {
-			var block = new jsobj.House('block');
+			var block = new suso.House('block');
 			x.setHouse(block);
 			expect(x.block()).toBe(block);
 		});
 
 		it(".setHouse(block) throws an error when called if .block is already defined", function () {
-			expect(function () { x.setHouse(new jsobj.House('block')); })
+			expect(function () { x.setHouse(new suso.House('block')); })
 				.toThrow(new Error("Attempt to set block on a Cell that already has a block."));
 		});
 	});
 
 	describe("Cell.possibleValues function", function () {
-		var x = new jsobj.Cell();
+		var x = new suso.Cell();
 
 		it("starts as an array of 9 numbers", function () {
 			var poss = x.possibleValues();
@@ -212,9 +212,9 @@
 		});
 
 		it("returns array with setValue missing from other cells in row", function () {
-			var y = new jsobj.Cell(),
-				z = new jsobj.Cell(),
-				row = new jsobj.House('row'),
+			var y = new suso.Cell(),
+				z = new suso.Cell(),
+				row = new suso.House('row'),
 				poss;
 
 			y.setHouse(row);
@@ -227,9 +227,9 @@
 		});
 
 		it("returns array with setValue missing from other cells in col", function () {
-			var y = new jsobj.Cell(),
-				z = new jsobj.Cell(),
-				row = new jsobj.House('col'),
+			var y = new suso.Cell(),
+				z = new suso.Cell(),
+				row = new suso.House('col'),
 				poss;
 
 			y.setHouse(row);
@@ -242,9 +242,9 @@
 		});
 
 		it("returns array with setValue missing from other cells in block", function () {
-			var y = new jsobj.Cell(),
-				z = new jsobj.Cell(),
-				row = new jsobj.House('block'),
+			var y = new suso.Cell(),
+				z = new suso.Cell(),
+				row = new suso.House('block'),
 				poss;
 
 			y.setHouse(row);
@@ -257,13 +257,13 @@
 		});
 
 		it("cumulatively removes all set values from all row and block siblings", function () {
-			var a = new jsobj.Cell(),
-				b = new jsobj.Cell(),
-				c = new jsobj.Cell(),
-				z = new jsobj.Cell(),
-				row = new jsobj.House('row'),
-				col = new jsobj.House('col'),
-				block = new jsobj.House('block'),
+			var a = new suso.Cell(),
+				b = new suso.Cell(),
+				c = new suso.Cell(),
+				z = new suso.Cell(),
+				row = new suso.House('row'),
+				col = new suso.House('col'),
+				block = new suso.House('block'),
 				poss;
 
 			z.setHouse(row);
@@ -288,9 +288,9 @@
 			function stateStub() {
 				return 'ready';
 			}
-			row = new jsobj.House('row');
+			row = new suso.House('row');
 			for (i = 0; i < 9; i++) {
-				cells.push(new jsobj.Cell({ state: stateStub }));
+				cells.push(new suso.Cell({ state: stateStub }));
 				cells[i].setHouse(row);
 			}
 			for (i = 0; i < 8; i++) {
@@ -301,7 +301,7 @@
 	});
 
 	describe("Cell.possibleFlags function", function () {
-		var x = new jsobj.Cell();
+		var x = new suso.Cell();
 
 		it("starts as 9 binary flags all set", function () {
 			var poss = x.possibleFlags();
@@ -316,9 +316,9 @@
 		});
 
 		it("returns flags with setValue missing from other cells in row", function () {
-			var y = new jsobj.Cell(),
-				z = new jsobj.Cell(),
-				row = new jsobj.House('row'),
+			var y = new suso.Cell(),
+				z = new suso.Cell(),
+				row = new suso.House('row'),
 				poss;
 
 			y.setHouse(row);
@@ -329,9 +329,9 @@
 		});
 
 		it("returns array with setValue missing from other cells in col", function () {
-			var y = new jsobj.Cell(),
-				z = new jsobj.Cell(),
-				row = new jsobj.House('col'),
+			var y = new suso.Cell(),
+				z = new suso.Cell(),
+				row = new suso.House('col'),
 				poss;
 
 			y.setHouse(row);
@@ -342,9 +342,9 @@
 		});
 
 		it("returns array with setValue missing from other cells in block", function () {
-			var y = new jsobj.Cell(),
-				z = new jsobj.Cell(),
-				row = new jsobj.House('block'),
+			var y = new suso.Cell(),
+				z = new suso.Cell(),
+				row = new suso.House('block'),
 				poss;
 
 			y.setHouse(row);
@@ -355,13 +355,13 @@
 		});
 
 		it("cumulatively removes all set values from all row and block siblings", function () {
-			var a = new jsobj.Cell(),
-				b = new jsobj.Cell(),
-				c = new jsobj.Cell(),
-				z = new jsobj.Cell(),
-				row = new jsobj.House('row'),
-				col = new jsobj.House('col'),
-				block = new jsobj.House('block'),
+			var a = new suso.Cell(),
+				b = new suso.Cell(),
+				c = new suso.Cell(),
+				z = new suso.Cell(),
+				row = new suso.House('row'),
+				col = new suso.House('col'),
+				block = new suso.House('block'),
 				poss;
 
 			z.setHouse(row);
@@ -379,9 +379,9 @@
 	});
 
 	describe("Cell coords function", function () {
-		var r = new jsobj.House('row', 4, {}),
-			c = new jsobj.House('col', 8, {}),
-			x = new jsobj.Cell({});
+		var r = new suso.House('row', 4, {}),
+			c = new suso.House('col', 8, {}),
+			x = new suso.Cell({});
 
 		it("returns empty array before row and col are set", function () {
 			expect(x.coords().length).toBe(0);

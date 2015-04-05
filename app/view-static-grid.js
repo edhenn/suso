@@ -1,14 +1,14 @@
-/*global jsobj, document */
+/*global suso, document */
 /*jslint plusplus: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
-	if (jsobj.views === undefined) {
-		jsobj.views = {};
+	if (suso.views === undefined) {
+		suso.views = {};
 	}
 
-	jsobj.views.StaticGrid = function (grid, ctrl) {
+	suso.views.StaticGrid = function (grid, ctrl) {
 		var gridtag,
 			gridbody,
 			gridrow = '<div class="row"><span class="cell">{0}</span><span class="cell">{1}</span><span class="cell">{2}</span>' +
@@ -81,4 +81,4 @@
 
 		return display();
 	};
-}(jsobj));
+}(suso));

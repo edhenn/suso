@@ -1,7 +1,7 @@
-/*global jsobj */
+/*global suso */
 /*jslint plusplus: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
 	function House(type, num, grid) {
@@ -60,7 +60,7 @@
 		};
 	}
 
-	jsobj.House = function (type, num, grid) {
-		return jsobj.EventAware(new House(type, num, grid));
+	suso.House = function (type, num, grid) {
+		return suso.EventAware(new House(type, num, grid));
 	};
-}(jsobj));
+}(suso));

@@ -1,17 +1,17 @@
-/*global jsobj, describe, it, expect, beforeEach */
+/*global suso, describe, it, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
 	"use strict";
 
-	describe("jsobj namespace", function () {
+	describe("suso namespace", function () {
 		it("is defined", function () {
-			expect(jsobj).toBeDefined();
+			expect(suso).toBeDefined();
 		});
 
 		it("has an EventAware function", function () {
-			expect(jsobj.EventAware).toBeDefined();
-			expect(typeof jsobj.EventAware).toBe("function");
+			expect(suso.EventAware).toBeDefined();
+			expect(typeof suso.EventAware).toBe("function");
 		});
 	});
 
@@ -245,7 +245,7 @@
 	});
 
 	describe("EventAware object", function () {
-		var x = jsobj.EventAware({});
+		var x = suso.EventAware({});
 
 		it("has a .on function", function () {
 			expect(typeof x.on).toBe("function");
@@ -265,7 +265,7 @@
 
 		beforeEach(function () {
 			timesCalled = 0;
-			watched = jsobj.EventAware({});
+			watched = suso.EventAware({});
 
 			watched.on("blink", function () {
 				timesCalled++;
@@ -309,7 +309,7 @@
 
 		beforeEach(function () {
 			timesCalled = 0;
-			derived = jsobj.EventAware({});
+			derived = suso.EventAware({});
 
 			derived.on("blink", function () {
 				timesCalled++;
@@ -338,13 +338,13 @@
 
 		beforeEach(function () {
 			watchedCalled = 0;
-			watched = jsobj.EventAware({});
+			watched = suso.EventAware({});
 			watched.on("blink", function () {
 				watchedCalled++;
 			});
 
 			notWatchedCalled = 0;
-			notWatched = jsobj.EventAware({});
+			notWatched = suso.EventAware({});
 		});
 
 		it("executes callback function only on the subscribed object when event is fired", function () {
@@ -359,7 +359,7 @@
 		var watched, triggeredValue;
 
 		beforeEach(function () {
-			watched = jsobj.EventAware({});
+			watched = suso.EventAware({});
 			triggeredValue = null;
 		});
 

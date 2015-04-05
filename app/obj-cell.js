@@ -1,7 +1,7 @@
-/*global jsobj */
+/*global suso */
 /*jslint plusplus: true, bitwise: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
 	var cellnum = 0;
@@ -115,7 +115,7 @@
 		};
 	}
 
-	jsobj.Cell = function (grid) {
-		return jsobj.EventAware(new Cell(cellnum++, grid));
+	suso.Cell = function (grid) {
+		return suso.EventAware(new Cell(cellnum++, grid));
 	};
-}(jsobj));
+}(suso));

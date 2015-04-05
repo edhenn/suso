@@ -1,16 +1,16 @@
-/*global jsobj, describe, it, xit, expect, beforeEach */
+/*global suso, describe, it, xit, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
 	"use strict";
 
 	describe("rule-pairs member", function () {
-		it("exists in jsobj namespace", function () {
-			expect(jsobj.rules.pairs).toBeDefined();
+		it("exists in suso namespace", function () {
+			expect(suso.rules.pairs).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof jsobj.rules.pairs).toBe("function");
+			expect(typeof suso.rules.pairs).toBe("function");
 		});
 	});
 
@@ -33,26 +33,26 @@
 		}
 
 		it("does nothing to an empty grid", function () {
-			var grid = new jsobj.Grid(), result = null;
+			var grid = new suso.Grid(), result = null;
 
-			result = jsobj.rules.pairs(grid);
+			result = suso.rules.pairs(grid);
 
 			expect(listSolved(grid).length).toBe(0);
 		});
 
 		it("returns false when it does nothing", function () {
-			var grid = new jsobj.Grid(), result = null;
+			var grid = new suso.Grid(), result = null;
 
-			result = jsobj.rules.pairs(grid);
+			result = suso.rules.pairs(grid);
 
 			expect(result).toBe(false);
 		});
 
 		it("removes pairs of possible values from a row when two cells in row have same pair of possible values", function () {
-			var grid = new jsobj.Grid(),					//    012 345 678
+			var grid = new suso.Grid(),
 				progress,
 				solved,
-				poss;
+				poss;										//    012 345 678
 
 			grid.hRow(0).cells()[0].setValue(1);			// 0  123 --- ---
 			grid.hRow(0).cells()[1].setValue(2);			// 1  --6 --- ---  <-- this row should not have possible vals 4,5 in cells 4-9.
@@ -62,7 +62,7 @@
 			grid.hRow(2).cells()[1].setValue(8);			// 4  --- --- ---
 			grid.hRow(2).cells()[2].setValue(9);			// 5  --- --- ---
 
-			progress = jsobj.rules.pairs(grid);				// 6  --- --- ---
+			progress = suso.rules.pairs(grid);				// 6  --- --- ---
 															// 7  --- --- ---
 			expect(progress).toBe(true);					// 8  --- --- ---
 			expect(grid.hRow(1).cells()[0].possibleValues()).toEqual([4, 5]);
@@ -76,10 +76,10 @@
 		});
 
 		it("does nothing when 2 different pairs of possible values exist in a group", function () {
-			var grid = new jsobj.Grid(),					//    012 345 678
+			var grid = new suso.Grid(),
 				progress,
 				solved,
-				poss;
+				poss;										//    012 345 678
 
 			grid.hRow(0).cells()[0].setValue(1);			// 0  123 --- ---
 			grid.hRow(0).cells()[1].setValue(2);			// 1  --- --- ---  <-- cells 0,1,2 should have 5/6, 4/6, 4/5 as poss values.  no pairs.
@@ -91,7 +91,7 @@
 			grid.hRow(3).cells()[1].setValue(5);
 			grid.hRow(3).cells()[2].setValue(6);			// 6  --- --- ---
 															// 7  --- --- ---
-			progress = jsobj.rules.pairs(grid);				// 8  --- --- ---
+			progress = suso.rules.pairs(grid);				// 8  --- --- ---
 
 			expect(progress).toBe(false);
 			expect(grid.hRow(1).cells()[0].possibleValues()).toEqual([5, 6]);

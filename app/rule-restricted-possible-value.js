@@ -1,15 +1,15 @@
-/*global jsobj */
+/*global suso */
 /*jslint plusplus: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
-	if (jsobj.rules === undefined) {
-		jsobj.rules = {};
+	if (suso.rules === undefined) {
+		suso.rules = {};
 	}
 
 	// sometimes called "number claiming" or "omission"
-	jsobj.rules.restrictedPossibleValue = function (grid) {
+	suso.rules.restrictedPossibleValue = function (grid) {
 		var houses = grid.allGroups(),
 			intersects,
 			blocks,
@@ -82,4 +82,4 @@
 		// rules return boolean indicating whether they made any progress
 		return progress;
 	};
-}(jsobj));
+}(suso));

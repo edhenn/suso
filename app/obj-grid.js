@@ -1,7 +1,7 @@
-/*global jsobj */
+/*global suso */
 /*jslint plusplus: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
 	function Grid() {
@@ -30,14 +30,14 @@
 
 		// create 9 blocks, cols, rows
 		for (i = 0; i < 9; i++) {
-			blocks.push(new jsobj.House('block', i, me));
-			cols.push(new jsobj.House('col', i, me));
-			rows.push(new jsobj.House('row', i, me));
+			blocks.push(new suso.House('block', i, me));
+			cols.push(new suso.House('col', i, me));
+			rows.push(new suso.House('row', i, me));
 		}
 
 		// create 81 cells each tied to correct block, vrow, hrow
 		for (i = 0; i < 81; i++) {
-			newCell = new jsobj.Cell(this);
+			newCell = new suso.Cell(this);
 			newCell.on("update", cellUpdated);
 			newCell.setHouse(rows[Math.floor(i / 9)], 'row');		// every 9 consecutive cells make an hrow
 			newCell.setHouse(cols[i % 9], 'col');					// every 9th cell belongs to the same vrow
@@ -112,11 +112,11 @@
 
 			// add rules to list - just a default rule for now, allow user to pass in rules later
 			rules = [
-				jsobj.rules.lastInGroup,
-				jsobj.rules.restrictedPossibleValue,
-				jsobj.rules.pairs,
-				jsobj.rules.hiddenpairs,
-				jsobj.rules.triples
+				suso.rules.lastInGroup,
+				suso.rules.restrictedPossibleValue,
+				suso.rules.pairs,
+				suso.rules.hiddenpairs,
+				suso.rules.triples
 			];
 			// xwing http://www.learn-sudoku.com/x-wing.html
 			// ywing http://www.learn-sudoku.com/xy-wing.html (like a naked triple)
@@ -135,7 +135,7 @@
 		};
 	}
 
-	jsobj.Grid = function () {
-		return jsobj.EventAware(new Grid());
+	suso.Grid = function () {
+		return suso.EventAware(new Grid());
 	};
-}(jsobj));
+}(suso));

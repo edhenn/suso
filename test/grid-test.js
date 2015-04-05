@@ -1,4 +1,4 @@
-/*global jsobj, describe, it, expect, beforeEach */
+/*global suso, describe, it, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
@@ -18,17 +18,17 @@
 	}
 
 	describe("Grid object", function () {
-		it("exists in jsobj namespace", function () {
-			expect(jsobj.Grid).toBeDefined();
+		it("exists in suso namespace", function () {
+			expect(suso.Grid).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof jsobj.Grid).toBe("function");
+			expect(typeof suso.Grid).toBe("function");
 		});
 	});
 
 	describe("Grid object members", function () {
-		var x = new jsobj.Grid();
+		var x = new suso.Grid();
 
 		it(".vRow member is a function", function () {
 			expect(typeof x.vRow).toBe('function');
@@ -95,7 +95,7 @@
 	});
 
 	describe("allGroups member", function () {
-		var x = new jsobj.Grid(), allgroups, rows = 0, cols = 0, blocks = 0, i;
+		var x = new suso.Grid(), allgroups, rows = 0, cols = 0, blocks = 0, i;
 
 		it("combines rows, cols, blocks", function () {
 			allgroups = x.allGroups();
@@ -123,7 +123,7 @@
 		var x;
 
 		beforeEach(function () {
-			x = new jsobj.Grid();
+			x = new suso.Grid();
 		});
 
 		it("sets up empty grid when no seeds sent", function () {
@@ -158,7 +158,7 @@
 		var x;
 
 		beforeEach(function () {
-			x = new jsobj.Grid();
+			x = new suso.Grid();
 		});
 
 		it("sets grid state to incomplete if no cells solved or seeded", function () {

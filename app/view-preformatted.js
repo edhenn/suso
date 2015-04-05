@@ -1,14 +1,14 @@
-/*global jsobj, document */
+/*global suso, document */
 /*jslint plusplus: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
-	if (jsobj.views === undefined) {
-		jsobj.views = {};
+	if (suso.views === undefined) {
+		suso.views = {};
 	}
 
-	jsobj.views.Preformatted = function (grid, ctrl) {
+	suso.views.Preformatted = function (grid, ctrl) {
 		var pretag,
 			prebody,
 			prerow = '{0}{1}{2} {3}{4}{5} {6}{7}{8}',
@@ -58,4 +58,4 @@
 
 		return display();
 	};
-}(jsobj));
+}(suso));

@@ -1,17 +1,17 @@
-/*global jsobj */
+/*global suso */
 /*jslint plusplus: true, continue: true, bitwise: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
-	if (jsobj.rules === undefined) {
-		jsobj.rules = {};
+	if (suso.rules === undefined) {
+		suso.rules = {};
 	}
 
 	// Hidden Pairs rule removes possible values from cells.
 	// It looks in rows, columns, and blocks for any 2 cells containing the only instances of two possible remaining values,
 	// and removes any other possible values from those 2 cells.
-	jsobj.rules.hiddenpairs = function (grid) {
+	suso.rules.hiddenpairs = function (grid) {
 		var progress = false,
 			allGroups = grid.allGroups(),	// rows, cols, blocks
 			groupnum,
@@ -81,4 +81,4 @@
 		// rules return boolean indicating whether they made any progress
 		return progress;
 	};
-}(jsobj));
+}(suso));

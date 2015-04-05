@@ -1,14 +1,14 @@
-/*global jsobj */
+/*global suso */
 /*jslint plusplus: true */
 
-(function (jsobj) {
+(function (suso) {
 	"use strict";
 
-	if (jsobj.rules === undefined) {
-		jsobj.rules = {};
+	if (suso.rules === undefined) {
+		suso.rules = {};
 	}
 
-	jsobj.rules.lastInGroup = function (grid) {
+	suso.rules.lastInGroup = function (grid) {
 		var allgroups = grid.allGroups(),
 			groupx,
 			groupcells,
@@ -52,4 +52,4 @@
 		// rules return boolean indicating whether they made any progress
 		return progress;
 	};
-}(jsobj));
+}(suso));
