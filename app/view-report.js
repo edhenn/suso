@@ -11,8 +11,8 @@
 	suso.views.Report = function (settings) {	// grid, ctrl, gridView
 		var reportContainer,
 			styletag,
-			styles = '.report-container { border: solid 2px blue; margin-top: 1em; width: 100%; }\n' +
-				'.report { border-top: solid 1px grey; margin: 2px }\n',
+			styles = ".report-container { border: solid 2px blue; margin-top: 1em; width: 100%; }\n" +
+				".report { border-top: solid 1px grey; margin: 2px }\n",
 			ready = false,	// ready indicates the report is complete and can start displaying history
 			gridView = settings.gridView;
 
@@ -38,14 +38,14 @@
 			var report;
 
 			// add a node to report container for every call to display
-			report = document.createElement('div');
-			report.setAttribute('class', 'report');
+			report = document.createElement("div");
+			report.setAttribute("class", "report");
 			reportContainer.appendChild(report);
 
 			// if supported, create a step-point in grid-view to remember its state later
 			if (gridView !== undefined && gridView.hasOwnProperty("createStep")) {
-				report.setAttribute('id', 'step' + gridView.createStep());
-				report.addEventListener('mouseover', remember);
+				report.setAttribute("id", "step" + gridView.createStep());
+				report.addEventListener("mouseover", remember);
 			}
 
 			if (typeof reportArg === "string") {
@@ -71,17 +71,17 @@
 		// set grid step awareness
 
 		if (this.ctrl === undefined) {
-			this.ctrl = document.createElement('div');
-			this.ctrl.setAttribute('id', 'Report-Display');
+			this.ctrl = document.createElement("div");
+			this.ctrl.setAttribute("id", "Report-Display");
 			document.body.appendChild(this.ctrl);
 		}
 		// append styles
-		styletag = document.createElement('style');
+		styletag = document.createElement("style");
 		this.ctrl.appendChild(styletag);
 		styletag.innerHTML = styles;
 		// append report container
-		reportContainer = document.createElement('div');
-		reportContainer.setAttribute('class', 'report-container');
+		reportContainer = document.createElement("div");
+		reportContainer.setAttribute("class", "report-container");
 		this.ctrl.appendChild(reportContainer);
 		reportContainer.innerHTML = "<h1>Report</h1>";
 

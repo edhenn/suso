@@ -23,8 +23,8 @@ var suso = {};
 		Array.prototype.where = function (fn) {
 			var index, result = [];
 
-			if (fn === undefined || typeof fn !== 'function') {
-				throw new Error('Where function not specified');
+			if (fn === undefined || typeof fn !== "function") {
+				throw new Error("Where function not specified");
 			}
 
 			for (index = 0; index < this.length; index++) {
@@ -42,8 +42,8 @@ var suso = {};
 		Array.prototype.each = function (fn) {
 			var index, eachResult, result = [];
 
-			if (fn === undefined || typeof fn !== 'function') {
-				throw new Error('Each function not specified');
+			if (fn === undefined || typeof fn !== "function") {
+				throw new Error("Each function not specified");
 			}
 
 			for (index = 0; index < this.length; index++) {
@@ -60,8 +60,8 @@ var suso = {};
 		Object.prototype.where = function (fn) {
 			var index, result = {};
 
-			if (fn === undefined || typeof fn !== 'function') {
-				throw new Error('Where function not specified');
+			if (fn === undefined || typeof fn !== "function") {
+				throw new Error("Where function not specified");
 			}
 
 			for (index in this) {
@@ -81,8 +81,8 @@ var suso = {};
 		Object.prototype.each = function (fn) {
 			var index, eachResult, result = {};
 
-			if (fn === undefined || typeof fn !== 'function') {
-				throw new Error('Each function not specified');
+			if (fn === undefined || typeof fn !== "function") {
+				throw new Error("Each function not specified");
 			}
 
 			for (index in this) {
@@ -131,7 +131,7 @@ var suso = {};
 			Array.prototype.splice.call(arguments, 0, 1);
 			for (i = 0; i < subs.length; i = i + 1) {
 				sub = subs[i];
-				if (sub !== undefined && typeof sub === 'function') {
+				if (sub !== undefined && typeof sub === "function") {
 					sub.apply(this, arguments);
 				}
 			}

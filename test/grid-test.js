@@ -31,43 +31,43 @@
 		var x = new suso.Grid();
 
 		it(".vRow member is a function", function () {
-			expect(typeof x.vRow).toBe('function');
+			expect(typeof x.vRow).toBe("function");
 		});
 
 		it(".hRow member is a function", function () {
-			expect(typeof x.hRow).toBe('function');
+			expect(typeof x.hRow).toBe("function");
 		});
 
 		it(".block member is a function", function () {
-			expect(typeof x.block).toBe('function');
+			expect(typeof x.block).toBe("function");
 		});
 
 		it(".allGroups member is a function", function () {
-			expect(typeof x.allGroups).toBe('function');
+			expect(typeof x.allGroups).toBe("function");
 		});
 
 		it(".on member is a function", function () {
-			expect(typeof x.on).toBe('function');
+			expect(typeof x.on).toBe("function");
 		});
 
 		it(".off member is a function", function () {
-			expect(typeof x.off).toBe('function');
+			expect(typeof x.off).toBe("function");
 		});
 
 		it(".trigger member is a function", function () {
-			expect(typeof x.trigger).toBe('function');
+			expect(typeof x.trigger).toBe("function");
 		});
 
 		it(".state member is a function", function () {
-			expect(typeof x.state).toBe('function');
+			expect(typeof x.state).toBe("function");
 		});
 
 		it(".addSeeds member is a function", function () {
-			expect(typeof x.addSeeds).toBe('function');
+			expect(typeof x.addSeeds).toBe("function");
 		});
 
 		it(".solve member is a function", function () {
-			expect(typeof x.solve).toBe('function');
+			expect(typeof x.solve).toBe("function");
 		});
 
 		it("has a .rows member", function () {
@@ -86,7 +86,7 @@
 			var members = 0, prop;
 
 			for (prop in x) {
-				if (x.hasOwnProperty(prop) && prop !== 'prototype') {
+				if (x.hasOwnProperty(prop) && prop !== "prototype") {
 					members++;
 				}
 			}
@@ -101,13 +101,13 @@
 			allgroups = x.allGroups();
 			for (i = 0; i < allgroups.length; i++) {
 				switch (allgroups[i].type()) {
-				case 'block':
+				case "block":
 					blocks++;
 					break;
-				case 'row':
+				case "row":
 					rows++;
 					break;
-				case 'col':
+				case "col":
 					cols++;
 					break;
 				}
@@ -163,7 +163,7 @@
 
 		it("sets grid state to incomplete if no cells solved or seeded", function () {
 			x.solve();
-			expect(x.state()).toBe('incomplete');
+			expect(x.state()).toBe("incomplete");
 		});
 
 		it("sets grid state to complete if all cells seeded", function () {
@@ -179,7 +179,7 @@
 				[9, 1, 2, 3, 4, 5, 6, 7, 8]
 			]);
 			x.solve();
-			expect(x.state()).toBe('complete');
+			expect(x.state()).toBe("complete");
 		});
 
 		it("solves for cells with one remaining possible value after seeding ", function () {

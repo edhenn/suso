@@ -31,7 +31,7 @@
 			for (cellnum = 0; cellnum < 9; cellnum++) {
 				cell = group.cells()[cellnum];
 				if (cell.value() === undefined && cell.possibleValues().length === 2) {
-					pairindex = cell.possibleValues().join('');
+					pairindex = cell.possibleValues().join("");
 					if (pairs[pairindex] === undefined) {
 						pairs[pairindex] = [];
 					}
@@ -43,7 +43,7 @@
 				return paircells.length === 2;
 			}).each(function (paircell, pairIdx) {
 				var groupProgress = false,
-					possVals = pairIdx.split('');
+					possVals = pairIdx.split("");
 				// delete those possible values from other cells in the group
 				group.cells().each(function (cell) {
 					if (cell !== paircell[0] && cell !== paircell[1]) {
@@ -54,8 +54,8 @@
 				});
 				if (groupProgress) {
 					progress = true;
-					grid.trigger('report', group,
-						'pairs rule - remove possible vals ' + possVals + ' from ' + group.name());
+					grid.trigger("report", group,
+						"pairs rule - remove possible vals " + possVals + " from " + group.name());
 				}
 			});
 		}

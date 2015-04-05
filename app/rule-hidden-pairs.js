@@ -64,7 +64,7 @@
 							while (targetFlags > 0) {
 								if ((targetFlags & 1) > 0) {
 									if (el[targetIdx].removePossible(flagValue)) {
-										grid.trigger('report', el[targetIdx], 'hidden pairs - remove possible ' + flagValue);
+										grid.trigger("report", el[targetIdx], "hidden pairs - remove possible " + flagValue);
 										progress = true;
 									}
 								}

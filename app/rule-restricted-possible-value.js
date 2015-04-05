@@ -28,7 +28,7 @@
 				// iterate cells in house, looking for possible value restricted to one intersecting house
 				house.cells().each(function (cell) {
 					if (cell.possibles[possval] !== undefined) {
-						if (house.type() === 'block') {
+						if (house.type() === "block") {
 							rows = intersects[0];
 							cols = intersects[1];
 							if (!rows.contains(cell.row())) {
@@ -46,7 +46,7 @@
 					}
 				});
 				// if possible value is in only one intersecting house, remove it from other cells of the intersecting house.
-				if (house.type() === 'block') {
+				if (house.type() === "block") {
 					intersects.where(function (rowOrCol) {
 						return rowOrCol.length === 1;
 					}).each(function (rowOrCol) {
@@ -55,9 +55,9 @@
 									intersectCell.possibles[possval] !== undefined &&
 									intersectCell.removePossible(possval)) {
 								progress = true;
-								grid.trigger('report', rowOrCol[0],
-									'claimed ' + possval.toString() + ' in ' + house.name() +
-									' - remove possibles from intersecting ' + rowOrCol[0].name());
+								grid.trigger("report", rowOrCol[0],
+									"claimed " + possval.toString() + " in " + house.name() +
+									" - remove possibles from intersecting " + rowOrCol[0].name());
 							}
 						});
 					});
@@ -69,9 +69,9 @@
 									intersectCell.possibles[possval] !== undefined &&
 									intersectCell.removePossible(possval)) {
 								progress = true;
-								grid.trigger('report', intersects[0][0],
-									'claimed ' + possval.toString() + ' in ' + house.name() +
-									' - remove possibles from intersecting ' + intersects[0][0].name());
+								grid.trigger("report", intersects[0][0],
+									"claimed " + possval.toString() + " in " + house.name() +
+									" - remove possibles from intersecting " + intersects[0][0].name());
 							}
 						});
 					}

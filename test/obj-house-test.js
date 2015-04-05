@@ -6,7 +6,7 @@
 
 
 	function stateStub() {
-		return 'ready';
+		return "ready";
 	}
 
 	describe("House object", function () {
@@ -20,18 +20,18 @@
 	});
 
 	describe("House object members", function () {
-		var x = new suso.House('row', 1, {});
+		var x = new suso.House("row", 1, {});
 
 		it(".addCell member is a function", function () {
-			expect(typeof x.addCell).toBe('function');
+			expect(typeof x.addCell).toBe("function");
 		});
 
 		it(".cells member is a function", function () {
-			expect(typeof x.cells).toBe('function');
+			expect(typeof x.cells).toBe("function");
 		});
 
 		it(".name member is a function", function () {
-			expect(typeof x.name).toBe('function');
+			expect(typeof x.name).toBe("function");
 		});
 
 		it(".on member is a function", function () {
@@ -70,7 +70,7 @@
 			var members = 0, prop;
 
 			for (prop in x) {
-				if (x.hasOwnProperty(prop) && prop !== 'prototype') {
+				if (x.hasOwnProperty(prop) && prop !== "prototype") {
 					members++;
 				}
 			}
@@ -80,25 +80,25 @@
 
 	describe("House constructor", function () {
 		it("sets .name from type and num", function () {
-			var x = new suso.House('row', 1, {});
-			expect(x.name()).toBe('row 1');
+			var x = new suso.House("row", 1, {});
+			expect(x.name()).toBe("row 1");
 		});
 
 		it("sets .type", function () {
-			var x = new suso.House('block', 5, {});
-			expect(x.type()).toBe('block');
+			var x = new suso.House("block", 5, {});
+			expect(x.type()).toBe("block");
 		});
 
 		it("sets .grid", function () {
 			var g = {},
-				x = new suso.House('col', 3, g);
+				x = new suso.House("col", 3, g);
 			expect(x.grid()).toBe(g);
 		});
 	});
 
 	describe("House .addCell function", function () {
 		var grid = { state: stateStub },
-			x = new suso.House('col', 3, grid),
+			x = new suso.House("col", 3, grid),
 			a = new suso.Cell(grid),
 			b = new suso.Cell(grid),
 			cells;
@@ -117,7 +117,7 @@
 		var grid = { state: stateStub };
 
 		it("subscribes to cell update and responds with House update", function () {
-			var x = new suso.House('col', 3, grid),
+			var x = new suso.House("col", 3, grid),
 				a = new suso.Cell(grid),
 				b = new suso.Cell(grid),
 				cells,
@@ -133,7 +133,7 @@
 		});
 
 		it("passes solved cell with House update event", function () {
-			var x = new suso.House('col', 3, grid),
+			var x = new suso.House("col", 3, grid),
 				a = new suso.Cell(grid),
 				b = new suso.Cell(grid),
 				cells,

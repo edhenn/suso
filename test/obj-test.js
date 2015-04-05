@@ -23,16 +23,16 @@
 		});
 
 		it("is a function", function () {
-			expect(typeof arr.contains).toBe('function');
+			expect(typeof arr.contains).toBe("function");
 		});
 
 		it("does not find objects in an empty array", function () {
-			expect(arr.contains('x')).toBe(false);
+			expect(arr.contains("x")).toBe(false);
 		});
 
 		it("does not find type-coerced objects in an array", function () {
 			arr.push(1);
-			expect(arr.contains('1')).toBe(false);
+			expect(arr.contains("1")).toBe(false);
 		});
 
 		it("finds type-equivalent objects in first array position", function () {
@@ -54,7 +54,7 @@
 		});
 
 		it("is a function", function () {
-			expect(typeof arr.where).toBe('function');
+			expect(typeof arr.where).toBe("function");
 		});
 
 		it("throws an exception when no function is passed", function () {
@@ -110,7 +110,7 @@
 		});
 
 		it("is a function", function () {
-			expect(typeof arr.each).toBe('function');
+			expect(typeof arr.each).toBe("function");
 		});
 
 		it("throws an exception when no function is passed", function () {
@@ -155,7 +155,7 @@
 		});
 
 		it("is a function", function () {
-			expect(typeof emptyObj.where).toBe('function');
+			expect(typeof emptyObj.where).toBe("function");
 		});
 
 		it("throws an exception when no function is passed", function () {
@@ -193,7 +193,7 @@
 		it("returns object with expected properties when function filters by index", function () {
 			var result;
 
-			result = sourceObj.where(function (el, idx) { return idx === 'b'; });
+			result = sourceObj.where(function (el, idx) { return idx === "b"; });
 
 			expect(result).toEqual({ b: 4 });
 		});
@@ -207,7 +207,7 @@
 		});
 
 		it("is a function", function () {
-			expect(typeof emptyObj.each).toBe('function');
+			expect(typeof emptyObj.each).toBe("function");
 		});
 
 		it("throws an exception when no function is passed", function () {

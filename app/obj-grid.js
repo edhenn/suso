@@ -12,7 +12,7 @@
 			i,
 			newCell,
 			allgroups,
-			gridState = 'init',
+			gridState = "init",
 			cellsSolved = 0,
 			seedSolved = [],
 			me = this;
@@ -20,7 +20,7 @@
 		function cellUpdated(cell, note) {
 			cellsSolved++;
 			// only fire a grid update once the grid is ready - not during seeding
-			if (gridState === 'ready') {
+			if (gridState === "ready") {
 				me.trigger("update", me);
 				me.trigger("report", cell, note);
 			}
@@ -30,21 +30,21 @@
 
 		// create 9 blocks, cols, rows
 		for (i = 0; i < 9; i++) {
-			blocks.push(new suso.House('block', i, me));
-			cols.push(new suso.House('col', i, me));
-			rows.push(new suso.House('row', i, me));
+			blocks.push(new suso.House("block", i, me));
+			cols.push(new suso.House("col", i, me));
+			rows.push(new suso.House("row", i, me));
 		}
 
 		// create 81 cells each tied to correct block, vrow, hrow
 		for (i = 0; i < 81; i++) {
 			newCell = new suso.Cell(this);
 			newCell.on("update", cellUpdated);
-			newCell.setHouse(rows[Math.floor(i / 9)], 'row');		// every 9 consecutive cells make an hrow
-			newCell.setHouse(cols[i % 9], 'col');					// every 9th cell belongs to the same vrow
-			newCell.setHouse(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3], 'block');	// every 3rd set of 3 consecutive cells up to 9 make a block
+			newCell.setHouse(rows[Math.floor(i / 9)], "row");		// every 9 consecutive cells make an hrow
+			newCell.setHouse(cols[i % 9], "col");					// every 9th cell belongs to the same vrow
+			newCell.setHouse(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3], "block");	// every 3rd set of 3 consecutive cells up to 9 make a block
 		}
 
-		gridState = 'unseeded';
+		gridState = "unseeded";
 
 		this.seedSolved = seedSolved;
 
@@ -77,28 +77,28 @@
 		this.addSeeds = function (seeds) {
 			var row, col, seed;
 
-			if (gridState !== 'unseeded') {
+			if (gridState !== "unseeded") {
 				return;
 			}
 
 			for (row = 0; row < seeds.length; row++) {
 				for (col = 0; col < seeds[row].length; col++) {
 					seed = seeds[row][col];
-					if (seed !== undefined && typeof seed === 'number') {
+					if (seed !== undefined && typeof seed === "number") {
 						rows[row].cells()[col].setValue(seed);
 					}
 				}
 			}
 
-			gridState = 'ready';
-			me.trigger('report', me, 'grid seeded');
+			gridState = "ready";
+			me.trigger("report", me, "grid seeded");
 			return this;
 		};
 
 		this.solve = function () {
 			var rule, progress = true, cell, possVal;
 
-			if (gridState === 'complete' || gridState === 'incomplete') {
+			if (gridState === "complete" || gridState === "incomplete") {
 				return;
 			}
 
@@ -129,8 +129,8 @@
 				}
 			}
 
-			gridState = (cellsSolved === 81 ? 'complete' : 'incomplete');
-			me.trigger('report', me, 'grid ' + gridState);
+			gridState = (cellsSolved === 81 ? "complete" : "incomplete");
+			me.trigger("report", me, "grid " + gridState);
 			return this;
 		};
 	}

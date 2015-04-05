@@ -2,7 +2,7 @@
 /*jslint plusplus: true */
 
 (function () {
-	'use strict';
+	"use strict";
 
 	var grid,
 		disp,

@@ -8,7 +8,7 @@
 
 	function Cell(id, grid) {
 		var cellId = id, val, myHouses = [],
-			houseNums = { 'row': 0, 'col': 1, 'block': 2 },
+			houseNums = { "row": 0, "col": 1, "block": 2 },
 			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null },
 			possibleCount = 9,
 			that = this;
@@ -30,7 +30,7 @@
 				possibleCount--;
 				if (possibleCount === 1) {
 					// grid is ready - done seeding. auto-solve cells with one remaining possible value.
-					if (grid.state() === 'ready') {
+					if (grid.state() === "ready") {
 						that.setValue(that.possibleValues()[0], "last remaining possible value in cell");
 					} else {
 						grid.seedSolved.push(that);
@@ -63,11 +63,11 @@
 			var houseNum = houseNums[house.type()];
 
 			if (houseNum === undefined) {
-				throw new Error('invalid house');
+				throw new Error("invalid house");
 			}
 
 			if (myHouses[houseNum] !== undefined) {
-				throw new Error('Attempt to set ' + house.type() + ' on a Cell that already has a ' + house.type() + '.');
+				throw new Error("Attempt to set " + house.type() + " on a Cell that already has a " + house.type() + ".");
 			}
 
 			myHouses[houseNum] = house;

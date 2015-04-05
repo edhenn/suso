@@ -12,7 +12,7 @@
 	function countBits(flags) {
 		var bits = 0;
 
-		if (typeof flags !== 'number') {
+		if (typeof flags !== "number") {
 			return null;
 		}
 
@@ -31,7 +31,7 @@
 	function flagNumbers(flags) {
 		var i, nums = [];
 
-		if (typeof flags !== 'number') {
+		if (typeof flags !== "number") {
 			return null;
 		}
 
@@ -112,8 +112,8 @@
 					if (result) {
 						result = false;
 						progress = true;
-						grid.trigger('report', group, 'triplet ' + tripletNums +
-							' in ' + group.name() + ' - remove other possibles');
+						grid.trigger("report", group, "triplet " + tripletNums +
+							" in " + group.name() + " - remove other possibles");
 					}
 				});
 			});

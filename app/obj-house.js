@@ -56,7 +56,7 @@
 		};
 
 		this.name = function () {
-			return type + ' ' + num.toString();
+			return type + " " + num.toString();
 		};
 	}
 
