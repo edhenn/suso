@@ -33,24 +33,16 @@
 			expect(typeof x.row).toBe("function");
 		});
 
-		it(".setRow member is a function", function () {
-			expect(typeof x.setRow).toBe("function");
-		});
-
 		it(".col member is a function", function () {
 			expect(typeof x.col).toBe("function");
-		});
-
-		it(".setCol member is a function", function () {
-			expect(typeof x.setCol).toBe("function");
 		});
 
 		it(".block member is a function", function () {
 			expect(typeof x.block).toBe("function");
 		});
 
-		it(".setBlock member is a function", function () {
-			expect(typeof x.setBlock).toBe("function");
+		it(".setHouse member is a function", function () {
+			expect(typeof x.setHouse).toBe("function");
 		});
 
 		it(".on member is a function", function () {
@@ -89,7 +81,7 @@
 			expect(x.possibles).toBeDefined();
 		});
 
-		it("has 18 non-prototype members", function () {
+		it("has 16 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -97,7 +89,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(18);
+			expect(members).toBe(16);
 		});
 	});
 
@@ -129,59 +121,59 @@
 		});
 	});
 
-	describe("Cell.row and setRow functions", function () {
+	describe("Cell.row and setHouse(row) functions", function () {
 		var x = new jsobj.Cell();
 
 		it(".row returns undefined before a value is set", function () {
 			expect(x.row()).not.toBeDefined();
 		});
 
-		it(".row returns correct object after .setRow is called", function () {
-			var row = new jsobj.CellGroup();
-			x.setRow(row);
+		it(".row returns correct object after .setHouse(row) is called", function () {
+			var row = new jsobj.CellGroup('row');
+			x.setHouse(row);
 			expect(x.row()).toBe(row);
 		});
 
-		it(".setRow throws an error when called if .row is already defined", function () {
-			expect(function () { x.setRow({}); })
+		it(".setHouse(row) throws an error when called if .row is already defined", function () {
+			expect(function () { x.setHouse(new jsobj.CellGroup('row')); })
 				.toThrow(new Error("Attempt to set row on a Cell that already has a row."));
 		});
 	});
 
-	describe("Cell.col and setCol functions", function () {
+	describe("Cell.col and setHouse(col) functions", function () {
 		var x = new jsobj.Cell();
 
 		it(".col returns undefined before a value is set", function () {
 			expect(x.col()).not.toBeDefined();
 		});
 
-		it(".col returns correct object after .setCol is called", function () {
-			var col = new jsobj.CellGroup();
-			x.setCol(col);
+		it(".col returns correct object after .setHouse(col) is called", function () {
+			var col = new jsobj.CellGroup('col');
+			x.setHouse(col);
 			expect(x.col()).toBe(col);
 		});
 
-		it(".setCol throws an error when called if .col is already defined", function () {
-			expect(function () { x.setCol({}); })
+		it(".setHouse(col) throws an error when called if .col is already defined", function () {
+			expect(function () { x.setHouse(new jsobj.CellGroup('col')); })
 				.toThrow(new Error("Attempt to set col on a Cell that already has a col."));
 		});
 	});
 
-	describe("Cell.block and setBlock functions", function () {
+	describe("Cell.block and setHouse(block) functions", function () {
 		var x = new jsobj.Cell();
 
 		it(".block returns undefined before a value is set", function () {
 			expect(x.block()).not.toBeDefined();
 		});
 
-		it(".block returns correct object after .setBlock is called", function () {
-			var block = new jsobj.CellGroup();
-			x.setBlock(block);
+		it(".block returns correct object after .setHouse(block) is called", function () {
+			var block = new jsobj.CellGroup('block');
+			x.setHouse(block);
 			expect(x.block()).toBe(block);
 		});
 
-		it(".setBlock throws an error when called if .block is already defined", function () {
-			expect(function () { x.setBlock({}); })
+		it(".setHouse(block) throws an error when called if .block is already defined", function () {
+			expect(function () { x.setHouse(new jsobj.CellGroup('block')); })
 				.toThrow(new Error("Attempt to set block on a Cell that already has a block."));
 		});
 	});
@@ -211,11 +203,11 @@
 		it("returns array with setValue missing from other cells in row", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.CellGroup(),
+				row = new jsobj.CellGroup('row'),
 				poss;
 
-			y.setRow(row);
-			z.setRow(row);
+			y.setHouse(row);
+			z.setHouse(row);
 			y.setValue(4);
 			poss = z.possibleValues();
 			expect(poss.length).toBe(8);
@@ -226,11 +218,11 @@
 		it("returns array with setValue missing from other cells in col", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.CellGroup(),
+				row = new jsobj.CellGroup('col'),
 				poss;
 
-			y.setCol(row);
-			z.setCol(row);
+			y.setHouse(row);
+			z.setHouse(row);
 			y.setValue(4);
 			poss = z.possibleValues();
 			expect(poss.length).toBe(8);
@@ -241,11 +233,11 @@
 		it("returns array with setValue missing from other cells in block", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.CellGroup(),
+				row = new jsobj.CellGroup('block'),
 				poss;
 
-			y.setBlock(row);
-			z.setBlock(row);
+			y.setHouse(row);
+			z.setHouse(row);
 			y.setValue(4);
 			poss = z.possibleValues();
 			expect(poss.length).toBe(8);
@@ -258,17 +250,17 @@
 				b = new jsobj.Cell(),
 				c = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.CellGroup(),
-				col = new jsobj.CellGroup(),
-				block = new jsobj.CellGroup(),
+				row = new jsobj.CellGroup('row'),
+				col = new jsobj.CellGroup('col'),
+				block = new jsobj.CellGroup('block'),
 				poss;
 
-			z.setRow(row);
-			z.setCol(col);
-			z.setBlock(block);
-			a.setRow(row);
-			b.setCol(col);
-			c.setBlock(block);
+			z.setHouse(row);
+			z.setHouse(col);
+			z.setHouse(block);
+			a.setHouse(row);
+			b.setHouse(col);
+			c.setHouse(block);
 			a.setValue(1);
 			b.setValue(2);
 			c.setValue(3);
@@ -285,10 +277,10 @@
 			function stateStub() {
 				return 'ready';
 			}
-			row = new jsobj.CellGroup();
+			row = new jsobj.CellGroup('row');
 			for (i = 0; i < 9; i++) {
 				cells.push(new jsobj.Cell({ state: stateStub }));
-				cells[i].setRow(row);
+				cells[i].setHouse(row);
 			}
 			for (i = 0; i < 8; i++) {
 				cells[i].setValue(i + 1);
@@ -315,11 +307,11 @@
 		it("returns flags with setValue missing from other cells in row", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.CellGroup(),
+				row = new jsobj.CellGroup('row'),
 				poss;
 
-			y.setRow(row);
-			z.setRow(row);
+			y.setHouse(row);
+			z.setHouse(row);
 			y.setValue(4);
 			poss = z.possibleFlags();
 			expect(poss).toBe((Math.pow(2, 9) - 1) - Math.pow(2, 5));	// 111011111
@@ -328,11 +320,11 @@
 		it("returns array with setValue missing from other cells in col", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.CellGroup(),
+				row = new jsobj.CellGroup('col'),
 				poss;
 
-			y.setCol(row);
-			z.setCol(row);
+			y.setHouse(row);
+			z.setHouse(row);
 			y.setValue(4);
 			poss = z.possibleFlags();
 			expect(poss).toBe((Math.pow(2, 9) - 1) - Math.pow(2, 5));	// 111011111
@@ -341,11 +333,11 @@
 		it("returns array with setValue missing from other cells in block", function () {
 			var y = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.CellGroup(),
+				row = new jsobj.CellGroup('block'),
 				poss;
 
-			y.setBlock(row);
-			z.setBlock(row);
+			y.setHouse(row);
+			z.setHouse(row);
 			y.setValue(4);
 			poss = z.possibleFlags();
 			expect(poss).toBe((Math.pow(2, 9) - 1) - Math.pow(2, 5));	// 111011111
@@ -356,17 +348,17 @@
 				b = new jsobj.Cell(),
 				c = new jsobj.Cell(),
 				z = new jsobj.Cell(),
-				row = new jsobj.CellGroup(),
-				col = new jsobj.CellGroup(),
-				block = new jsobj.CellGroup(),
+				row = new jsobj.CellGroup('row'),
+				col = new jsobj.CellGroup('col'),
+				block = new jsobj.CellGroup('block'),
 				poss;
 
-			z.setRow(row);
-			z.setCol(col);
-			z.setBlock(block);
-			a.setRow(row);
-			b.setCol(col);
-			c.setBlock(block);
+			z.setHouse(row);
+			z.setHouse(col);
+			z.setHouse(block);
+			a.setHouse(row);
+			b.setHouse(col);
+			c.setHouse(block);
 			a.setValue(1);
 			b.setValue(2);
 			c.setValue(3);
@@ -385,8 +377,8 @@
 		});
 
 		it("returns array of 2 numbers once row and col are set", function () {
-			x.setRow(r);
-			x.setCol(c);
+			x.setHouse(r);
+			x.setHouse(c);
 			expect(x.coords().length).toBe(2);
 		});
 

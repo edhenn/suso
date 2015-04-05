@@ -7,7 +7,8 @@
 	var cellnum = 0;
 
 	function Cell(id, grid) {
-		var cellId = id, val, myRow, myCol, myBlock,
+		var cellId = id, val, myHouses = [],
+			houseNums = { 'row': 0, 'col': 1, 'block': 2 },
 			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null },
 			possibleCount = 9,
 			that = this;
@@ -58,49 +59,34 @@
 			this.trigger("update", this, note);
 		};
 
-		this.row = function () {
-			return myRow;
+		this.setHouse = function (house) {
+			var houseNum = houseNums[house.type()];
+
+			if (houseNum === undefined) {
+				throw new Error('invalid house');
+			}
+
+			if (myHouses[houseNum] !== undefined) {
+				throw new Error('Attempt to set ' + house.type() + ' on a Cell that already has a ' + house.type() + '.');
+			}
+
+			myHouses[houseNum] = house;
+			house.addCell(this);
+
+			// update possible values of the cell when its house is updated
+			house.on("update", updatePossibles);
 		};
 
-		this.setRow = function (row) {
-			if (myRow !== undefined) {
-				throw new Error('Attempt to set row on a Cell that already has a row.');
-			}
-			myRow = row;
-			myRow.addCell(this);
-
-			// update possible values of the cell when its row is updated
-			myRow.on("update", updatePossibles);
+		this.row = function () {
+			return myHouses[houseNums.row];
 		};
 
 		this.col = function () {
-			return myCol;
-		};
-
-		this.setCol = function (row) {
-			if (myCol !== undefined) {
-				throw new Error('Attempt to set col on a Cell that already has a col.');
-			}
-			myCol = row;
-			myCol.addCell(this);
-
-			// update possible values of the cell when its row is updated
-			myCol.on("update", updatePossibles);
+			return myHouses[houseNums.col];
 		};
 
 		this.block = function () {
-			return myBlock;
-		};
-
-		this.setBlock = function (block) {
-			if (myBlock !== undefined) {
-				throw new Error('Attempt to set block on a Cell that already has a block.');
-			}
-			myBlock = block;
-			myBlock.addCell(this);
-
-			// update possible values of the cell when its row is updated
-			myBlock.on("update", updatePossibles);
+			return myHouses[houseNums.block];
 		};
 
 		this.possibleValues = function () {
@@ -122,10 +108,10 @@
 		};
 
 		this.coords = function () {
-			if (myRow === undefined || myCol === undefined) {
+			if (myHouses[houseNums.row] === undefined || myHouses[houseNums.col] === undefined) {
 				return [];
 			}
-			return [ myRow.num(), myCol.num() ];
+			return [ myHouses[houseNums.row].num(), myHouses[houseNums.col].num() ];
 		};
 	}
 
