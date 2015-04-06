@@ -1,5 +1,6 @@
 /*eslint no-unused-vars: 0*/
 var suso = {};
+
 /*global suso */
 /*jslint undef: true, newcap: true, nomen: true, regexp: true, plusplus: true, bitwise: true, maxerr: 50, indent: 4 */
 
@@ -51,6 +52,7 @@ var suso = {};
 		return obj;
 	};
 }(suso));
+
 /*global suso */
 
 (function (suso) {
@@ -100,6 +102,7 @@ var suso = {};
 		return result;
 	};
 }(suso));
+
 /*global suso */
 /*jslint plusplus: true */
 
@@ -241,6 +244,7 @@ var suso = {};
 		return new suso.EventAware(new Grid());
 	};
 }(suso));
+
 /*global suso */
 /*jslint plusplus: true */
 
@@ -307,6 +311,7 @@ var suso = {};
 		return new suso.EventAware(new House(type, num, grid));
 	};
 }(suso));
+
 /*global suso */
 /*jslint plusplus: true, bitwise: true */
 /*eslint plusplus: true, bitwise: true */
@@ -429,6 +434,92 @@ var suso = {};
 		return new suso.EventAware(new Cell(cellnum++, grid));
 	};
 }(suso));
+
+/*global suso */
+/*jslint plusplus: true, continue: true, bitwise: true */
+/*eslint no-loop-func: 0*/
+
+(function (suso) {
+	"use strict";
+
+	if (suso.rules === undefined) {
+		suso.rules = {};
+	}
+
+	// Hidden Pairs rule removes possible values from cells.
+	// It looks in rows, columns, and blocks for any 2 cells containing the only instances of two possible remaining values,
+	// and removes any other possible values from those 2 cells.
+	suso.rules.hiddenpairs = function (grid) {
+		var progress = false,
+			allGroups = grid.allGroups(),	// rows, cols, blocks
+			groupnum,
+			group,
+			cellsByVal,
+			cellIndex,
+			cell,
+			cellValues,
+			possIndex,
+			safeFlags,
+			targetIdx,
+			targetFlags,
+			flagValue;
+
+		// Iterate through each row, column, and block looking for Hidden Pairs
+		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
+			group = allGroups[groupnum];
+			cellsByVal = {};
+			if (group.possibleValues().length < 3) {
+				continue;
+			}
+			// index cells in group by which possible values they contain
+			for (cellIndex = 0; cellIndex < 9; cellIndex++) {
+				cell = group.cells()[cellIndex];
+				if (cell.value() !== undefined) {
+					continue;
+				}
+				cellValues = cell.possibleValues();
+				for (possIndex = 0; possIndex < cellValues.length; possIndex++) {
+					if (cellsByVal[cellValues[possIndex]] === undefined) {
+						cellsByVal[cellValues[possIndex]] = [];
+					}
+					cellsByVal[cellValues[possIndex]].push(cell);
+				}
+			}
+			// filter down to possible values existing in exactly 2 cells
+			cellsByVal = suso.filter(cellsByVal, function (el) {
+				return el.length === 2;
+			});
+			// for each possible value with 2 cells, check all others for a matching set of cells
+			suso.forEach(cellsByVal, function (el, idx) {
+				suso.forEach(cellsByVal, function (otherEl, otherIdx) {
+					if (otherIdx > idx && el[0] === otherEl[0] && el[1] === otherEl[1]) {
+						safeFlags = Math.pow(2, 9 - idx) | Math.pow(2, 9 - otherIdx);	// flags for poss vals to keep
+						for (targetIdx = 0; targetIdx < 2; targetIdx++) {
+							// remove all other possible values from the cell pair
+							targetFlags = el[targetIdx].possibleFlags() ^ safeFlags;	// remaining flags can be removed
+							flagValue = 9;
+							while (targetFlags > 0) {
+								if ((targetFlags & 1) > 0) {
+									if (el[targetIdx].removePossible(flagValue)) {
+										grid.trigger("report", el[targetIdx], "hidden pairs - remove possible " + flagValue);
+										progress = true;
+									}
+								}
+								flagValue--;
+								targetFlags = targetFlags >> 1;
+							}
+						}
+					}
+				});
+			});
+
+		}
+
+		// rules return boolean indicating whether they made any progress
+		return progress;
+	};
+}(suso));
+
 /*global suso */
 /*jslint plusplus: true */
 
@@ -484,6 +575,76 @@ var suso = {};
 		return progress;
 	};
 }(suso));
+
+/*global suso */
+/*jslint plusplus: true */
+/*eslint no-loop-func: 0*/
+
+(function (suso) {
+	"use strict";
+
+	if (suso.rules === undefined) {
+		suso.rules = {};
+	}
+
+	// Pairs rule removes possible values from cells.
+	// It looks in rows, columns, and blocks for any 2 cells containing the same two possible remaining values.
+	// The two values can be removed from all other cells in that group.
+	suso.rules.pairs = function (grid) {
+		var progress = false,
+			allGroups = grid.allGroups(),	// rows, cols, blocks
+			groupnum,
+			group,
+			cellnum,
+			cell,
+			pairs,
+			pairindex,
+			removal1,
+			removal2;
+
+		// Iterate through each row, column, and block looking for pairs ("naked pairs")
+		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
+			group = allGroups[groupnum];
+			pairs = {};
+			// find all cells with only 2 possible values
+			for (cellnum = 0; cellnum < 9; cellnum++) {
+				cell = group.cells()[cellnum];
+				if (cell.value() === undefined && cell.possibleValues().length === 2) {
+					pairindex = cell.possibleValues().join("");
+					if (pairs[pairindex] === undefined) {
+						pairs[pairindex] = [];
+					}
+					pairs[pairindex].push(cell);
+				}
+			}
+			// look through the found cells for ones that are pairs (two cells with the same two possible values)
+			pairs = suso.filter(pairs, function (paircells) {
+				return paircells.length === 2;
+			});
+			suso.forEach(pairs, function (paircell, pairIdx) {
+				var groupProgress = false,
+					possVals = pairIdx.split("");
+				// delete those possible values from other cells in the group
+				suso.forEach(group.cells(), function (cel) {
+					if (cel !== paircell[0] && cel !== paircell[1]) {
+						removal1 = cel.removePossible(parseInt(possVals[0], 10));
+						removal2 = cel.removePossible(parseInt(possVals[1], 10));
+						groupProgress = groupProgress || removal1 || removal2;
+					}
+				});
+				if (groupProgress) {
+					progress = true;
+					grid.trigger("report", group,
+						"pairs rule - remove possible vals " + possVals + " from " + group.name());
+				}
+			});
+		}
+
+		// rules return boolean indicating whether they made any progress
+		return progress;
+	};
+}(suso));
+
 /*global suso */
 /*jslint plusplus: true */
 
@@ -569,158 +730,7 @@ var suso = {};
 		return progress;
 	};
 }(suso));
-/*global suso */
-/*jslint plusplus: true */
-/*eslint no-loop-func: 0*/
 
-(function (suso) {
-	"use strict";
-
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
-
-	// Pairs rule removes possible values from cells.
-	// It looks in rows, columns, and blocks for any 2 cells containing the same two possible remaining values.
-	// The two values can be removed from all other cells in that group.
-	suso.rules.pairs = function (grid) {
-		var progress = false,
-			allGroups = grid.allGroups(),	// rows, cols, blocks
-			groupnum,
-			group,
-			cellnum,
-			cell,
-			pairs,
-			pairindex,
-			removal1,
-			removal2;
-
-		// Iterate through each row, column, and block looking for pairs ("naked pairs")
-		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
-			group = allGroups[groupnum];
-			pairs = {};
-			// find all cells with only 2 possible values
-			for (cellnum = 0; cellnum < 9; cellnum++) {
-				cell = group.cells()[cellnum];
-				if (cell.value() === undefined && cell.possibleValues().length === 2) {
-					pairindex = cell.possibleValues().join("");
-					if (pairs[pairindex] === undefined) {
-						pairs[pairindex] = [];
-					}
-					pairs[pairindex].push(cell);
-				}
-			}
-			// look through the found cells for ones that are pairs (two cells with the same two possible values)
-			pairs = suso.filter(pairs, function (paircells) {
-				return paircells.length === 2;
-			});
-			suso.forEach(pairs, function (paircell, pairIdx) {
-				var groupProgress = false,
-					possVals = pairIdx.split("");
-				// delete those possible values from other cells in the group
-				suso.forEach(group.cells(), function (cel) {
-					if (cel !== paircell[0] && cel !== paircell[1]) {
-						removal1 = cel.removePossible(parseInt(possVals[0], 10));
-						removal2 = cel.removePossible(parseInt(possVals[1], 10));
-						groupProgress = groupProgress || removal1 || removal2;
-					}
-				});
-				if (groupProgress) {
-					progress = true;
-					grid.trigger("report", group,
-						"pairs rule - remove possible vals " + possVals + " from " + group.name());
-				}
-			});
-		}
-
-		// rules return boolean indicating whether they made any progress
-		return progress;
-	};
-}(suso));
-/*global suso */
-/*jslint plusplus: true, continue: true, bitwise: true */
-/*eslint no-loop-func: 0*/
-
-(function (suso) {
-	"use strict";
-
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
-
-	// Hidden Pairs rule removes possible values from cells.
-	// It looks in rows, columns, and blocks for any 2 cells containing the only instances of two possible remaining values,
-	// and removes any other possible values from those 2 cells.
-	suso.rules.hiddenpairs = function (grid) {
-		var progress = false,
-			allGroups = grid.allGroups(),	// rows, cols, blocks
-			groupnum,
-			group,
-			cellsByVal,
-			cellIndex,
-			cell,
-			cellValues,
-			possIndex,
-			safeFlags,
-			targetIdx,
-			targetFlags,
-			flagValue;
-
-		// Iterate through each row, column, and block looking for Hidden Pairs
-		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
-			group = allGroups[groupnum];
-			cellsByVal = {};
-			if (group.possibleValues().length < 3) {
-				continue;
-			}
-			// index cells in group by which possible values they contain
-			for (cellIndex = 0; cellIndex < 9; cellIndex++) {
-				cell = group.cells()[cellIndex];
-				if (cell.value() !== undefined) {
-					continue;
-				}
-				cellValues = cell.possibleValues();
-				for (possIndex = 0; possIndex < cellValues.length; possIndex++) {
-					if (cellsByVal[cellValues[possIndex]] === undefined) {
-						cellsByVal[cellValues[possIndex]] = [];
-					}
-					cellsByVal[cellValues[possIndex]].push(cell);
-				}
-			}
-			// filter down to possible values existing in exactly 2 cells
-			cellsByVal = suso.filter(cellsByVal, function (el) {
-				return el.length === 2;
-			});
-			// for each possible value with 2 cells, check all others for a matching set of cells
-			suso.forEach(cellsByVal, function (el, idx) {
-				suso.forEach(cellsByVal, function (otherEl, otherIdx) {
-					if (otherIdx > idx && el[0] === otherEl[0] && el[1] === otherEl[1]) {
-						safeFlags = Math.pow(2, 9 - idx) | Math.pow(2, 9 - otherIdx);	// flags for poss vals to keep
-						for (targetIdx = 0; targetIdx < 2; targetIdx++) {
-							// remove all other possible values from the cell pair
-							targetFlags = el[targetIdx].possibleFlags() ^ safeFlags;	// remaining flags can be removed
-							flagValue = 9;
-							while (targetFlags > 0) {
-								if ((targetFlags & 1) > 0) {
-									if (el[targetIdx].removePossible(flagValue)) {
-										grid.trigger("report", el[targetIdx], "hidden pairs - remove possible " + flagValue);
-										progress = true;
-									}
-								}
-								flagValue--;
-								targetFlags = targetFlags >> 1;
-							}
-						}
-					}
-				});
-			});
-
-		}
-
-		// rules return boolean indicating whether they made any progress
-		return progress;
-	};
-}(suso));
 /*global suso */
 /*jslint plusplus: true, bitwise: true, continue: true */
 
@@ -846,6 +856,7 @@ var suso = {};
 		return progress;
 	};
 }(suso));
+
 /*global suso, document */
 /*jslint plusplus: true */
 
@@ -907,89 +918,7 @@ var suso = {};
 		return display();
 	};
 }(suso));
-/*global suso, document */
-/*jslint plusplus: true */
 
-(function (suso) {
-	"use strict";
-
-	if (suso.views === undefined) {
-		suso.views = {};
-	}
-
-	suso.views.StaticGrid = function (grid, ctrl) {
-		var gridtag,
-			gridbody,
-			gridrow = "<div class='row'><span class='cell'>{0}</span><span class='cell'>{1}</span><span class='cell'>{2}</span>" +
-				"<span class='cell'>{3}</span><span class='cell'>{4}</span><span class='cell'>{5}</span>" +
-				"<span class='cell'>{6}</span><span class='cell'>{7}</span><span class='cell'>{8}</span></div>",
-			row,
-			styletag,
-			styles = ".grid { display: table; border-top: solid 2px black; border-left: solid 2px black; }\n" +
-				".row { display: table-row; border-bottom: solid 1px grey; }\n" +
-				".row:nth-of-type(3n+0) .cell { border-bottom: solid 2px black; }\n" +
-				".cell { width: 38px; height: 40px; display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; text-align: center; vertical-align: middle; }\n" +
-				"cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
-				".poss { font-size: 12px; line-height: 10px }\n" +
-				".value { font-size: 22px; font-weight: bold }\n",
-			steps = [];
-
-		function repl(match, id) {
-			var cell = grid.hRow(row).cells()[id],
-				val = cell.value();
-
-			if (val) {
-				return "<span class='value'>" + val.toString() + "</span>";
-			}
-			return "<span class='poss'>" + cell.possibleValues().join(" ") + "</span>";
-		}
-
-		function display() {
-			gridbody = "";
-			for (row = 0; row < 9; row++) {
-				gridbody += gridrow.replace(/\{([0-9])\}/g, repl);
-				gridbody += "\n";
-				// if (row === 2 || row === 5) {
-					// prebody += "\n";
-				// }
-			}
-
-			// display and refresh both just replace the entire display node with freshly generated results
-			gridtag.innerHTML = gridbody;
-		}
-
-		this.createStep = function () {
-			steps[steps.length] = gridtag.innerHTML;
-			return steps.length - 1;
-		};
-
-		this.renderStep = function (step) {
-			gridtag.innerHTML = steps[step];
-		};
-
-		this.grid = grid;
-		this.ctrl = ctrl;
-
-		if (ctrl === undefined) {
-			ctrl = document.createElement("div");
-			ctrl.setAttribute("id", "Grid-Display");
-			document.body.appendChild(ctrl);
-		}
-		// append styles
-		styletag = document.createElement("style");
-		ctrl.appendChild(styletag);
-		styletag.innerHTML = styles;
-		// append grid
-		gridtag = document.createElement("div");
-		gridtag.setAttribute("class", "grid");
-		ctrl.appendChild(gridtag);
-
-		grid.on("update", display);
-		grid.on("report", display);
-
-		return display();
-	};
-}(suso));
 /*global suso, document */
 /*jslint plusplus: true */
 
@@ -1080,5 +1009,89 @@ var suso = {};
 		this.grid.on("report", display);
 
 		//return display("grid initialized");
+	};
+}(suso));
+
+/*global suso, document */
+/*jslint plusplus: true */
+
+(function (suso) {
+	"use strict";
+
+	if (suso.views === undefined) {
+		suso.views = {};
+	}
+
+	suso.views.StaticGrid = function (grid, ctrl) {
+		var gridtag,
+			gridbody,
+			gridrow = "<div class='row'><span class='cell'>{0}</span><span class='cell'>{1}</span><span class='cell'>{2}</span>" +
+				"<span class='cell'>{3}</span><span class='cell'>{4}</span><span class='cell'>{5}</span>" +
+				"<span class='cell'>{6}</span><span class='cell'>{7}</span><span class='cell'>{8}</span></div>",
+			row,
+			styletag,
+			styles = ".grid { display: table; border-top: solid 2px black; border-left: solid 2px black; }\n" +
+				".row { display: table-row; border-bottom: solid 1px grey; }\n" +
+				".row:nth-of-type(3n+0) .cell { border-bottom: solid 2px black; }\n" +
+				".cell { width: 38px; height: 40px; display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; text-align: center; vertical-align: middle; }\n" +
+				"cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
+				".poss { font-size: 12px; line-height: 10px }\n" +
+				".value { font-size: 22px; font-weight: bold }\n",
+			steps = [];
+
+		function repl(match, id) {
+			var cell = grid.hRow(row).cells()[id],
+				val = cell.value();
+
+			if (val) {
+				return "<span class='value'>" + val.toString() + "</span>";
+			}
+			return "<span class='poss'>" + cell.possibleValues().join(" ") + "</span>";
+		}
+
+		function display() {
+			gridbody = "";
+			for (row = 0; row < 9; row++) {
+				gridbody += gridrow.replace(/\{([0-9])\}/g, repl);
+				gridbody += "\n";
+				// if (row === 2 || row === 5) {
+					// prebody += "\n";
+				// }
+			}
+
+			// display and refresh both just replace the entire display node with freshly generated results
+			gridtag.innerHTML = gridbody;
+		}
+
+		this.createStep = function () {
+			steps[steps.length] = gridtag.innerHTML;
+			return steps.length - 1;
+		};
+
+		this.renderStep = function (step) {
+			gridtag.innerHTML = steps[step];
+		};
+
+		this.grid = grid;
+		this.ctrl = ctrl;
+
+		if (ctrl === undefined) {
+			ctrl = document.createElement("div");
+			ctrl.setAttribute("id", "Grid-Display");
+			document.body.appendChild(ctrl);
+		}
+		// append styles
+		styletag = document.createElement("style");
+		ctrl.appendChild(styletag);
+		styletag.innerHTML = styles;
+		// append grid
+		gridtag = document.createElement("div");
+		gridtag.setAttribute("class", "grid");
+		ctrl.appendChild(gridtag);
+
+		grid.on("update", display);
+		grid.on("report", display);
+
+		return display();
 	};
 }(suso));
