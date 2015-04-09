@@ -2,3 +2,4 @@ node_modules/
 *.ods
 *.ods#
 coverage/
+reports/
