@@ -3,6 +3,7 @@
 var gulp = require('gulp'),
 	eslint = require('gulp-eslint'),
 	karma = require('gulp-karma'),
+	plato = require('plato'),
 	concat = require('gulp-concat'),
 	stripDebug = require('gulp-strip-debug'),
 	rename = require('gulp-rename'),
@@ -41,6 +42,14 @@ gulp.task('test', ['lint'], function (done) {
 		});
 });
 
+gulp.task('complex', ['test', 'lint'], function () {
+	var outputDir = './reports',
+		callback = function (report){
+		};
+
+	plato.inspect(appFilesInOrder, outputDir, {}, callback);
+});
+
 gulp.task('concat', ['lint', 'test'], function () {
 	return gulp.src(appFilesInOrder)
 		.pipe(concat('suso.js'))
@@ -52,6 +61,6 @@ gulp.task('concat', ['lint', 'test'], function () {
 		//.pipe(notify({ message: 'concat & minify complete' }));
 });
 
-gulp.task('default', ['lint', 'test', 'concat'], function () {
+gulp.task('default', ['lint', 'test', 'complex', 'concat'], function () {
 	// only if lint succeeds
 });
