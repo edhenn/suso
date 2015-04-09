@@ -1,14 +1,9 @@
 /*global require */
 
 var gulp = require('gulp'),
-	eslint = require('gulp-eslint'),
-	karma = require('gulp-karma'),
-	plato = require('plato'),
-	concat = require('gulp-concat'),
-	stripDebug = require('gulp-strip-debug'),
-	rename = require('gulp-rename'),
-	notify = require('gulp-notify'),
-	uglify = require('gulp-uglify'),
+	plugins = require('gulp-load-plugins')({
+		pattern: ['gulp-*', 'plato']
+	}),
 	appFilesInOrder = [
 		'app/suso-namespace.js',
 		'app/obj.js',
@@ -23,9 +18,9 @@ var gulp = require('gulp'),
 
 gulp.task('lint', function () {
 	return gulp.src(appFilesInOrder)
-		.pipe(eslint())
-		.pipe(eslint.format())
-		.pipe(eslint.failOnError());
+		.pipe(plugins.eslint())
+		.pipe(plugins.eslint.format())
+		.pipe(plugins.eslint.failOnError());
 });
 
 gulp.task('test', ['lint'], function (done) {
@@ -33,7 +28,7 @@ gulp.task('test', ['lint'], function (done) {
 
 	// gulp-karma
 	return gulp.src(sourceAndTestFiles)
-		.pipe(karma({
+		.pipe(plugins.karma({
 			configFile: './karma.conf.js',
 			action: 'run'
 		}))
@@ -47,16 +42,16 @@ gulp.task('complex', ['test', 'lint'], function () {
 		callback = function (report){
 		};
 
-	plato.inspect(appFilesInOrder, outputDir, {}, callback);
+	plugins.plato.inspect(appFilesInOrder, outputDir, {}, callback);
 });
 
 gulp.task('concat', ['lint', 'test'], function () {
 	return gulp.src(appFilesInOrder)
-		.pipe(concat('suso.js'))
-		.pipe(stripDebug())
+		.pipe(plugins.concat('suso.js'))
+		.pipe(plugins.stripDebug())
 		.pipe(gulp.dest('build'))
-		.pipe(rename({ suffix: '.min' }))
-		.pipe(uglify())
+		.pipe(plugins.rename({ suffix: '.min' }))
+		.pipe(plugins.uglify())
 		.pipe(gulp.dest('build'));
 		//.pipe(notify({ message: 'concat & minify complete' }));
 });
