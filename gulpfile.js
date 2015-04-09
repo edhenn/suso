@@ -1,4 +1,7 @@
 /*global require */
+/*jslint node: true*/
+
+"use strict";
 
 var gulp = require('gulp'),
 	plugins = require('gulp-load-plugins')({
@@ -23,7 +26,7 @@ gulp.task('lint', function () {
 		.pipe(plugins.eslint.failOnError());
 });
 
-gulp.task('test', ['lint'], function (done) {
+gulp.task('test', ['lint'], function () {
 	var sourceAndTestFiles = appFilesInOrder.concat(testFiles);
 
 	// gulp-karma
@@ -32,20 +35,20 @@ gulp.task('test', ['lint'], function (done) {
 			configFile: './karma.conf.js',
 			action: 'run'
 		}))
-		.on('error', function (err) {
+		.on('error', function () {
 			//throw err;
 		});
 });
 
 gulp.task('complex', ['test', 'lint'], function () {
 	var outputDir = './reports',
-		callback = function (report){
+		callback = function () {
 		};
 
 	plugins.plato.inspect(appFilesInOrder, outputDir, {}, callback);
 });
 
-gulp.task('concat', ['lint', 'test'], function () {
+gulp.task('package', ['lint', 'test', 'complex'], function () {
 	return gulp.src(appFilesInOrder)
 		.pipe(plugins.concat('suso.js'))
 		.pipe(plugins.stripDebug())
@@ -56,6 +59,6 @@ gulp.task('concat', ['lint', 'test'], function () {
 		//.pipe(notify({ message: 'concat & minify complete' }));
 });
 
-gulp.task('default', ['lint', 'test', 'complex', 'concat'], function () {
+gulp.task('default', ['lint', 'test'], function () {
 	// only if lint succeeds
 });
