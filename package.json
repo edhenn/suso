@@ -1,6 +1,10 @@
 {
   "name": "suso",
   "version": "0.1.0",
+  "description": "Sudoku solver.  Creates the grid of cells in memory. Attempts to solve seeded grid largely the way I do by hand -- tracking possible values in a given cell, using rules against the grid to solve for cells or remove possible values logically. Displays results in a variety of views, including history mode where you can see each step as it happened.",
+  "keywords": ["sudoku"],
+  "author": "Ed Henn <emhenn@dcn.org>",
+  "files": ["build"],
   "devDependencies": {
     "eslint": "^0.18.0",
     "gulp": "^3.8.11",
@@ -18,16 +22,14 @@
     "karma": "~0.12.15",
     "karma-chrome-launcher": "~0.1.3",
     "karma-coverage": "^0.2.7",
-    "karma-jasmine": "~0.1.5",
-    "plato": "^1.4.0",
-    "uglify-js": "^2.4.19"
-  },
-  "dependencies": {
     "karma-ie-launcher": "^0.1.5",
     "karma-opera-launcher": "^0.1.0",
     "karma-safari-launcher": "^0.1.1",
     "karma-firefox-launcher": "^0.1.3",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-detect-browsers": "^0.1.2"
+    "karma-jasmine": "~0.1.5",
+    "plato": "^1.4.0",
+    "uglify-js": "^2.4.19"
   }
 }
