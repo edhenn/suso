@@ -4,6 +4,7 @@
   "devDependencies": {
     "eslint": "^0.18.0",
     "gulp": "^3.8.11",
+    "gulp-bump": "^0.3.0",
     "gulp-concat": "^2.5.2",
     "gulp-eslint": "^0.8.0",
     "gulp-jasmine": "^2.0.1",

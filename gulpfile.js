@@ -48,6 +48,24 @@ gulp.task('complex', ['test', 'lint'], function () {
 	plugins.plato.inspect(appFilesInOrder, outputDir, {}, callback);
 });
 
+gulp.task('bump', ['lint', 'test'], function () {
+	return gulp.src('./package.json')
+		.pipe(plugins.bump())
+		.pipe(gulp.dest('./'));
+});
+
+gulp.task('bump-minor', ['lint', 'test'], function () {
+	return gulp.src('./package.json')
+		.pipe(plugins.bump({ type: 'minor' }))
+		.pipe(gulp.dest('./'));
+});
+
+gulp.task('bump-major', ['lint', 'test'], function () {
+	return gulp.src('./package.json')
+		.pipe(plugins.bump({ type: 'major' }))
+		.pipe(gulp.dest('./'));
+});
+
 gulp.task('package', ['lint', 'test', 'complex'], function () {
 	return gulp.src(appFilesInOrder)
 		.pipe(plugins.concat('suso.js'))
