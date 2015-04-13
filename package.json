@@ -5,6 +5,7 @@
   "keywords": ["sudoku"],
   "author": "Ed Henn <emhenn@dcn.org>",
   "files": ["build"],
+  "license": "MIT",
   "devDependencies": {
     "eslint": "^0.18.0",
     "gulp": "^3.8.11",
