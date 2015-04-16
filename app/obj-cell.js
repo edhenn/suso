@@ -12,6 +12,7 @@
 			houseNums = { "row": 0, "col": 1, "block": 2 },
 			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null },
 			possibleCount = 9,
+			seed = false,
 			that = this;
 
 		function updatePossibles(updatedCell) {
@@ -50,9 +51,16 @@
 			return val;
 		};
 
+		this.isSeed = function () {
+			return seed;
+		};
+
 		this.setValue = function (newValue, note) {
 			if (val !== undefined) {
 				throw new Error("Attempt to set value on a Cell that already has a value.");
+			}
+			if (grid.state() === "unseeded") {
+				seed = true;
 			}
 			val = newValue;
 			that.possibles = possibles = {};

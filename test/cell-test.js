@@ -81,7 +81,15 @@
 			expect(x.possibles).toBeDefined();
 		});
 
-		it("has 16 non-prototype members", function () {
+		it(".isSeed is a member", function () {
+			expect(x.isSeed).toBeDefined();
+		});
+
+		it(".isSeed is a function", function () {
+			expect(typeof x.isSeed).toBe("function");
+		});
+
+		it("has 17 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -89,12 +97,12 @@
 					members++;
 				}
 			}
-			expect(members).toBe(16);
+			expect(members).toBe(17);
 		});
 	});
 
 	describe("Cell.value and setValue functions", function () {
-		var x = new suso.Cell();
+		var x = new suso.Cell({ state: function (x) { return x; }});
 
 		it(".value returns undefined before a value is set", function () {
 			expect(x.value()).not.toBeDefined();
@@ -112,7 +120,7 @@
 
 		it(".setValue triggers an update event", function () {
 			var y, z;
-			y = new suso.Cell();
+			y = new suso.Cell({ state: function (x) { return x; }});
 			y.on("update", function () {
 				z = this;
 			});
@@ -190,7 +198,7 @@
 	});
 
 	describe("Cell.possibleValues function", function () {
-		var x = new suso.Cell();
+		var x = new suso.Cell({ state: function (x) { return x; }});
 
 		it("starts as an array of 9 numbers", function () {
 			var poss = x.possibleValues();
@@ -212,7 +220,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in row", function () {
-			var y = new suso.Cell(),
+			var y = new suso.Cell({ state: function (x) { return x; }}),
 				z = new suso.Cell(),
 				row = new suso.House("row"),
 				poss;
@@ -227,7 +235,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in col", function () {
-			var y = new suso.Cell(),
+			var y = new suso.Cell({ state: function (x) { return x; }}),
 				z = new suso.Cell(),
 				row = new suso.House("col"),
 				poss;
@@ -242,7 +250,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in block", function () {
-			var y = new suso.Cell(),
+			var y = new suso.Cell({ state: function (x) { return x; }}),
 				z = new suso.Cell(),
 				row = new suso.House("block"),
 				poss;
@@ -257,9 +265,9 @@
 		});
 
 		it("cumulatively removes all set values from all row and block siblings", function () {
-			var a = new suso.Cell(),
-				b = new suso.Cell(),
-				c = new suso.Cell(),
+			var a = new suso.Cell({ state: function (x) { return x; }}),
+				b = new suso.Cell({ state: function (x) { return x; }}),
+				c = new suso.Cell({ state: function (x) { return x; }}),
 				z = new suso.Cell(),
 				row = new suso.House("row"),
 				col = new suso.House("col"),
@@ -301,7 +309,7 @@
 	});
 
 	describe("Cell.possibleFlags function", function () {
-		var x = new suso.Cell();
+		var x = new suso.Cell({ state: function (x) { return x; }});
 
 		it("starts as 9 binary flags all set", function () {
 			var poss = x.possibleFlags();
@@ -316,7 +324,7 @@
 		});
 
 		it("returns flags with setValue missing from other cells in row", function () {
-			var y = new suso.Cell(),
+			var y = new suso.Cell({ state: function (x) { return x; }}),
 				z = new suso.Cell(),
 				row = new suso.House("row"),
 				poss;
@@ -329,7 +337,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in col", function () {
-			var y = new suso.Cell(),
+			var y = new suso.Cell({ state: function (x) { return x; }}),
 				z = new suso.Cell(),
 				row = new suso.House("col"),
 				poss;
@@ -342,7 +350,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in block", function () {
-			var y = new suso.Cell(),
+			var y = new suso.Cell({ state: function (x) { return x; }}),
 				z = new suso.Cell(),
 				row = new suso.House("block"),
 				poss;
@@ -355,9 +363,9 @@
 		});
 
 		it("cumulatively removes all set values from all row and block siblings", function () {
-			var a = new suso.Cell(),
-				b = new suso.Cell(),
-				c = new suso.Cell(),
+			var a = new suso.Cell({ state: function (x) { return x; }}),
+				b = new suso.Cell({ state: function (x) { return x; }}),
+				c = new suso.Cell({ state: function (x) { return x; }}),
 				z = new suso.Cell(),
 				row = new suso.House("row"),
 				col = new suso.House("col"),
@@ -396,6 +404,22 @@
 		it("returns [ row, col ] numbers once row and col are set", function () {
 			expect(x.coords()[0]).toBe(4);
 			expect(x.coords()[1]).toBe(8);
+		});
+	});
+
+	describe("Cell seed function", function () {
+		it("returns true when cell value is set during grid seeding", function () {
+			var cel = new suso.Cell({ state: function () { return "unseeded"; }});
+
+			cel.setValue(1);
+			expect(cel.isSeed()).toBe(true);
+		});
+
+		it("returns false when cell value is set after grid already seeded", function () {
+			var cel = new suso.Cell({ state: function () { return "ready"; }});
+
+			cel.setValue(1);
+			expect(cel.isSeed()).toBe(false);
 		});
 	});
 }());
