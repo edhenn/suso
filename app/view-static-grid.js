@@ -22,15 +22,17 @@
 				".cell { width: 38px; height: 40px; display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; text-align: center; vertical-align: middle; }\n" +
 				"cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
 				".poss { font-size: 12px; line-height: 10px }\n" +
-				".value { font-size: 22px; font-weight: bold }\n",
+				".value { font-size: 22px; font-weight: bold; }\n" +
+				".seed { color: tomato; }\n",
 			steps = [];
 
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
-				val = cell.value();
+				val = cell.value(),
+				seed = cell.isSeed();
 
 			if (val) {
-				return "<span class='value'>" + val.toString() + "</span>";
+				return "<span class='value" + (seed ? " seed" : "") + "'>" + val.toString() + "</span>";
 			}
 			return "<span class='poss'>" + cell.possibleValues().join(" ") + "</span>";
 		}
@@ -40,9 +42,6 @@
 			for (row = 0; row < 9; row++) {
 				gridbody += gridrow.replace(/\{([0-9])\}/g, repl);
 				gridbody += "\n";
-				// if (row === 2 || row === 5) {
-					// prebody += "\n";
-				// }
 			}
 
 			// display and refresh both just replace the entire display node with freshly generated results
