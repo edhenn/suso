@@ -9,8 +9,8 @@
 		rept;
 
 	grid = new suso.Grid();
-	disp = new suso.views.StaticGrid(grid);
-	rept = new suso.views.Report({ grid: grid, gridView: disp });
+	disp = new suso.views.InputGrid(grid);
+	//rept = new suso.views.Report({ grid: grid, gridView: disp });
 
 	// difficult -- solved with rule last-in-group
 	/*
@@ -73,6 +73,7 @@
 	*/
 
 	// hard 3 - web sudoku -- solved after adding "pairs" rule
+	/*
 	grid.addSeeds([
 		[ 8,  , 1, 7,  ,  , 3, 9,  ],
 		[  ,  ,  ,  ,  , 2, 4,  ,  ],
@@ -84,6 +85,7 @@
 		[  ,  , 3, 6,  ,  ,  ,  ,  ],
 		[  , 2, 7,  ,  , 9, 6,  , 3]
 	]);
+	*/
 
 	/*
 	// evil 4 - websudoku.com -- solved with pairs rule
@@ -239,7 +241,7 @@
 	]);
 	*/
 
-	grid.solve();
+	//grid.solve();
 	//jsobj.rules.lastInGroup(grid);
 
 }());
