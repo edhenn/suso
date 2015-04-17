@@ -20,7 +20,7 @@
 				".row { display: table-row; border-bottom: solid 1px grey; }\n" +
 				".row:nth-of-type(3n+0) .cell { border-bottom: solid 2px black; }\n" +
 				".cell { width: 38px; height: 40px; display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; text-align: center; vertical-align: middle; }\n" +
-				"cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
+				".cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
 				".poss { font-size: 12px; line-height: 10px }\n" +
 				".value { font-size: 22px; font-weight: bold; }\n" +
 				".seed { color: tomato; }\n",
