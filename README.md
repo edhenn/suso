@@ -10,15 +10,8 @@ The internal grid used to represent the puzzle is event-driven, so changes to on
 
 - [x] Multiple rules available
   - [x] Basic grid rules
-  - [x] Last possible value
-  - [x] Claimed value
-  - [x] Pairs and hidden pairs
-  - [x] Triples
-  - [ ] Hidden Triples
-  - [ ] Quads ...?
-  - [ ] X Wing
-  - [ ] Y Wing
-  - [ ] there are several others...
+  - [x] Last possible value; claimed value; pairs and hidden pairs; triples
+  - [ ] Hidden triples; quads; x-wing; y-wing; others...
 - [x] Multiple views available
   - [x] Interactive view - user inputs seeds and clicks to solve
   - [x] Pre-seeded view - for entering the seeds at runtime
@@ -26,12 +19,18 @@ The internal grid used to represent the puzzle is event-driven, so changes to on
 - [ ] Allow developer to pass in rules of their own.
 - [ ] Flexible use - display everything automatically, or in your own styled grid, or just in memory.  This needs the most work at the moment.
 - [x] Solve hard sudoku quickly
-- ~~[ ] Solve ridiculous sudoku~~
+- [ ] ~~Solve ridiculous sudoku~~
 - [x] Have fun
 
 I don't intend it to solve any sudoku which require guesswork (google "world's hardest sudoku").
 
 ##Usage
+
+Include the javascript file in an HTML page.  There are no other dependencies.
+
+```
+<script type="text/javascript" src="build/suso.min.js"></script>
+```
 
 Interactive view - displays a grid of input boxes and waits for user input before solving:
 
