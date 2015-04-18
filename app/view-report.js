@@ -12,7 +12,8 @@
 		var reportContainer,
 			styletag,
 			styles = ".report-container { border: solid 2px blue; margin-top: 1em; width: 100%; }\n" +
-				".report { border-top: solid 1px grey; margin: 2px }\n",
+				".report { border-top: solid 1px grey; margin: 5px; }\n" +
+				".title { font-size: 22px; font-weight: bold; margin: 5px; line-height: 1.5em; }",
 			ready = false,	// ready indicates the report is complete and can start displaying history
 			gridView = settings.gridView;
 
@@ -83,7 +84,7 @@
 		reportContainer = document.createElement("div");
 		reportContainer.setAttribute("class", "report-container");
 		this.ctrl.appendChild(reportContainer);
-		reportContainer.innerHTML = "<h1>Report</h1>";
+		reportContainer.innerHTML = "<span id='report-title' class='title'>Report</span>";
 
 		this.grid.on("report", display);
 

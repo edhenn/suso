@@ -10,7 +10,7 @@
 
 	grid = new suso.Grid();
 	disp = new suso.views.InputGrid(grid);
-	//rept = new suso.views.Report({ grid: grid, gridView: disp });
+	rept = new suso.views.Report({ grid: grid, gridView: disp });
 
 	// difficult -- solved with rule last-in-group
 	/*
