@@ -26,8 +26,13 @@
 				".poss { font-size: 12px; line-height: 10px }\n" +
 				".value { font-size: 22px; font-weight: bold; }\n" +
 				".seed { color: tomato; }\n" +
-				".controls { padding: 10px 0; }\n",
-			steps = [];
+				"#solve { margin: 30px 0; padding: 6px 12px; font-size: 14px; font-weight: 400; " +		// button styles
+				"  border: solid 1px #ccc; border-radius: 4px; background-color: #fff; }\n" +			// borrowed from
+				"#solve:focus { color: #333; background-color: #e6e6e6; border-color: #8c8c8c; }\n" + 	// bootstrap
+				"#solve:hover { color: #333; background-color: #e6e6e6; border-color: #adadad; }\n",
+			steps = [],
+			ctrldiv,
+			solvebtn;
 
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
@@ -77,17 +82,13 @@
 				gridbody += "<div class='row'>";
 				for (col = 0; col < 9; col++) {
 					gridbody += "<input id='c" + row.toString() + col.toString() + "'" +
-						" class='cell seed value'" +
+						" class='cell seed value' maxlength='1'" +
 						(row === 0 && col === 0 ? " autofocus" : "") +
 						"/>";
 				}
 				gridbody += "</div>";
 			}
-
-			// button to start solving grid
-			gridbody += "<div class='controls'><input id='solve' type='button' value='Solve!' /></div>";
 			gridtag.innerHTML = gridbody;
-			document.getElementById("solve").addEventListener("click", solveClicked);
 		}
 
 		this.createStep = function () {
@@ -115,6 +116,13 @@
 		gridtag = document.createElement("div");
 		gridtag.setAttribute("class", "grid");
 		ctrl.appendChild(gridtag);
+		// append controls
+		solvebtn = document.createElement("input");
+		solvebtn.setAttribute("id", "solve");
+		solvebtn.setAttribute("type", "button");
+		solvebtn.setAttribute("value", "Solve!");
+		ctrl.appendChild(solvebtn);
+		solvebtn.addEventListener("click", solveClicked);
 
 		grid.on("update", display);
 		grid.on("report", display);
