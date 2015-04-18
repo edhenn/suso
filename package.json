@@ -1,10 +1,14 @@
 {
   "name": "suso",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sudoku solver. Creates the grid of cells in memory. Attempts to solve seeded grid largely the way I do by hand -- tracking possible values in a given cell, using rules against the grid to solve for cells or remove possible values logically. Displays results in a variety of views, including history mode where you can see each step as it happened.",
-  "keywords": ["sudoku"],
+  "keywords": [
+    "sudoku"
+  ],
   "author": "Ed Henn <emhenn@dcn.org>",
-  "files": ["build"],
+  "files": [
+    "build"
+  ],
   "license": "MIT",
   "devDependencies": {
     "eslint": "^0.18.0",
