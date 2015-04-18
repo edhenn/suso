@@ -1,6 +1,7 @@
 #suso
 
 Suso is a Sudoku solver written in vanilla Javascript.  It is also a work in progress, written just for fun.
+
 See the <a href='https://wheel.dcn.davis.ca.us/~emhenn'>demo page</a>.
 
 ##Design goals
