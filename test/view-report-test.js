@@ -23,14 +23,14 @@
 		it("creates a div to conatin reports", function () {
 			ctrl = document.createElement("div");
 			disp = new suso.views.Report({ grid: grid, ctrl: ctrl });
-			expect(ctrl.innerHTML.indexOf('<div class="report-container"><h1>Report</h1></div>')).toBeGreaterThan(-1);
+			expect(ctrl.innerHTML.indexOf('<div class="report-container"><span id="report-title" class="title">Report</span></div>')).toBeGreaterThan(-1);
 		});
 
 		it("creates divs inside container for each report", function () {
 			ctrl = document.createElement("div");
 			disp = new suso.views.Report({ grid: grid, ctrl: ctrl });
 			grid.addSeeds([[1]]);
-			expect(ctrl.innerHTML.indexOf('<div class="report-container"><h1>Report</h1><div class="report"')).toBeGreaterThan(-1);
+			expect(ctrl.innerHTML.indexOf('<div class="report-container"><span id="report-title" class="title">Report</span><div class="report"')).toBeGreaterThan(-1);
 		});
 	});
 }());
