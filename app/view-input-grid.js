@@ -30,10 +30,11 @@
 
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
-				val = cell.value();
+				val = cell.value(),
+				seed = cell.isSeed();
 
 			if (val) {
-				return "<input id='c" + row.toString() + id + "' class='value'></input>";
+				return "<span class='value" + (seed ? " seed" : "") + "'>" + val.toString() + "</span>";
 			}
 			return "<span class='poss'>" + cell.possibleValues().join(" ") + "</span>";
 		}
@@ -62,6 +63,13 @@
 			grid.addSeeds(seeds);
 		}
 
+		function solveClicked() {
+			document.getElementById("solve").removeEventListener("click", solveClicked);
+			seedGrid();
+			display();
+			grid.solve();
+		}
+
 		function initialDisplay() {
 			gridbody = "";
 			for (row = 0; row < 9; row++) {
@@ -78,11 +86,7 @@
 			// button to start solving grid
 			gridbody += "<div class='controls'><input id='solve' type='button' value='Solve!' /></div>";
 			gridtag.innerHTML = gridbody;
-			document.getElementById("solve").addEventListener("click", function () {
-				seedGrid();
-				display();
-				grid.solve();
-			});
+			document.getElementById("solve").addEventListener("click", solveClicked);
 		}
 
 		this.createStep = function () {
