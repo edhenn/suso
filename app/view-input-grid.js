@@ -20,7 +20,8 @@
 			styles = ".grid { display: table; border-top: solid 2px black; border-left: solid 2px black; }\n" +
 				".row { display: table-row; border-bottom: solid 1px grey; }\n" +
 				".row:nth-of-type(3n+0) .cell { border-bottom: solid 2px black; }\n" +
-				".cell { width: 38px; height: 40px; display: table-cell; border-style: solid; border-color: grey; border-width: 0 1px 1px 0; text-align: center; vertical-align: middle; }\n" +
+				".cell { width: 39px; height: 40px; display: table-cell; border-style: solid; border-color: grey; border-width: 0 1px 1px 0;" +
+				"  text-align: center; vertical-align: middle; font-family: serif; }\n" +
 				".cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
 				".poss { font-size: 12px; line-height: 10px }\n" +
 				".value { font-size: 22px; font-weight: bold; }\n" +
