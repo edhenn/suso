@@ -28,10 +28,9 @@
 				".seed { color: tomato; }\n" +
 				"#solve { margin: 30px 0; padding: 6px 12px; font-size: 14px; font-weight: 400; " +		// button styles
 				"  border: solid 1px #ccc; border-radius: 4px; background-color: #fff; }\n" +			// borrowed from
-				"#solve:focus { color: #333; background-color: #e6e6e6; border-color: #8c8c8c; }\n" + 	// bootstrap
+				"#solve:focus { color: #333; background-color: #e6e6e6; border-color: #8c8c8c; }\n" +	// bootstrap
 				"#solve:hover { color: #333; background-color: #e6e6e6; border-color: #adadad; }\n",
 			steps = [],
-			ctrldiv,
 			solvebtn;
 
 		function repl(match, id) {
@@ -70,7 +69,9 @@
 		}
 
 		function solveClicked() {
-			document.getElementById("solve").removeEventListener("click", solveClicked);
+			var solveBtn = document.getElementById("solve");
+			solveBtn.removeEventListener("click", solveClicked);
+			ctrl.removeChild(solveBtn);
 			seedGrid();
 			display();
 			grid.solve();
