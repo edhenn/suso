@@ -26,25 +26,30 @@
 			}
 		}
 
-		// *** CREATE GRID OBJECT ***
+		function setup() {
+			// *** CREATE GRID OBJECT ***
 
-		// create 9 blocks, cols, rows
-		for (i = 0; i < 9; i++) {
-			blocks.push(new suso.House("block", i, me));
-			cols.push(new suso.House("col", i, me));
-			rows.push(new suso.House("row", i, me));
+			// create 9 blocks, cols, rows
+			for (i = 0; i < 9; i++) {
+				blocks.push(new suso.House("block", i, me));
+				cols.push(new suso.House("col", i, me));
+				rows.push(new suso.House("row", i, me));
+			}
+
+			// create 81 cells each tied to correct block, vrow, hrow
+			for (i = 0; i < 81; i++) {
+				newCell = new suso.Cell(me);
+				newCell.on("update", cellUpdated);
+				newCell.setHouse(rows[Math.floor(i / 9)], "row");		// every 9 consecutive cells make an hrow
+				newCell.setHouse(cols[i % 9], "col");					// every 9th cell belongs to the same vrow
+				newCell.setHouse(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3], "block");	// every 3rd set of 3 consecutive cells up to 9 make a block
+			}
+
+			gridState = "unseeded";
 		}
 
-		// create 81 cells each tied to correct block, vrow, hrow
-		for (i = 0; i < 81; i++) {
-			newCell = new suso.Cell(this);
-			newCell.on("update", cellUpdated);
-			newCell.setHouse(rows[Math.floor(i / 9)], "row");		// every 9 consecutive cells make an hrow
-			newCell.setHouse(cols[i % 9], "col");					// every 9th cell belongs to the same vrow
-			newCell.setHouse(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3], "block");	// every 3rd set of 3 consecutive cells up to 9 make a block
+		function release() {
 		}
-
-		gridState = "unseeded";
 
 		this.seedSolved = seedSolved;
 
@@ -131,8 +136,14 @@
 
 			gridState = (cellsSolved === 81 ? "complete" : "incomplete");
 			me.trigger("report", me, "grid " + gridState);
+
+			// release resources
+			release();
+
 			return this;
 		};
+
+		setup();
 	}
 
 	suso.Grid = function () {
