@@ -1,0 +1,80 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+#header {
+	background-color: cadetblue;
+}
+
+.right {
+	float: right;
+	text-align: right;
+	margin: 18px 32px;
+}
+
+h1 {
+	color: white;
+	margin: 0;
+	padding: 18px 32px 18px 32px;
+}
+
+.info {
+	padding: 0 32px 18px 32px;
+	color: white;
+}
+
+#container {
+	padding: 32px;
+}
+
+#instructions {
+	padding: 18px 32px 0px 32px;
+}
+
+a {
+	text-decoration: none;
+	color: lawngreen;
+}
+
+a:hover {
+	color: black;
+}
+
+#gridspot {
+	position: fixed;
+}
+
+#reportspot {
+	margin: 0 10px 20px 380px;
+	min-width: 400px;
+}
+
+#reportspot .report-container {
+	border: solid 1px gray;
+	margin: 0;
+}
+
+.seedbtn {
+	margin: 0 0 12px 0;
+	padding: 6px 12px;
+	font-size: 14px;
+	font-weight: 400;	
+	color: white;
+	border: solid 1px #ccc;
+	border-radius: 4px;
+	background-color: cadetblue;
+}
+
+.seedbtn:hover {
+	color: #333;
+	background-color: #e6e6e6;
+	border-color: #adadad;
+}
+
+.seedbtn:focus {
+	color: #333;
+	background-color: #e6e6e6;
+	border-color: #8c8c8c;
+}
