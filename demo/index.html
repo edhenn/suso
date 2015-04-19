@@ -5,9 +5,7 @@
 	</head>
 	<body>
 		<div id='header'>
-			<div class='right'>
-				<button id='seed-int' class='seedbtn'>intermediate seed</button><br />
-				<button id='seed-diab' class='seedbtn'>diabolical seed</button>
+			<div class='right' id='buttons'>
 			</div>
 			
 			<h1>suso demo</h1>
@@ -20,22 +18,6 @@
 			<div id='reportspot'></div>
 		</div>
 		<script type='text/javascript' src='suso.min.js'></script>
-		<script type='text/javascript'>
-		<!--
-			document.addEventListener("DOMContentLoaded", function() {
-				var grid = new suso.Grid(),
-					grid_div = document.getElementById('gridspot'),
-					report_div = document.getElementById('reportspot'),
-					disp = new suso.views.InputGrid(grid, grid_div),
-					rept = new suso.views.Report({ grid: grid, gridView: disp, ctrl: report_div }).
-					seeds_intermediate = [
-						[1, 2, 3, 4, 5, 6, 7, 8, ],
-					],
-					seeds_diabolical = [];
-					
-				
-			});
-		-->
-		</script>
+		<script type='text/javascript' src='demo.js'></script>
 	</body>
 </html>
