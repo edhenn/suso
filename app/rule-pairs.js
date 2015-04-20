@@ -15,8 +15,6 @@
 	suso.rules.pairs = function (grid) {
 		var progress = false,
 			allGroups = grid.allGroups(),	// rows, cols, blocks
-			groupnum,
-			group,
 			cellnum,
 			cell,
 			pairs,
@@ -25,8 +23,7 @@
 			removal2;
 
 		// Iterate through each row, column, and block looking for pairs ("naked pairs")
-		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
-			group = allGroups[groupnum];
+		allGroups.forEach(function (group) {
 			pairs = {};
 			// find all cells with only 2 possible values
 			for (cellnum = 0; cellnum < 9; cellnum++) {
@@ -47,7 +44,7 @@
 				var groupProgress = false,
 					possVals = pairIdx.split("");
 				// delete those possible values from other cells in the group
-				suso.forEach(group.cells(), function (cel) {
+				group.cells().forEach(function (cel) {
 					if (cel !== paircell[0] && cel !== paircell[1]) {
 						removal1 = cel.removePossible(parseInt(possVals[0], 10));
 						removal2 = cel.removePossible(parseInt(possVals[1], 10));
@@ -60,7 +57,7 @@
 						"pairs rule - remove possible vals " + possVals + " from " + group.name());
 				}
 			});
-		}
+		});
 
 		// rules return boolean indicating whether they made any progress
 		return progress;
