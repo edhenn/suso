@@ -122,6 +122,12 @@
 			}
 			return [ myHouses[houseNums.row].num(), myHouses[houseNums.col].num() ];
 		};
+
+		this.release = function () {
+			that.row().off("update");
+			that.col().off("update");
+			that.block().off("update");
+		};
 	}
 
 	suso.Cell = function (grid) {

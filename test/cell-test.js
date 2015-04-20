@@ -89,7 +89,15 @@
 			expect(typeof x.isSeed).toBe("function");
 		});
 
-		it("has 17 non-prototype members", function () {
+		it(".release is a member", function () {
+			expect(x.release).toBeDefined();
+		});
+
+		it(".release is a function", function () {
+			expect(typeof x.release).toBe("function");
+		});
+
+		it("has 18 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -97,7 +105,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(17);
+			expect(members).toBe(18);
 		});
 	});
 

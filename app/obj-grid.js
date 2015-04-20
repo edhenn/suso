@@ -49,6 +49,15 @@
 		}
 
 		function release() {
+			// *** UNSUBSCRIBE ALL GRID EVENTS ***
+
+			// unsubscribe to cell update events
+			rows.forEach(function (row) {
+				row.cells().forEach(function (cell) {
+					cell.off("update");
+					cell.release();
+				});
+			});
 		}
 
 		this.seedSolved = seedSolved;
