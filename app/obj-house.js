@@ -19,6 +19,11 @@
 			}
 		}
 
+		function cellUpdate() {
+			that.trigger("update", this);	// passes solved cell to listeners
+			updatePossibles(this);
+		}
+
 		this.possibles = possibles;
 		this.possibleValues = function () {
 			var i, poss = [];
@@ -32,10 +37,7 @@
 
 		this.addCell = function (cell) {
 			cells.push(cell);
-			cell.on("update", function () {
-				that.trigger("update", this);	// passes solved cell to listeners
-				updatePossibles(this);
-			});
+			cell.on("update", cellUpdate);
 			return that;
 		};
 
@@ -57,6 +59,10 @@
 
 		this.name = function () {
 			return type + " " + num.toString();
+		};
+
+		this.releaseCell = function (cell) {
+			cell.off("update", cellUpdate);
 		};
 	}
 

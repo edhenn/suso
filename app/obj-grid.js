@@ -40,9 +40,9 @@
 			for (i = 0; i < 81; i++) {
 				newCell = new suso.Cell(me);
 				newCell.on("update", cellUpdated);
-				newCell.setHouse(rows[Math.floor(i / 9)], "row");		// every 9 consecutive cells make an hrow
-				newCell.setHouse(cols[i % 9], "col");					// every 9th cell belongs to the same vrow
-				newCell.setHouse(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3], "block");	// every 3rd set of 3 consecutive cells up to 9 make a block
+				newCell.setHouse(rows[Math.floor(i / 9)]);		// every 9 consecutive cells make an hrow
+				newCell.setHouse(cols[i % 9]);					// every 9th cell belongs to the same vrow
+				newCell.setHouse(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3]);	// every 3rd set of 3 consecutive cells up to 9 make a block
 			}
 
 			gridState = "unseeded";
@@ -58,6 +58,9 @@
 					cell.release();
 				});
 			});
+
+			// release rules
+			rules = [];
 		}
 
 		this.seedSolved = seedSolved;

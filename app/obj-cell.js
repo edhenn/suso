@@ -124,9 +124,12 @@
 		};
 
 		this.release = function () {
-			that.row().off("update");
-			that.col().off("update");
-			that.block().off("update");
+			that.row().off("update", updatePossibles);
+			that.row().releaseCell(that);
+			that.col().off("update", updatePossibles);
+			that.col().releaseCell(that);
+			that.block().off("update", updatePossibles);
+			that.block().releaseCell(that);
 		};
 	}
 

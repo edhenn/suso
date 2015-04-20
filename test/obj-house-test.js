@@ -66,7 +66,11 @@
 			expect(typeof x.possibles).toBeDefined();
 		});
 
-		it("has 11 non-prototype members", function () {
+		it("has a .releaseCell function", function () {
+			expect(typeof x.releaseCell).toBe("function");
+		});
+
+		it("has 12 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -74,7 +78,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(11);
+			expect(members).toBe(12);
 		});
 	});
 
@@ -120,7 +124,6 @@
 			var x = new suso.House("col", 3, grid),
 				a = new suso.Cell(grid),
 				b = new suso.Cell(grid),
-				cells,
 				houseUpdateCalls = 0;
 
 			x.addCell(a).addCell(b);
@@ -136,7 +139,6 @@
 			var x = new suso.House("col", 3, grid),
 				a = new suso.Cell(grid),
 				b = new suso.Cell(grid),
-				cells,
 				updatedCells = [];
 
 			x.addCell(a).addCell(b);
