@@ -15,7 +15,7 @@
 		}
 
 		for (index in obj) {
-			if (obj.hasOwnProperty(index) && index !== "where" && index !== "each") {
+			if (obj.hasOwnProperty(index)) {
 				if (fn(obj[index], index)) {
 					result[index] = obj[index];
 				}
@@ -25,7 +25,6 @@
 		return result;
 	};
 
-		// object.each
 	suso.forEach = function (obj, fn) {
 		var index, eachResult, result = {};
 
@@ -38,7 +37,7 @@
 		}
 
 		for (index in obj) {
-			if (obj.hasOwnProperty(index) && index !== "where" && index !== "each") {
+			if (obj.hasOwnProperty(index)) {
 				eachResult = fn(obj[index], index);
 				result[index] = (eachResult || obj[index]);
 			}
