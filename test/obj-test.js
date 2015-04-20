@@ -34,13 +34,15 @@
 	describe("subscribed event", function () {
 		var timesCalled, watched;
 
+		function timesCalledIncrement() {
+			timesCalled++;
+		}
+
 		beforeEach(function () {
 			timesCalled = 0;
 			watched = suso.EventAware({});
 
-			watched.on("blink", function () {
-				timesCalled++;
-			});
+			watched.on("blink", timesCalledIncrement);
 		});
 
 		it("executes callback function when a subscribed event is fired", function () {
@@ -54,20 +56,23 @@
 		});
 
 		it("does not execute callback function when a subscribed event is subsequently unsubscribed", function () {
-			watched.off("blink");
+			watched.off("blink", timesCalledIncrement);
 			watched.trigger("blink");
 			expect(timesCalled).toBe(0);
 		});
 
 		it(".off only unsubscribes specified event", function () {
 			var blonkCalled = 0;
-			watched.on("blonk", function () {
+
+			function blonkIncrement() {
 				blonkCalled++;
-			});
+			}
+
+			watched.on("blonk", blonkIncrement);
 			watched
 				.trigger("blink")
 				.trigger("blonk")
-				.off("blonk")
+				.off("blonk", blonkIncrement)
 				.trigger("blink")
 				.trigger("blonk");
 			expect(timesCalled).toBe(2);
@@ -78,13 +83,15 @@
 	describe("EventAware-derived object", function () {
 		var derived, timesCalled;
 
+		function blinkIncrement() {
+			timesCalled++;
+		}
+
 		beforeEach(function () {
 			timesCalled = 0;
 			derived = suso.EventAware({});
 
-			derived.on("blink", function () {
-				timesCalled++;
-			});
+			derived.on("blink", blinkIncrement);
 		});
 
 		it("executes callback function when a subscribed event is fired", function () {
@@ -98,9 +105,26 @@
 		});
 
 		it("does not execute callback function when a subscribed event is subsequently unsubscribed", function () {
-			derived.off("blink");
+			derived.off("blink", blinkIncrement);
 			derived.trigger("blink");
 			expect(timesCalled).toBe(0);
+		});
+
+		it("unsubscribes only the function requested, not all subscribed to same event", function () {
+			var anotherSubCalled = 0;
+
+			function anotherSub() {
+				anotherSubCalled++;
+			}
+			derived.on("blink", anotherSub);
+
+			// iterate both timesCalled and anotherSubCalled
+			derived.trigger("blink");
+			derived.off("blink", anotherSub);
+			derived.trigger("blink");
+
+			expect(timesCalled).toBe(2);
+			expect(anotherSubCalled).toBe(1);
 		});
 	});
 

@@ -20,13 +20,21 @@
 		};
 
 		// off allows an object to remove itself from list of events
-		obj.off = function (eventName) {
+		obj.off = function (eventName, func) {
+			var funcIndex;
+
 			// make sure there is a list of subscribers for this eventName
 			if (subscribers[eventName] === undefined) {
 				return obj;
 			}
-			// remove subscribers from the array
-			subscribers[eventName] = [];
+			// make sure the callback is a subscriber
+			funcIndex = subscribers[eventName].indexOf(func);
+			if (funcIndex === -1) {
+				return obj;
+			}
+			// remove subscribed callback from the array
+			subscribers[eventName].splice(funcIndex, 1);
+
 			return obj;
 		};
 

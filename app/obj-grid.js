@@ -54,7 +54,7 @@
 			// unsubscribe to cell update events
 			rows.forEach(function (row) {
 				row.cells().forEach(function (cell) {
-					cell.off("update");
+					cell.off("update", cellUpdated);
 					cell.release();
 				});
 			});
