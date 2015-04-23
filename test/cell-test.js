@@ -77,10 +77,6 @@
 			expect(typeof x.removePossible).toBe("function");
 		});
 
-		it(".possibles is a member", function () {
-			expect(x.possibles).toBeDefined();
-		});
-
 		it(".isSeed is a member", function () {
 			expect(x.isSeed).toBeDefined();
 		});
@@ -105,7 +101,7 @@
 			expect(typeof x.hasPossible).toBe("function");
 		});
 
-		it("has 19 non-prototype members", function () {
+		it("has 18 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -113,7 +109,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(19);
+			expect(members).toBe(18);
 		});
 	});
 

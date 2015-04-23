@@ -31,7 +31,6 @@
 			updatePossibles(this);
 		}
 
-		this.possibles = possibles;
 		this.possibleValues = function () {
 			var i, poss = [];
 			for (i = 1; i < 10; i++) {

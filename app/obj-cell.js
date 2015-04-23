@@ -24,8 +24,6 @@
 			return cellId;
 		};
 
-		this.possibles = possibles;
-
 		this.hasPossible = function (value) {
 			var valueFlag = Math.pow(2, 9 - value);
 			return (possibles & valueFlag) === valueFlag;

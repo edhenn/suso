@@ -62,15 +62,11 @@
 			expect(typeof x.possibleValues).toBe("function");
 		});
 
-		it("has a .possibles member", function () {
-			expect(typeof x.possibles).toBeDefined();
-		});
-
 		it("has a .releaseCell function", function () {
 			expect(typeof x.releaseCell).toBe("function");
 		});
 
-		it("has 12 non-prototype members", function () {
+		it("has 11 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -78,7 +74,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(12);
+			expect(members).toBe(11);
 		});
 	});
 
