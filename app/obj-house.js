@@ -1,19 +1,26 @@
 /*global suso */
-/*jslint plusplus: true */
+/*jslint plusplus: true, bitwise: true */
+/*eslint plusplus: true, bitwise: true */
 
 (function (suso) {
 	"use strict";
 
 	function House(type, num, grid) {
 		var cells = [],
-			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null, length: 9 },
+			possibles = Math.pow(2, 9) - 1,
+			possiblesRemaining = 9,
 			that = this;
+
+		function hasPossible(value) {
+			var valueFlag = Math.pow(2, 9 - value);
+			return (possibles & valueFlag) === valueFlag;
+		}
 
 		function updatePossibles(updatedCell) {
 			var newValue = updatedCell.value();
-			if (possibles[newValue] !== undefined) {
-				delete possibles[newValue];
-				possibles.length--;
+			if (hasPossible(newValue)) {
+				possibles = possibles ^ Math.pow(2, 9 - newValue);
+				possiblesRemaining--;
 			} else {
 				throw new Error("Attempt to set a Cell to a value not contained in House's possibles list.");
 			}
@@ -28,7 +35,7 @@
 		this.possibleValues = function () {
 			var i, poss = [];
 			for (i = 1; i < 10; i++) {
-				if (possibles.hasOwnProperty(i)) {
+				if (hasPossible(i)) {
 					poss.push(i);
 				}
 			}
