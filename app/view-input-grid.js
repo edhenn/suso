@@ -23,7 +23,7 @@
 				".cell { width: 39px; height: 40px; display: table-cell; border-style: solid; border-color: grey; border-width: 0 1px 1px 0;" +
 				"  text-align: center; vertical-align: middle; font-family: serif; }\n" +
 				".cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
-				".poss { font-size: 12px; line-height: 10px }\n" +
+				".poss { font-size: 12px; line-height: 12px; float: left; font-family: sans-serif; width: 33%; color: gray; }\n" +
 				".value { font-size: 22px; font-weight: bold; }\n" +
 				".seed { color: tomato; }\n" +
 				"#solve { margin: 30px 0; padding: 6px 12px; font-size: 14px; font-weight: 400; " +		// button styles
@@ -36,12 +36,17 @@
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
 				val = cell.value(),
-				seed = cell.isSeed();
+				seed = cell.isSeed(),
+				possSpans = "",
+				possval;
 
 			if (val) {
 				return "<span class='value" + (seed ? " seed" : "") + "'>" + val.toString() + "</span>";
 			}
-			return "<span class='poss'>" + cell.possibleValues().join(" ") + "</span>";
+			for (possval = 1; possval < 10; possval++) {
+				possSpans += "<span class='poss'>" + (cell.hasPossible(possval) ? possval.toString() : "") + "</span>";
+			}
+			return possSpans;
 		}
 
 		function display() {
