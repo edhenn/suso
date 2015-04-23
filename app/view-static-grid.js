@@ -21,7 +21,7 @@
 				".row:nth-of-type(3n+0) .cell { border-bottom: solid 2px black; }\n" +
 				".cell { width: 38px; height: 40px; display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; text-align: center; vertical-align: middle; }\n" +
 				".cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
-				".poss { font-size: 12px; line-height: 12px; float: left; font-family: sans-serif; width: 33%; color: gray; }\n" +
+				".poss { font-size: 12px; line-height: 12px; float: left; font-family: sans-serif; width: 33%; color: gray; min-height: 12px; }\n" +
 				".value { font-size: 22px; font-weight: bold; }\n" +
 				".seed { color: tomato; }\n",
 			steps = [];
@@ -37,7 +37,7 @@
 				return "<span class='value" + (seed ? " seed" : "") + "'>" + val.toString() + "</span>";
 			}
 			for (possval = 1; possval < 10; possval++) {
-				possSpans += "<span class='poss'>" + (cell.hasPossible(possval) ? possval.toString() : "&nbsp;") + "</span>";
+				possSpans += "<span class='poss'>" + (cell.hasPossible(possval) ? possval.toString() : "") + "</span>";
 			}
 			return possSpans;
 		}
