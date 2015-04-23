@@ -119,6 +119,8 @@
 				return this;
 			}
 
+			me.trigger("start", me);
+
 			// initial pass to solve for cells with one remaining value after seeding
 			for (cell = 0; cell < seedSolved.length; cell++) {
 				possVal = seedSolved[cell].possibleValues();
@@ -148,6 +150,7 @@
 
 			gridState = (cellsSolved === 81 ? "complete" : "incomplete");
 			me.trigger("report", me, "grid " + gridState);
+			me.trigger("finish", me);
 
 			// release resources
 			release();
