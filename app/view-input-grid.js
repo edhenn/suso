@@ -44,7 +44,7 @@
 				return "<span class='value" + (seed ? " seed" : "") + "'>" + val.toString() + "</span>";
 			}
 			for (possval = 1; possval < 10; possval++) {
-				possSpans += "<span class='poss'>" + (cell.hasPossible(possval) ? possval.toString() : "") + "</span>";
+				possSpans += "<span class='poss'>" + (cell.hasPossible(possval) ? possval.toString() : "&nbsp;") + "</span>";
 			}
 			return possSpans;
 		}
