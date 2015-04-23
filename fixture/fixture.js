@@ -9,11 +9,11 @@
 		rept;
 
 	grid = new suso.Grid();
-	disp = new suso.views.StaticGrid(grid);
+	disp = new suso.views.InputGrid(grid);
 	rept = new suso.views.Report({ grid: grid, gridView: disp });
 
 	// difficult -- solved with rule last-in-group
-
+	/*
 	grid.addSeeds([
 		[  ,  ,  ,  ,  , 1,  , 8,  ],
 		[ 8,  ,  , 5, 3,  ,  ,  ,  ],
@@ -25,7 +25,7 @@
 		[  ,  ,  ,  , 7, 3,  ,  , 4],
 		[  , 7,  , 1,  ,  ,  ,  ,  ]
 	]);
-
+	*/
 
 	// diabolical 1	-- solved with rules last-in-group and restricted-possible-value
 	/*
@@ -241,7 +241,7 @@
 	]);
 	*/
 
-	grid.solve();
+	//grid.solve();
 	//jsobj.rules.lastInGroup(grid);
 
 }());

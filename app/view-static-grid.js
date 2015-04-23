@@ -19,7 +19,8 @@
 			styles = ".grid { display: table; border-top: solid 2px black; border-left: solid 2px black; }\n" +
 				".row { display: table-row; border-bottom: solid 1px grey; }\n" +
 				".row:nth-of-type(3n+0) .cell { border-bottom: solid 2px black; }\n" +
-				".cell { width: 38px; height: 40px; display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; text-align: center; vertical-align: middle; }\n" +
+				".cell { width: 38px; height: 40px; text-align: center; vertical-align: middle; padding-top: 1px;" +
+					" display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; }\n" +
 				".cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
 				".poss { font-size: 12px; line-height: 12px; float: left; font-family: sans-serif; width: 33%; color: gray; min-height: 12px; }\n" +
 				".value { font-size: 22px; font-weight: bold; }\n" +
