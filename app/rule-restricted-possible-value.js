@@ -27,7 +27,7 @@
 				intersects = [[], []];	// [blocks, empty] for rows/cols; [rows, cols] for blocks
 				// iterate cells in house, looking for possible value restricted to one intersecting house
 				house.cells().forEach(function (cell) {
-					if (cell.possibles[possval] !== undefined) {
+					if (cell.hasPossible(possval)) {
 						if (house.type() === "block") {
 							rows = intersects[0];
 							cols = intersects[1];
@@ -52,7 +52,7 @@
 					}).forEach(function (rowOrCol) {
 						rowOrCol[0].cells().forEach(function (intersectCell) {
 							if (intersectCell.block() !== house &&
-									intersectCell.possibles[possval] !== undefined &&
+									intersectCell.hasPossible(possval) &&
 									intersectCell.removePossible(possval)) {
 								progress = true;
 								grid.trigger("report", rowOrCol[0],
@@ -66,7 +66,7 @@
 						intersects[0][0].cells().forEach(function (intersectCell) {
 							if (intersectCell.row() !== house &&
 									intersectCell.col() !== house &&
-									intersectCell.possibles[possval] !== undefined &&
+									intersectCell.hasPossible(possval) &&
 									intersectCell.removePossible(possval)) {
 								progress = true;
 								grid.trigger("report", intersects[0][0],

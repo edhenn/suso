@@ -10,7 +10,7 @@
 	function Cell(id, grid) {
 		var cellId = id, val, myHouses = [],
 			houseNums = { "row": 0, "col": 1, "block": 2 },
-			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null },
+			possibles = Math.pow(2, 9) - 1,	// bitwise possible values, exponent = (9 - val)
 			possibleCount = 9,
 			seed = false,
 			that = this;
@@ -26,9 +26,15 @@
 
 		this.possibles = possibles;
 
+		this.hasPossible = function (value) {
+			var valueFlag = Math.pow(2, 9 - value);
+			return (possibles & valueFlag) === valueFlag;
+		};
+
 		this.removePossible = function (value) {
-			if (possibles[value] !== undefined) {
-				delete possibles[value];
+			if (that.hasPossible(value)) {
+				// remove possible value flag
+				possibles = possibles ^ Math.pow(2, 9 - value);
 				possibleCount--;
 				if (possibleCount === 1) {
 					// grid is ready - done seeding. auto-solve cells with one remaining possible value.
@@ -63,7 +69,7 @@
 				seed = true;
 			}
 			val = newValue;
-			that.possibles = possibles = {};
+			possibles = 0;
 			possibleCount = 0;
 			this.trigger("update", this, note);
 		};
@@ -101,7 +107,7 @@
 		this.possibleValues = function () {
 			var i, poss = [];
 			for (i = 1; i < 10; i++) {
-				if (possibles.hasOwnProperty(i)) {
+				if (that.hasPossible(i)) {
 					poss.push(i);
 				}
 			}
@@ -109,11 +115,7 @@
 		};
 
 		this.possibleFlags = function () {
-			var i, flags = 0;
-			for (i = 1; i < 10; i++) {
-				flags = (flags << 1) | (possibles.hasOwnProperty(i) ? 1 : 0);
-			}
-			return flags;
+			return possibles;
 		};
 
 		this.coords = function () {

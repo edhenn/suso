@@ -97,7 +97,15 @@
 			expect(typeof x.release).toBe("function");
 		});
 
-		it("has 18 non-prototype members", function () {
+		it(".hasPossible is a member", function () {
+			expect(x.hasPossible).toBeDefined();
+		});
+
+		it(".hasPossible is a function", function () {
+			expect(typeof x.hasPossible).toBe("function");
+		});
+
+		it("has 19 non-prototype members", function () {
 			var members = 0, prop;
 
 			for (prop in x) {
@@ -105,7 +113,7 @@
 					members++;
 				}
 			}
-			expect(members).toBe(18);
+			expect(members).toBe(19);
 		});
 	});
 
