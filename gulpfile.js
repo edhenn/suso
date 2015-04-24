@@ -66,8 +66,7 @@ gulp.task('bump-major', ['lint', 'test'], function () {
 		.pipe(gulp.dest('./'));
 });
 
-// package auto-bumps semver patch number; gulp bump-minor or bump-major manually as desired
-gulp.task('package', ['lint', 'test', 'complex', 'bump'], function () {
+function runpackage() {
 	return gulp.src(appFilesInOrder)
 		.pipe(plugins.concat('suso.js'))
 		.pipe(plugins.stripDebug())
@@ -75,6 +74,19 @@ gulp.task('package', ['lint', 'test', 'complex', 'bump'], function () {
 		.pipe(plugins.rename({ suffix: '.min' }))
 		.pipe(plugins.uglify())
 		.pipe(gulp.dest('build'));
+}
+
+// package auto-bumps semver patch number; gulp bump-minor or bump-major manually as desired
+gulp.task('package', ['lint', 'test', 'complex', 'bump'], function () {
+	return runpackage();
+});
+
+gulp.task('package-minor', ['lint', 'test', 'complex', 'bump-minor'], function () {
+	return runpackage();
+});
+
+gulp.task('package-major', ['lint', 'test', 'complex', 'bump-major'], function () {
+	return runpackage();
 });
 
 gulp.task('default', ['lint', 'test'], function () {
