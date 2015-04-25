@@ -7,7 +7,8 @@
 	describe("Static-Grid view", function () {
 		var grid = new suso.Grid(),
 			ctrl,
-			disp;
+			disp,
+			regex;
 
 		it("returns result wrapped in div.grid tags", function () {
 			ctrl = document.createElement("div");
@@ -15,22 +16,10 @@
 			expect(ctrl.innerHTML.indexOf('<div class="grid"><div class="row"><span class="cell"><span class="poss">1</span>') > -1).toBe(true);
 		});
 
-		xit("returns all dashes for an empty grid, formatted correctly", function () {
+		it("returns all possible values for an empty grid", function () {
 			ctrl = document.createElement("div");
 			disp = new suso.views.StaticGrid(grid, ctrl);
-			expect(ctrl.innerHTML).toBe('<pre>\n' +
-				"--- --- ---\n" +
-				"--- --- ---\n" +
-				"--- --- ---\n" +
-				"\n" +
-				"--- --- ---\n" +
-				"--- --- ---\n" +
-				"--- --- ---\n" +
-				"\n" +
-				"--- --- ---\n" +
-				"--- --- ---\n" +
-				"--- --- ---\n" +
-				'</pre>');
+			expect(ctrl.innerHTML.match(/<span class="poss">\d<\/span>/g).length).toBe(9*9*9);
 		});
 
 		it("returns seeded grid with values in correct order", function () {
@@ -47,7 +36,7 @@
 			]);
 			ctrl = document.createElement("div");
 			disp = new suso.views.StaticGrid(grid, ctrl);
-			var regex = new RegExp(
+			regex = new RegExp(
 				"1.*2.*3.*4.*5.*6.*7.*8.*9.*\n.*" +
 				"4.*5.*6.*7.*8.*9.*1.*2.*3.*\n.*" +
 				"7.*8.*9.*1.*2.*3.*4.*5.*6.*\n.*" +
