@@ -13,12 +13,12 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
-	"app",
-	"coverage",
-	"demo",
-	"fixture",
+    "app",
+    "coverage",
+    "demo",
+    "fixture",
     "node_modules",
-	"reports",
+    "reports",
     "bower_components",
     "test",
     "tests"
