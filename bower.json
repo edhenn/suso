@@ -1,24 +1,28 @@
 {
-  "name": "js-obj",
+  "name": "suso",
   "version": "0.0.0",
   "authors": [
     "Ed Henn <emhenn@ucdavis.edu>"
   ],
-  "description": "javascript object tests",
-  "main": "obj.js",
+  "description": "Sudoku Solver written in Javascript. Solves grid using familiar rules and tracking possible values. Several views available.",
+  "main": "build/suso.js",
   "keywords": [
     "javascript",
-    "objects",
-    "inheritance",
-    "composition"
+    "sudoku"
   ],
   "license": "MIT",
-  "private": true,
   "ignore": [
     "**/.*",
+	"app",
+	"coverage",
+	"demo",
+	"fixture",
     "node_modules",
+	"reports",
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "homepage": "http://wheel.dcn.davis.ca.us/~emhenn",
+  "respository": "git://github.com/edhenn/suso.git"
 }
