@@ -23,13 +23,21 @@ var suso = {};
 		};
 
 		// off allows an object to remove itself from list of events
-		obj.off = function (eventName) {
+		obj.off = function (eventName, func) {
+			var funcIndex;
+
 			// make sure there is a list of subscribers for this eventName
 			if (subscribers[eventName] === undefined) {
 				return obj;
 			}
-			// remove subscribers from the array
-			subscribers[eventName] = [];
+			// make sure the callback is a subscriber
+			funcIndex = subscribers[eventName].indexOf(func);
+			if (funcIndex === -1) {
+				return obj;
+			}
+			// remove subscribed callback from the array
+			subscribers[eventName].splice(funcIndex, 1);
+
 			return obj;
 		};
 
@@ -70,7 +78,7 @@ var suso = {};
 		}
 
 		for (index in obj) {
-			if (obj.hasOwnProperty(index) && index !== "where" && index !== "each") {
+			if (obj.hasOwnProperty(index)) {
 				if (fn(obj[index], index)) {
 					result[index] = obj[index];
 				}
@@ -80,7 +88,6 @@ var suso = {};
 		return result;
 	};
 
-		// object.each
 	suso.forEach = function (obj, fn) {
 		var index, eachResult, result = {};
 
@@ -93,7 +100,7 @@ var suso = {};
 		}
 
 		for (index in obj) {
-			if (obj.hasOwnProperty(index) && index !== "where" && index !== "each") {
+			if (obj.hasOwnProperty(index)) {
 				eachResult = fn(obj[index], index);
 				result[index] = (eachResult || obj[index]);
 			}
@@ -131,25 +138,42 @@ var suso = {};
 			}
 		}
 
-		// *** CREATE GRID OBJECT ***
+		function setup() {
+			// *** CREATE GRID OBJECT ***
 
-		// create 9 blocks, cols, rows
-		for (i = 0; i < 9; i++) {
-			blocks.push(new suso.House("block", i, me));
-			cols.push(new suso.House("col", i, me));
-			rows.push(new suso.House("row", i, me));
+			// create 9 blocks, cols, rows
+			for (i = 0; i < 9; i++) {
+				blocks.push(new suso.House("block", i, me));
+				cols.push(new suso.House("col", i, me));
+				rows.push(new suso.House("row", i, me));
+			}
+
+			// create 81 cells each tied to correct block, vrow, hrow
+			for (i = 0; i < 81; i++) {
+				newCell = new suso.Cell(me);
+				newCell.on("update", cellUpdated);
+				newCell.setHouse(rows[Math.floor(i / 9)]);		// every 9 consecutive cells make an hrow
+				newCell.setHouse(cols[i % 9]);					// every 9th cell belongs to the same vrow
+				newCell.setHouse(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3]);	// every 3rd set of 3 consecutive cells up to 9 make a block
+			}
+
+			gridState = "unseeded";
 		}
 
-		// create 81 cells each tied to correct block, vrow, hrow
-		for (i = 0; i < 81; i++) {
-			newCell = new suso.Cell(this);
-			newCell.on("update", cellUpdated);
-			newCell.setHouse(rows[Math.floor(i / 9)], "row");		// every 9 consecutive cells make an hrow
-			newCell.setHouse(cols[i % 9], "col");					// every 9th cell belongs to the same vrow
-			newCell.setHouse(blocks[Math.floor(i / 3) % 3 + Math.floor(i / 27) * 3], "block");	// every 3rd set of 3 consecutive cells up to 9 make a block
-		}
+		function release() {
+			// *** UNSUBSCRIBE ALL GRID EVENTS ***
 
-		gridState = "unseeded";
+			// unsubscribe to cell update events
+			rows.forEach(function (row) {
+				row.cells().forEach(function (cell) {
+					cell.off("update", cellUpdated);
+					cell.release();
+				});
+			});
+
+			// release rules
+			rules = [];
+		}
 
 		this.seedSolved = seedSolved;
 
@@ -207,6 +231,8 @@ var suso = {};
 				return this;
 			}
 
+			me.trigger("start", me);
+
 			// initial pass to solve for cells with one remaining value after seeding
 			for (cell = 0; cell < seedSolved.length; cell++) {
 				possVal = seedSolved[cell].possibleValues();
@@ -236,8 +262,15 @@ var suso = {};
 
 			gridState = (cellsSolved === 81 ? "complete" : "incomplete");
 			me.trigger("report", me, "grid " + gridState);
+			me.trigger("finish", me);
+
+			// release resources
+			release();
+
 			return this;
 		};
+
+		setup();
 	}
 
 	suso.Grid = function () {
@@ -246,31 +279,42 @@ var suso = {};
 }(suso));
 
 /*global suso */
-/*jslint plusplus: true */
+/*jslint plusplus: true, bitwise: true */
+/*eslint plusplus: true, bitwise: true */
 
 (function (suso) {
 	"use strict";
 
 	function House(type, num, grid) {
 		var cells = [],
-			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null, length: 9 },
+			possibles = Math.pow(2, 9) - 1,
+			possiblesRemaining = 9,
 			that = this;
+
+		function hasPossible(value) {
+			var valueFlag = Math.pow(2, 9 - value);
+			return (possibles & valueFlag) === valueFlag;
+		}
 
 		function updatePossibles(updatedCell) {
 			var newValue = updatedCell.value();
-			if (possibles[newValue] !== undefined) {
-				delete possibles[newValue];
-				possibles.length--;
+			if (hasPossible(newValue)) {
+				possibles = possibles ^ Math.pow(2, 9 - newValue);
+				possiblesRemaining--;
 			} else {
 				throw new Error("Attempt to set a Cell to a value not contained in House's possibles list.");
 			}
 		}
 
-		this.possibles = possibles;
+		function cellUpdate() {
+			that.trigger("update", this);	// passes solved cell to listeners
+			updatePossibles(this);
+		}
+
 		this.possibleValues = function () {
 			var i, poss = [];
 			for (i = 1; i < 10; i++) {
-				if (possibles.hasOwnProperty(i)) {
+				if (hasPossible(i)) {
 					poss.push(i);
 				}
 			}
@@ -279,10 +323,7 @@ var suso = {};
 
 		this.addCell = function (cell) {
 			cells.push(cell);
-			cell.on("update", function () {
-				that.trigger("update", this);	// passes solved cell to listeners
-				updatePossibles(this);
-			});
+			cell.on("update", cellUpdate);
 			return that;
 		};
 
@@ -305,6 +346,10 @@ var suso = {};
 		this.name = function () {
 			return type + " " + num.toString();
 		};
+
+		this.releaseCell = function (cell) {
+			cell.off("update", cellUpdate);
+		};
 	}
 
 	suso.House = function (type, num, grid) {
@@ -324,7 +369,7 @@ var suso = {};
 	function Cell(id, grid) {
 		var cellId = id, val, myHouses = [],
 			houseNums = { "row": 0, "col": 1, "block": 2 },
-			possibles = { 1: null, 2: null, 3: null, 4: null, 5: null, 6: null, 7: null, 8: null, 9: null },
+			possibles = Math.pow(2, 9) - 1,	// bitwise possible values, exponent = (9 - val)
 			possibleCount = 9,
 			seed = false,
 			that = this;
@@ -338,11 +383,15 @@ var suso = {};
 			return cellId;
 		};
 
-		this.possibles = possibles;
+		this.hasPossible = function (value) {
+			var valueFlag = Math.pow(2, 9 - value);
+			return (possibles & valueFlag) === valueFlag;
+		};
 
 		this.removePossible = function (value) {
-			if (possibles[value] !== undefined) {
-				delete possibles[value];
+			if (that.hasPossible(value)) {
+				// remove possible value flag
+				possibles = possibles ^ Math.pow(2, 9 - value);
 				possibleCount--;
 				if (possibleCount === 1) {
 					// grid is ready - done seeding. auto-solve cells with one remaining possible value.
@@ -377,7 +426,7 @@ var suso = {};
 				seed = true;
 			}
 			val = newValue;
-			that.possibles = possibles = {};
+			possibles = 0;
 			possibleCount = 0;
 			this.trigger("update", this, note);
 		};
@@ -415,7 +464,7 @@ var suso = {};
 		this.possibleValues = function () {
 			var i, poss = [];
 			for (i = 1; i < 10; i++) {
-				if (possibles.hasOwnProperty(i)) {
+				if (that.hasPossible(i)) {
 					poss.push(i);
 				}
 			}
@@ -423,11 +472,7 @@ var suso = {};
 		};
 
 		this.possibleFlags = function () {
-			var i, flags = 0;
-			for (i = 1; i < 10; i++) {
-				flags = (flags << 1) | (possibles.hasOwnProperty(i) ? 1 : 0);
-			}
-			return flags;
+			return possibles;
 		};
 
 		this.coords = function () {
@@ -435,6 +480,15 @@ var suso = {};
 				return [];
 			}
 			return [ myHouses[houseNums.row].num(), myHouses[houseNums.col].num() ];
+		};
+
+		this.release = function () {
+			that.row().off("update", updatePossibles);
+			that.row().releaseCell(that);
+			that.col().off("update", updatePossibles);
+			that.col().releaseCell(that);
+			that.block().off("update", updatePossibles);
+			that.block().releaseCell(that);
 		};
 	}
 
@@ -601,8 +655,6 @@ var suso = {};
 	suso.rules.pairs = function (grid) {
 		var progress = false,
 			allGroups = grid.allGroups(),	// rows, cols, blocks
-			groupnum,
-			group,
 			cellnum,
 			cell,
 			pairs,
@@ -611,8 +663,7 @@ var suso = {};
 			removal2;
 
 		// Iterate through each row, column, and block looking for pairs ("naked pairs")
-		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
-			group = allGroups[groupnum];
+		allGroups.forEach(function (group) {
 			pairs = {};
 			// find all cells with only 2 possible values
 			for (cellnum = 0; cellnum < 9; cellnum++) {
@@ -633,7 +684,7 @@ var suso = {};
 				var groupProgress = false,
 					possVals = pairIdx.split("");
 				// delete those possible values from other cells in the group
-				suso.forEach(group.cells(), function (cel) {
+				group.cells().forEach(function (cel) {
 					if (cel !== paircell[0] && cel !== paircell[1]) {
 						removal1 = cel.removePossible(parseInt(possVals[0], 10));
 						removal2 = cel.removePossible(parseInt(possVals[1], 10));
@@ -646,7 +697,7 @@ var suso = {};
 						"pairs rule - remove possible vals " + possVals + " from " + group.name());
 				}
 			});
-		}
+		});
 
 		// rules return boolean indicating whether they made any progress
 		return progress;
@@ -682,7 +733,7 @@ var suso = {};
 				intersects = [[], []];	// [blocks, empty] for rows/cols; [rows, cols] for blocks
 				// iterate cells in house, looking for possible value restricted to one intersecting house
 				house.cells().forEach(function (cell) {
-					if (cell.possibles[possval] !== undefined) {
+					if (cell.hasPossible(possval)) {
 						if (house.type() === "block") {
 							rows = intersects[0];
 							cols = intersects[1];
@@ -707,7 +758,7 @@ var suso = {};
 					}).forEach(function (rowOrCol) {
 						rowOrCol[0].cells().forEach(function (intersectCell) {
 							if (intersectCell.block() !== house &&
-									intersectCell.possibles[possval] !== undefined &&
+									intersectCell.hasPossible(possval) &&
 									intersectCell.removePossible(possval)) {
 								progress = true;
 								grid.trigger("report", rowOrCol[0],
@@ -721,7 +772,7 @@ var suso = {};
 						intersects[0][0].cells().forEach(function (intersectCell) {
 							if (intersectCell.row() !== house &&
 									intersectCell.col() !== house &&
-									intersectCell.possibles[possval] !== undefined &&
+									intersectCell.hasPossible(possval) &&
 									intersectCell.removePossible(possval)) {
 								progress = true;
 								grid.trigger("report", intersects[0][0],
@@ -887,10 +938,10 @@ var suso = {};
 			styles = ".grid { display: table; border-top: solid 2px black; border-left: solid 2px black; }\n" +
 				".row { display: table-row; border-bottom: solid 1px grey; }\n" +
 				".row:nth-of-type(3n+0) .cell { border-bottom: solid 2px black; }\n" +
-				".cell { width: 39px; height: 40px; display: table-cell; border-style: solid; border-color: grey; border-width: 0 1px 1px 0;" +
-				"  text-align: center; vertical-align: middle; font-family: serif; }\n" +
+				".cell { width: 38px; height: 40px; display: table-cell; border-style: solid; border-color: grey; border-width: 0 1px 1px 0;" +
+				"  text-align: center; vertical-align: middle; font-family: serif; padding-top: 1px; }\n" +
 				".cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
-				".poss { font-size: 12px; line-height: 10px }\n" +
+				".poss { font-size: 12px; line-height: 12px; float: left; font-family: sans-serif; width: 33%; color: gray; min-height: 12px; }\n" +
 				".value { font-size: 22px; font-weight: bold; }\n" +
 				".seed { color: tomato; }\n" +
 				"#solve { margin: 30px 0; padding: 6px 12px; font-size: 14px; font-weight: 400; " +		// button styles
@@ -903,12 +954,17 @@ var suso = {};
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
 				val = cell.value(),
-				seed = cell.isSeed();
+				seed = cell.isSeed(),
+				possSpans = "",
+				possval;
 
 			if (val) {
 				return "<span class='value" + (seed ? " seed" : "") + "'>" + val.toString() + "</span>";
 			}
-			return "<span class='poss'>" + cell.possibleValues().join(" ") + "</span>";
+			for (possval = 1; possval < 10; possval++) {
+				possSpans += "<span class='poss'>" + (cell.hasPossible(possval) ? possval.toString() : "") + "</span>";
+			}
+			return possSpans;
 		}
 
 		function display() {
@@ -1176,9 +1232,10 @@ var suso = {};
 			styles = ".grid { display: table; border-top: solid 2px black; border-left: solid 2px black; }\n" +
 				".row { display: table-row; border-bottom: solid 1px grey; }\n" +
 				".row:nth-of-type(3n+0) .cell { border-bottom: solid 2px black; }\n" +
-				".cell { width: 38px; height: 40px; display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; text-align: center; vertical-align: middle; }\n" +
+				".cell { width: 38px; height: 40px; text-align: center; vertical-align: middle; padding-top: 1px;" +
+					" display: table-cell; border-right: solid 1px grey; border-bottom: solid 1px grey; }\n" +
 				".cell:nth-of-type(3n+0) { border-right: solid 2px black; }\n" +
-				".poss { font-size: 12px; line-height: 10px }\n" +
+				".poss { font-size: 12px; line-height: 12px; float: left; font-family: sans-serif; width: 33%; color: gray; min-height: 12px; }\n" +
 				".value { font-size: 22px; font-weight: bold; }\n" +
 				".seed { color: tomato; }\n",
 			steps = [];
@@ -1186,12 +1243,17 @@ var suso = {};
 		function repl(match, id) {
 			var cell = grid.hRow(row).cells()[id],
 				val = cell.value(),
-				seed = cell.isSeed();
+				seed = cell.isSeed(),
+				possSpans = "",
+				possval;
 
 			if (val) {
 				return "<span class='value" + (seed ? " seed" : "") + "'>" + val.toString() + "</span>";
 			}
-			return "<span class='poss'>" + cell.possibleValues().join(" ") + "</span>";
+			for (possval = 1; possval < 10; possval++) {
+				possSpans += "<span class='poss'>" + (cell.hasPossible(possval) ? possval.toString() : "") + "</span>";
+			}
+			return possSpans;
 		}
 
 		function display() {
