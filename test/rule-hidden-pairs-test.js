@@ -70,7 +70,7 @@
 			expect(grid.hRow(4).cells()[8].possibleValues()).toEqual([3, 9]);
 		});
 
-		xit("does nothing when 2 different pairs of possible values exist in a group", function () {
+		it("does nothing when 2 different pairs of possible values exist in a group", function () {
 			var grid = new suso.Grid(),						//    012 345 678
 				progress, solved, poss;
 

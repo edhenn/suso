@@ -1,4 +1,4 @@
-/*global suso, describe, it, expect, beforeEach, document */
+/*global suso, describe, it, expect, beforeEach, document, xit */
 /*jslint plusplus: true */
 
 (function () {
@@ -9,10 +9,10 @@
 			ctrl,
 			disp;
 
-		xit("returns result wrapped in div.grid tags", function () {
+		it("returns result wrapped in div.grid tags", function () {
 			ctrl = document.createElement("div");
 			disp = new suso.views.StaticGrid(grid, ctrl);
-			expect(ctrl.innerHTML.substring(0, 18)).toBe('<div class="grid">');
+			expect(ctrl.innerHTML.indexOf('<div class="grid"><div class="row"><span class="cell"><span class="poss">1</span>') > -1).toBe(true);
 		});
 
 		xit("returns all dashes for an empty grid, formatted correctly", function () {
@@ -33,7 +33,7 @@
 				'</pre>');
 		});
 
-		xit("returns full grid, formatted correctly", function () {
+		it("returns seeded grid with values in correct order", function () {
 			grid.addSeeds([
 				[1, 2, 3, 4, 5, 6, 7, 8, 9],
 				[4, 5, 6, 7, 8, 9, 1, 2, 3],
@@ -47,19 +47,18 @@
 			]);
 			ctrl = document.createElement("div");
 			disp = new suso.views.StaticGrid(grid, ctrl);
-			expect(ctrl.innerHTML).toBe('<pre>\n' +
-				"123 456 789\n" +
-				"456 789 123\n" +
-				"789 123 456\n" +
-				"\n" +
-				"234 567 891\n" +
-				"567 891 234\n" +
-				"891 234 567\n" +
-				"\n" +
-				"345 678 912\n" +
-				"678 912 345\n" +
-				"912 345 678\n" +
-				'</pre>');
+			var regex = new RegExp(
+				"1.*2.*3.*4.*5.*6.*7.*8.*9.*\n.*" +
+				"4.*5.*6.*7.*8.*9.*1.*2.*3.*\n.*" +
+				"7.*8.*9.*1.*2.*3.*4.*5.*6.*\n.*" +
+				"2.*3.*4.*5.*6.*7.*8.*9.*1.*\n.*" +
+				"5.*6.*7.*8.*9.*1.*2.*3.*4.*\n.*" +
+				"8.*9.*1.*2.*3.*4.*5.*6.*7.*\n.*" +
+				"3.*4.*5.*6.*7.*8.*9.*1.*2.*\n.*" +
+				"6.*7.*8.*9.*1.*2.*3.*4.*5.*\n.*" +
+				"9.*1.*2.*3.*4.*5.*6.*7.*8"
+				);
+			expect(regex.test(ctrl.innerHTML)).toBe(true);
 		});
 	});
 }());
