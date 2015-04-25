@@ -5,7 +5,10 @@
 
 var gulp = require('gulp'),
 	plugins = require('gulp-load-plugins')({
-		pattern: ['gulp-*', 'plato']
+		pattern: ['gulp-*', 'plato'],
+		rename: {
+			'gulp-tag-version': 'version'
+		}
 	}),
 	appFilesInOrder = [
 		'app/suso-namespace.js',
@@ -59,19 +62,25 @@ gulp.task('package', ['lint', 'test', 'complex'], function () {
 		.pipe(gulp.dest('build'));
 });
 
+function addBuildsToNextGitCommit() {
+	return gulp.src(['build/*.js'])
+		.pipe(plugins.git.add());
+}
+
 function incrementVersion(versionType) {
-    // get all the files to bump version in
-    return gulp.src(['./package.json', './bower.json'])
-		// bump the version number in those files
-		.pipe(plugins.bump({ type: versionType }))
-		// save it back to filesystem
-		.pipe(gulp.dest('./'))
-		// commit the changed version number
-		.pipe(plugins.git.commit('update package version (gulp-tag-version)'))
-		 // read only one file to get the version number
-		.pipe(plugins.filter('package.json'))
-		// **tag it in the repository**
-		.pipe(plugins.tag_version());
+	var buildFiles = 'build/*.js',
+		packageFiles = '*.json',
+		packageFilter = plugins.filter(packageFiles);
+
+    // get all the files to commit
+    return gulp.src([buildFiles, packageFiles])
+		.pipe(packageFilter)							// filter down to packageFiles
+		.pipe(plugins.bump({ type: versionType }))		// bump requested version number
+		.pipe(gulp.dest('./'))							// save back to filesystem
+		.pipe(packageFilter.restore())					// un-filter to include build files
+		.pipe(plugins.git.commit('gulp-tag-version'))	// commit changed version number and build files
+		.pipe(plugins.filter('package.json'))			// read only one file to get the version number
+		.pipe(plugins.version());						// **tag it in the repository**
 }
 
 // package and bump semver patch number in npm and bower configs
