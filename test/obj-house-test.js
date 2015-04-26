@@ -149,4 +149,20 @@
 		});
 	});
 
+	describe("House possible tracking", function () {
+		var grid = { state: stateStub };
+
+		it("throws an error when setting cell to non-possible value", function () {
+			var house = new suso.House("col", 1, grid),
+				cel1 = new suso.Cell(grid),
+				cel2 = new suso.Cell(grid);
+
+			house.addCell(cel1)
+				.addCell(cel2);
+			cel1.setValue(1);
+
+			expect(function () { cel2.setValue(1); })
+				.toThrow(new Error("Attempt to set a Cell to a value not contained in House's possibles list."));
+		});
+	});
 }());
