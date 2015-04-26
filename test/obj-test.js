@@ -183,4 +183,34 @@
 			expect(triggeredValue).toBe(watched);
 		});
 	});
+
+	describe("off method", function () {
+		var watched;
+
+		beforeEach(function () {
+			watched = suso.EventAware({});
+		});
+
+		it("ignores calls for unwatched eventname without throwing error", function () {
+			var returnVal = watched.off("not-an-event");
+			expect(returnVal).toBe(watched);
+		});
+
+		it("ignores calls with unregistered callbacks without throwing error", function () {
+			var returnVal;
+
+			function aCallback() {
+				return true;
+			}
+
+			function notACallback() {
+				return false;
+			}
+
+			watched.on("anEvent", aCallback);
+			returnVal = watched.off("anEvent", notACallback);
+
+			expect(returnVal).toBe(watched);
+		});
+	});
 }());
