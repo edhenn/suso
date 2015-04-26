@@ -1,4 +1,4 @@
-/*global suso, describe, it, expect, beforeEach, document, xit */
+/*global suso, describe, it, expect, document */
 /*jslint plusplus: true */
 
 (function () {
@@ -13,13 +13,13 @@
 		it("returns result wrapped in div.grid tags", function () {
 			ctrl = document.createElement("div");
 			disp = new suso.views.StaticGrid(grid, ctrl);
-			expect(ctrl.innerHTML.indexOf('<div class="grid"><div class="row"><span class="cell"><span class="poss">1</span>') > -1).toBe(true);
+			expect(ctrl.innerHTML.indexOf("<div class=\"grid\"><div class=\"row\"><span class=\"cell\"><span class=\"poss\">1</span>") > -1).toBe(true);
 		});
 
 		it("returns all possible values for an empty grid", function () {
 			ctrl = document.createElement("div");
 			disp = new suso.views.StaticGrid(grid, ctrl);
-			expect(ctrl.innerHTML.match(/<span class="poss">\d<\/span>/g).length).toBe(9*9*9);
+			expect(ctrl.innerHTML.match(/<span class="poss">\d<\/span>/g).length).toBe(9 * 9 * 9);
 		});
 
 		it("returns seeded grid with values in correct order", function () {

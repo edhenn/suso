@@ -1,4 +1,4 @@
-/*global suso, describe, it, expect, beforeEach */
+/*global suso, describe, it, expect */
 /*jslint plusplus: true */
 
 (function () {
@@ -47,9 +47,9 @@
 		it("solves for a given value when its 4 neighboring blocks each contain the value", function () {
 			var grid = new suso.Grid(), solved, result;		//    012 345 678
 
-			grid.row(0).cells()[7].setValue(5);			// 0  --- --- -5-
-			grid.row(3).cells()[8].setValue(5);			// 1  --- --- ---            
-			grid.row(6).cells()[0].setValue(5);			// 2  --- --- ---
+			grid.row(0).cells()[7].setValue(5);				// 0  --- --- -5-
+			grid.row(3).cells()[8].setValue(5);				// 1  --- --- ---
+			grid.row(6).cells()[0].setValue(5);				// 2  --- --- ---
 			grid.row(7).cells()[3].setValue(5);
 															// 3  --- --- --5
 			result = suso.rules.lastInGroup(grid);			// 4  --- --- ---
@@ -65,9 +65,9 @@
 		it("solves for a given value when 2 neighbor blocks restrict it to one row with only one space left in the block", function () {
 			var grid = new suso.Grid(), solved;				//    012 345 678
 
-			grid.row(6).cells()[2].setValue(3);			// 0  --- --- ---
-			grid.row(7).cells()[4].setValue(3);			// 1  --- --- ---
-			grid.row(8).cells()[6].setValue(1);			// 2  --- --- ---
+			grid.row(6).cells()[2].setValue(3);				// 0  --- --- ---
+			grid.row(7).cells()[4].setValue(3);				// 1  --- --- ---
+			grid.row(8).cells()[6].setValue(1);				// 2  --- --- ---
 			grid.row(8).cells()[7].setValue(2);
 															// 3  --- --- ---
 			suso.rules.lastInGroup(grid);					// 4  --- --- ---

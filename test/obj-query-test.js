@@ -1,4 +1,4 @@
-/*global suso, describe, it, expect, beforeEach */
+/*global suso, describe, it, expect */
 /*jslint plusplus: true */
 
 (function () {

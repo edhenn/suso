@@ -1,4 +1,4 @@
-/*global suso, describe, it, xit, expect, beforeEach */
+/*global suso, describe, it, expect */
 /*jslint plusplus: true */
 
 (function () {
@@ -28,14 +28,10 @@
 			return solved;
 		}
 
-		function arraysAreEqual(a, b) {
-
-		}
-
 		it("does nothing to an empty grid", function () {
-			var grid = new suso.Grid(), result = null;
+			var grid = new suso.Grid();
 
-			result = suso.rules.triples(grid);
+			suso.rules.triples(grid);
 
 			expect(listSolved(grid).length).toBe(0);
 		});
@@ -50,7 +46,7 @@
 
 		it("removes possible values from a row when three cells in row have same triplet of possible values", function () {
 			var grid = new suso.Grid(),
-				progress, solved, poss;						//    012 345 678
+				progress;								//    012 345 678
 
 			grid.row(0).cells()[2].setValue(7);			// 0  --7 234 ---	<- this row should not have 1,5,9 in last 2 cells
 			grid.row(0).cells()[3].setValue(2);			// 1  6-- --- ---
@@ -77,7 +73,7 @@
 
 		it("removes possible values from a row when three cells in row share same triplet of possible values in three pairs", function () {
 			var grid = new suso.Grid(),
-				progress, solved, poss;						//    012 345 678
+				progress;								//    012 345 678
 
 			grid.row(0).cells()[2].setValue(7);			// 0  --7 234 ---	<- this row should not have 1,5,9 in last 2 cells
 			grid.row(0).cells()[3].setValue(2);			// 1  6-- --- ---

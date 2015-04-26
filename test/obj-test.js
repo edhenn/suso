@@ -16,7 +16,7 @@
 	});
 
 	describe("EventAware object", function () {
-		var x = suso.EventAware({});
+		var x = new suso.EventAware({});
 
 		it("has a .on function", function () {
 			expect(typeof x.on).toBe("function");
@@ -40,7 +40,7 @@
 
 		beforeEach(function () {
 			timesCalled = 0;
-			watched = suso.EventAware({});
+			watched = new suso.EventAware({});
 
 			watched.on("blink", timesCalledIncrement);
 		});
@@ -89,7 +89,7 @@
 
 		beforeEach(function () {
 			timesCalled = 0;
-			derived = suso.EventAware({});
+			derived = new suso.EventAware({});
 
 			derived.on("blink", blinkIncrement);
 		});
@@ -133,13 +133,13 @@
 
 		beforeEach(function () {
 			watchedCalled = 0;
-			watched = suso.EventAware({});
+			watched = new suso.EventAware({});
 			watched.on("blink", function () {
 				watchedCalled++;
 			});
 
 			notWatchedCalled = 0;
-			notWatched = suso.EventAware({});
+			notWatched = new suso.EventAware({});
 		});
 
 		it("executes callback function only on the subscribed object when event is fired", function () {
@@ -154,7 +154,7 @@
 		var watched, triggeredValue;
 
 		beforeEach(function () {
-			watched = suso.EventAware({});
+			watched = new suso.EventAware({});
 			triggeredValue = null;
 		});
 
@@ -188,7 +188,7 @@
 		var watched;
 
 		beforeEach(function () {
-			watched = suso.EventAware({});
+			watched = new suso.EventAware({});
 		});
 
 		it("ignores calls for unwatched eventname without throwing error", function () {

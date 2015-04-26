@@ -1,4 +1,4 @@
-/*global suso, describe, it, xit, expect, beforeEach */
+/*global suso, describe, it, expect */
 /*jslint plusplus: true */
 
 (function () {
@@ -28,14 +28,10 @@
 			return solved;
 		}
 
-		function arraysAreEqual(a, b) {
-
-		}
-
 		it("does nothing to an empty grid", function () {
-			var grid = new suso.Grid(), result = null;
+			var grid = new suso.Grid();
 
-			result = suso.rules.hiddenpairs(grid);
+			suso.rules.hiddenpairs(grid);
 
 			expect(listSolved(grid).length).toBe(0);
 		});
@@ -50,7 +46,7 @@
 
 		it("removes extraneous possible values from hidden pair in a row", function () {
 			var grid = new suso.Grid(),
-				progress, solved, poss;						//    012 345 678
+				progress;								//    012 345 678
 
 			grid.row(1).cells()[8].setValue(4);			// 0  --- --- ---
 			grid.row(2).cells()[8].setValue(5);			// 1  --- --- --4
@@ -61,8 +57,8 @@
 			grid.row(4).cells()[7].setValue(8);			// 5  --- --- ---
 			grid.row(6).cells()[2].setValue(4);
 			grid.row(7).cells()[2].setValue(5);			// 6  --4 --- ---
-															// 7  --5 --- ---
-			progress = suso.rules.hiddenpairs(grid);		// 8  --- --- ---
+														// 7  --5 --- ---
+			progress = suso.rules.hiddenpairs(grid);	// 8  --- --- ---
 			expect(progress).toBe(true);
 			expect(grid.row(4).cells()[2].possibleValues()).toEqual([3, 9]);
 			expect(grid.row(4).cells()[3].possibleValues()).toEqual([4, 5]);
@@ -71,8 +67,8 @@
 		});
 
 		it("does nothing when 2 different pairs of possible values exist in a group", function () {
-			var grid = new suso.Grid(),						//    012 345 678
-				progress, solved, poss;
+			var grid = new suso.Grid(),
+				progress;								//    012 345 678
 
 			grid.row(0).cells()[0].setValue(1);			// 0  123 --- ---
 			grid.row(0).cells()[1].setValue(2);			// 1  --- --- ---  <-- cells 0,1,2 should have 5/6, 4/6, 4/5 as poss values.  no pairs.
@@ -83,8 +79,8 @@
 			grid.row(3).cells()[0].setValue(4);			// 5  --- --- ---
 			grid.row(3).cells()[1].setValue(5);
 			grid.row(3).cells()[2].setValue(6);			// 6  --- --- ---
-															// 7  --- --- ---
-			progress = suso.rules.pairs(grid);				// 8  --- --- ---
+														// 7  --- --- ---
+			progress = suso.rules.pairs(grid);			// 8  --- --- ---
 
 			expect(progress).toBe(false);
 			expect(grid.row(1).cells()[0].possibleValues()).toEqual([5, 6]);

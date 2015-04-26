@@ -1,4 +1,4 @@
-/*global suso, describe, it, expect, beforeEach, document */
+/*global suso, describe, it, expect, document */
 /*jslint plusplus: true */
 
 (function () {
@@ -12,13 +12,13 @@
 		it("returns result wrapped in <pre> tags", function () {
 			ctrl = document.createElement("div");
 			disp = new suso.views.Preformatted(grid, ctrl);
-			expect(ctrl.innerHTML.substring(0, 6)).toBe('<pre>\n');
+			expect(ctrl.innerHTML.substring(0, 6)).toBe("<pre>\n");
 		});
 
 		it("returns all dashes for an empty grid, formatted correctly", function () {
 			ctrl = document.createElement("div");
 			disp = new suso.views.Preformatted(grid, ctrl);
-			expect(ctrl.innerHTML).toBe('<pre>\n' +
+			expect(ctrl.innerHTML).toBe("<pre>\n" +
 				"--- --- ---\n" +
 				"--- --- ---\n" +
 				"--- --- ---\n" +
@@ -30,7 +30,7 @@
 				"--- --- ---\n" +
 				"--- --- ---\n" +
 				"--- --- ---\n" +
-				'</pre>');
+				"</pre>");
 		});
 
 		it("returns full grid, formatted correctly", function () {
@@ -47,7 +47,7 @@
 			]);
 			ctrl = document.createElement("div");
 			disp = new suso.views.Preformatted(grid, ctrl);
-			expect(ctrl.innerHTML).toBe('<pre>\n' +
+			expect(ctrl.innerHTML).toBe("<pre>\n" +
 				"123 456 789\n" +
 				"456 789 123\n" +
 				"789 123 456\n" +
@@ -59,7 +59,7 @@
 				"345 678 912\n" +
 				"678 912 345\n" +
 				"912 345 678\n" +
-				'</pre>');
+				"</pre>");
 		});
 
 		it("creates Grid-Display element if no dom element passed in", function () {
