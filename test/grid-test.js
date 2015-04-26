@@ -199,4 +199,58 @@
 		});
 	});
 
+	describe("house access methods: ", function () {
+		var grid = new suso.Grid();
+
+		it(".col() returns expected column object", function () {
+			var cols = [],
+				i;
+			for (i = 0; i < 9; i++) {
+				cols.push(grid.col(i));
+			}
+			expect(cols[0].name()).toBe('col 0');
+			expect(cols[1].name()).toBe('col 1');
+			expect(cols[2].name()).toBe('col 2');
+			expect(cols[3].name()).toBe('col 3');
+			expect(cols[4].name()).toBe('col 4');
+			expect(cols[5].name()).toBe('col 5');
+			expect(cols[6].name()).toBe('col 6');
+			expect(cols[7].name()).toBe('col 7');
+			expect(cols[8].name()).toBe('col 8');
+		});
+
+		it(".row() returns expected row object", function () {
+			var rows = [],
+				i;
+			for (i = 0; i < 9; i++) {
+				rows.push(grid.row(i));
+			}
+			expect(rows[0].name()).toBe('row 0');
+			expect(rows[1].name()).toBe('row 1');
+			expect(rows[2].name()).toBe('row 2');
+			expect(rows[3].name()).toBe('row 3');
+			expect(rows[4].name()).toBe('row 4');
+			expect(rows[5].name()).toBe('row 5');
+			expect(rows[6].name()).toBe('row 6');
+			expect(rows[7].name()).toBe('row 7');
+			expect(rows[8].name()).toBe('row 8');
+		});
+
+		it(".block() returns expected block object", function () {
+			var blocks = [],
+				i;
+			for (i = 0; i < 9; i++) {
+				blocks.push(grid.block(i));
+			}
+			expect(blocks[0].name()).toBe('block 0');
+			expect(blocks[1].name()).toBe('block 1');
+			expect(blocks[2].name()).toBe('block 2');
+			expect(blocks[3].name()).toBe('block 3');
+			expect(blocks[4].name()).toBe('block 4');
+			expect(blocks[5].name()).toBe('block 5');
+			expect(blocks[6].name()).toBe('block 6');
+			expect(blocks[7].name()).toBe('block 7');
+			expect(blocks[8].name()).toBe('block 8');
+		});
+	});
 }());
