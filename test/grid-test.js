@@ -211,6 +211,36 @@
 			x.solve();
 			expect(x.rows[0].cells()[8].value()).toBe(9);
 		});
+
+		it("triggers start event when solve() started", function () {
+			var startCount = 0, beforeSolve, afterSolve;
+
+			x.on("start", function () { startCount++; });
+			x.addSeeds([1]);
+			beforeSolve = startCount;
+			x.solve();
+			afterSolve = startCount;
+
+			expect(beforeSolve).toBe(0);
+			expect(afterSolve).toBe(1);
+		});
+
+		it("does not trigger start event when solve() called twice", function () {
+			var startCount = 0, beforeSolve, afterSolve, secondSolve, secondSolveReturn;
+
+			x.on("start", function () { startCount++; });
+			x.addSeeds([1]);
+			beforeSolve = startCount;
+			x.solve();
+			afterSolve = startCount;
+			secondSolveReturn = x.solve();
+			secondSolve = startCount;
+
+			expect(beforeSolve).toBe(0);
+			expect(afterSolve).toBe(1);
+			expect(secondSolve).toBe(1);
+			expect(secondSolveReturn).toBe(x);
+		});
 	});
 
 	describe("house access methods: ", function () {
