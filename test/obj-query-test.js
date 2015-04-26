@@ -62,10 +62,24 @@
 
 			expect(result).toEqual({ b: 4 });
 		});
+
+		it("ignores inherited properties", function () {
+			var obj, result;
+
+			function Obj() { }
+			Obj.prototype = sourceObj;
+			obj = new Obj();
+
+			result = suso.filter(obj, function () { return true; });
+
+			expect(obj.a).toBe(3);
+			expect(obj.b).toBe(4);
+			expect(result).toEqual({});
+		});
 	});
 
 	describe("suso.forEach member", function () {
-		var emptyObj = {}, fullObj = { a: 1, b: 2, c: 3 };
+		var fullObj = { a: 1, b: 2, c: 3 };
 
 		it("exists on the suso namespace", function () {
 			expect(suso.forEach).toBeDefined();
@@ -102,7 +116,7 @@
 		it("returns copy of source obj when no value returned from passed function", function () {
 			var result, count = 0;
 
-			result = suso.forEach(fullObj, function (el) { count++; });
+			result = suso.forEach(fullObj, function () { count++; });
 
 			expect(result).toEqual(fullObj);	// it's a new object with the same properties.
 			expect(result).not.toBe(fullObj);	// it's not the same object.
@@ -114,6 +128,22 @@
 			result = suso.forEach(fullObj, function (el) { return el * 2; });
 
 			expect(result).toEqual({ a: 2, b: 4, c: 6 });
+		});
+
+		it("ignores inherited properties", function () {
+			var obj, count = 0;
+
+			function Obj() { }
+			Obj.prototype = fullObj;
+			obj = new Obj();
+			obj.x = 0;
+
+			suso.forEach(obj, function () { count++; });
+
+			expect(obj.a).toBe(1);
+			expect(obj.b).toBe(2);
+			expect(obj.c).toBe(3);
+			expect(count).toBe(1);
 		});
 	});
 }());
