@@ -26,22 +26,22 @@
 			house.possibleValues().forEach(function (possval) {
 				intersects = [[], []];	// [blocks, empty] for rows/cols; [rows, cols] for blocks
 				// iterate cells in house, looking for possible value restricted to one intersecting house
-				house.cells().forEach(function (cell) {
-					if (cell.hasPossible(possval)) {
-						if (house.type() === "block") {
-							rows = intersects[0];
-							cols = intersects[1];
-							if (rows.indexOf(cell.row()) === -1) {
-								rows.push(cell.row());
-							}
-							if (cols.indexOf(cell.col()) === -1) {
-								cols.push(cell.col());
-							}
-						} else {
-							blocks = intersects[0];
-							if (blocks.indexOf(cell.block()) === -1) {
-								blocks.push(cell.block());
-							}
+				house.cells().filter(function (cell) {
+					return cell.hasPossible(possval);
+				}).forEach(function (cell) {
+					if (house.type() === "block") {
+						rows = intersects[0];
+						cols = intersects[1];
+						if (rows.indexOf(cell.row()) === -1) {
+							rows.push(cell.row());
+						}
+						if (cols.indexOf(cell.col()) === -1) {
+							cols.push(cell.col());
+						}
+					} else {
+						blocks = intersects[0];
+						if (blocks.indexOf(cell.block()) === -1) {
+							blocks.push(cell.block());
 						}
 					}
 				});
