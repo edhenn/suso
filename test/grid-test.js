@@ -5,15 +5,14 @@
 	"use strict";
 
 	function listSolved(grid) {
-		var solved = [], row, cell, rowCells;
-		for (row = 0; row < 9; row++) {
-			rowCells = grid.row(row).cells();
-			for (cell = 0; cell < 9; cell++) {
-				if (rowCells[cell].value() !== undefined) {
-					solved.push(rowCells[cell]);
+		var solved = [];
+		grid.rows.forEach(function (row) {
+			row.cells().forEach(function (cell) {
+				if (cell.value() !== undefined) {
+					solved.push(cell);
 				}
-			}
-		}
+			});
+		});
 		return solved;
 	}
 
@@ -151,6 +150,21 @@
 		it("does not solve cells with one possible value when seeding", function () {
 			x.addSeeds([ [1, 2, 3, 4, 5, 6, 7, 8] ]);
 			expect(listSolved(x).length).toBe(8);
+		});
+
+		it("ignores seeds if seeding is already complete", function () {
+			var empty, oneSeed, twoSeeds, twoSeedReturn;
+
+			empty = listSolved(x).length;
+			x.addSeeds([[1]]);
+			oneSeed = listSolved(x).length;
+			twoSeedReturn = x.addSeeds([[], [1]]);
+			twoSeeds = listSolved(x).length;
+
+			expect(empty).toBe(0);
+			expect(oneSeed).toBe(1);
+			expect(twoSeeds).toBe(1);
+			expect(twoSeedReturn).toBe(x);
 		});
 	});
 
