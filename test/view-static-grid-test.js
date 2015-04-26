@@ -49,5 +49,11 @@
 				);
 			expect(regex.test(ctrl.innerHTML)).toBe(true);
 		});
+
+		it("creates Grid-Display element if no dom element passed in", function () {
+			document.body.innerHTML = "";
+			disp = new suso.views.StaticGrid(grid);
+			expect(document.body.innerHTML.match(/<div id=['"]Grid-Display['"]>/g).length).toBe(1);
+		});
 	});
 }());

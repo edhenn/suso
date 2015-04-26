@@ -32,5 +32,11 @@
 			grid.addSeeds([[1]]);
 			expect(ctrl.innerHTML.indexOf('<div class="report-container"><span id="report-title" class="title">Report</span><div class="report"')).toBeGreaterThan(-1);
 		});
+
+		it("creates Report-Display element if no dom element passed in", function () {
+			document.body.innerHTML = "";
+			disp = new suso.views.Report({ grid: grid });
+			expect(document.body.innerHTML.match(/<div id=['"]Report-Display['"]>/g).length).toBe(1);
+		});
 	});
 }());

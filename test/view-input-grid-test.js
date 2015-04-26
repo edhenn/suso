@@ -32,5 +32,11 @@
 			disp = new suso.views.InputGrid(grid, ctrl);
 			expect(ctrl.innerHTML.match(/<input id=['"]solve['"] type=['"]button['"][ a-zA-Z!='"]*>/g).length).toBe(1);
 		});
+
+		it("creates Grid-Display element if no dom element passed in", function () {
+			document.body.innerHTML = "";
+			disp = new suso.views.InputGrid(grid);
+			expect(document.body.innerHTML.match(/<div id=['"]Grid-Display['"]>/g).length).toBe(1);
+		});
 	});
 }());
