@@ -23,7 +23,7 @@ var gulp = require('gulp'),
 	testFiles = ['test/*.js'];
 
 gulp.task('lint', function () {
-	return gulp.src(appFilesInOrder)
+	return gulp.src(appFilesInOrder.concat(testFiles))
 		.pipe(plugins.eslint())
 		.pipe(plugins.eslint.format())
 		.pipe(plugins.eslint.failOnError());
