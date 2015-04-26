@@ -434,4 +434,29 @@
 			expect(cel.isSeed()).toBe(false);
 		});
 	});
+
+	describe("Cell id function", function () {
+		it("returns a number for id of cell created", function () {
+			var x = new suso.Cell({}),
+				id = x.id();
+
+			expect(typeof x.id()).toBe("number");
+		});
+
+		it("returns consecutive numbers for consecutively created cells", function () {
+			var x = new suso.Cell({}),
+				y = new suso.Cell({}),
+				id1 = x.id(),
+				id2 = y.id();
+			expect(id2).toBe(id1 + 1);
+		});
+	});
+
+	describe("Cell grid function", function () {
+		it("returns the grid passed in to the cell constructor", function () {
+			var grid = new suso.Grid(),
+				cell = new suso.Cell(grid);
+			expect(cell.grid()).toBe(grid);
+		});
+	});
 }());
