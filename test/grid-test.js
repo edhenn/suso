@@ -7,7 +7,7 @@
 	function listSolved(grid) {
 		var solved = [], row, cell, rowCells;
 		for (row = 0; row < 9; row++) {
-			rowCells = grid.hRow(row).cells();
+			rowCells = grid.row(row).cells();
 			for (cell = 0; cell < 9; cell++) {
 				if (rowCells[cell].value() !== undefined) {
 					solved.push(rowCells[cell]);
@@ -30,12 +30,12 @@
 	describe("Grid object members", function () {
 		var x = new suso.Grid();
 
-		it(".vRow member is a function", function () {
-			expect(typeof x.vRow).toBe("function");
+		it(".col member is a function", function () {
+			expect(typeof x.col).toBe("function");
 		});
 
-		it(".hRow member is a function", function () {
-			expect(typeof x.hRow).toBe("function");
+		it(".row member is a function", function () {
+			expect(typeof x.row).toBe("function");
 		});
 
 		it(".block member is a function", function () {

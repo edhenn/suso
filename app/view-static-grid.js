@@ -28,7 +28,7 @@
 			steps = [];
 
 		function repl(match, id) {
-			var cell = grid.hRow(row).cells()[id],
+			var cell = grid.row(row).cells()[id],
 				val = cell.value(),
 				seed = cell.isSeed(),
 				possSpans = "",

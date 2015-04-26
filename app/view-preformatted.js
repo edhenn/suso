@@ -16,7 +16,7 @@
 			steps = [];
 
 		function repl(match, id) {
-			var val = grid.hRow(row).cells()[id].value();
+			var val = grid.row(row).cells()[id].value();
 			return val === undefined ? "-" : val.toString();
 		}
 

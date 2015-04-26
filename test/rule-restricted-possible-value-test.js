@@ -18,7 +18,7 @@
 		function listSolved(grid) {
 			var solved = [], row, cell, rowCells;
 			for (row = 0; row < 9; row++) {
-				rowCells = grid.hRow(row).cells();
+				rowCells = grid.row(row).cells();
 				for (cell = 0; cell < 9; cell++) {
 					if (rowCells[cell].value() !== undefined) {
 						solved.push(rowCells[cell]);
@@ -60,13 +60,13 @@
 		it("removes possible values from elswhere in block when restricted to a row in that block", function () {
 			var grid = new suso.Grid(), solved, possible, poss70, poss71, poss72, result;
 
-			grid.hRow(6).cells()[4].setValue(9);							//    012 345 678
-			grid.hRow(8).cells()[2].setValue(1);
-			grid.hRow(8).cells()[3].setValue(2);		                    // 0  --- --- ---
-			grid.hRow(8).cells()[5].setValue(3);                            // 1  --- --- ---
-			grid.hRow(8).cells()[6].setValue(4);                            // 2  --- --- ---
-			grid.hRow(8).cells()[7].setValue(5);
-			grid.hRow(8).cells()[8].setValue(6);                            // 3  --- --- ---
+			grid.row(6).cells()[4].setValue(9);							//    012 345 678
+			grid.row(8).cells()[2].setValue(1);
+			grid.row(8).cells()[3].setValue(2);		                    // 0  --- --- ---
+			grid.row(8).cells()[5].setValue(3);                            // 1  --- --- ---
+			grid.row(8).cells()[6].setValue(4);                            // 2  --- --- ---
+			grid.row(8).cells()[7].setValue(5);
+			grid.row(8).cells()[8].setValue(6);                            // 3  --- --- ---
 														                    // 4  --- --- ---
 			solved = listSolved(grid).length;                               // 5  --- --- ---
 			possible = countPossibles(grid);
@@ -91,13 +91,13 @@
 		it("removes possible values from elswhere in col when restricted to a block in that col", function () {
 			var grid = new suso.Grid(), solved, possible, poss65, poss75, poss85;
 
-			grid.hRow(1).cells()[3].setValue(9);							//    012 345 678
-			grid.hRow(3).cells()[3].setValue(1);
-			grid.hRow(3).cells()[4].setValue(2);		                    // 0  --- --- ---
-			grid.hRow(4).cells()[4].setValue(3);                            // 1  --- 9-- ---
-			grid.hRow(4).cells()[5].setValue(4);                            // 2  --- --- ---
-			grid.hRow(5).cells()[3].setValue(5);
-			grid.hRow(5).cells()[4].setValue(6);                            // 3  --- 12- ---
+			grid.row(1).cells()[3].setValue(9);							//    012 345 678
+			grid.row(3).cells()[3].setValue(1);
+			grid.row(3).cells()[4].setValue(2);		                    // 0  --- --- ---
+			grid.row(4).cells()[4].setValue(3);                            // 1  --- 9-- ---
+			grid.row(4).cells()[5].setValue(4);                            // 2  --- --- ---
+			grid.row(5).cells()[3].setValue(5);
+			grid.row(5).cells()[4].setValue(6);                            // 3  --- 12- ---
 														                    // 4  --- -34 ---
 			solved = listSolved(grid).length;                               // 5  --- 56- ---
 			possible = countPossibles(grid);

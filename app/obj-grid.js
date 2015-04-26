@@ -72,11 +72,11 @@
 		this.rows = rows;
 		this.cols = cols;
 
-		this.vRow = function (index) {
+		this.col = function (index) {
 			return cols[index];
 		};
 
-		this.hRow = function (index) {
+		this.row = function (index) {
 			return rows[index];
 		};
 
