@@ -55,5 +55,26 @@
 			disp = new suso.views.StaticGrid(grid);
 			expect(document.body.innerHTML.match(/<div id=['"]Grid-Display['"]>/g).length).toBe(1);
 		});
+
+		it("has a createStep function", function () {
+			disp = new suso.views.StaticGrid(grid);
+			expect(disp.createStep).toBeDefined();
+			expect(typeof disp.createStep).toBe("function");
+		});
+
+		it("has a renderStep function", function () {
+			disp = new suso.views.StaticGrid(grid);
+			expect(disp.renderStep).toBeDefined();
+			expect(typeof disp.renderStep).toBe("function");
+		});
+
+		it("records and remembers solution steps", function () {
+			var stepNum;
+			disp = new suso.views.StaticGrid(grid);
+			stepNum = disp.createStep();
+			disp.renderStep(stepNum);
+
+			expect(stepNum).toBe(0);
+		});
 	});
 }());
