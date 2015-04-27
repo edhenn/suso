@@ -88,8 +88,8 @@
 			expect(grid.rows[7].cells()[2].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8]);
 		});
 
-		it("removes possible values from elswhere in col when restricted to a block in that col", function () {
-			var grid = new suso.Grid(), solved, possible, poss65, poss75, poss85;
+		it("removes possible values from elswhere in block when restricted to a col in that block", function () {
+			var grid = new suso.Grid(), solved, possible, poss65, poss75, poss85, result;
 
 			grid.row(1).cells()[3].setValue(9);								//    012 345 678
 			grid.row(3).cells()[3].setValue(1);
@@ -105,8 +105,9 @@
 			poss75 = grid.rows[7].cells()[5].possibleValues().length;       // 7  --- --~ ---
 			poss85 = grid.rows[8].cells()[5].possibleValues().length;       // 8  --- --~ ---
 
-			suso.rules.restrictedPossibleValue(grid);
+			result = suso.rules.restrictedPossibleValue(grid);
 
+			expect(result).toBe(true);
 			expect(listSolved(grid).length).toBe(solved);
 			expect(countPossibles(grid)).toBe(possible - 3);
 			expect(grid.rows[6].cells()[5].possibleValues().length).toBe(poss65 - 1);
@@ -116,6 +117,50 @@
 			expect(grid.rows[6].cells()[5].possibleValues()).toEqual([1, 2, 3, 5, 6, 7, 8]);
 			expect(grid.rows[7].cells()[5].possibleValues()).toEqual([1, 2, 3, 5, 6, 7, 8]);
 			expect(grid.rows[8].cells()[5].possibleValues()).toEqual([1, 2, 3, 5, 6, 7, 8]);
+		});
+
+		it("removes possible values from elswhere in row when restricted to a block in that row", function () {
+			var grid = new suso.Grid(), solved, possible,
+				poss03, poss04, poss05, poss06, poss07, poss08, result;
+
+			grid.row(1).cells()[0].setValue(2);								//    012 345 678
+			grid.row(1).cells()[2].setValue(8);
+			grid.row(2).cells()[0].setValue(4);								// 0  *-* --- ---
+			grid.row(2).cells()[1].setValue(6);								// 1  2-8 --- ---
+			grid.row(2).cells()[2].setValue(9);								// 2  469 --- ---
+			grid.row(4).cells()[0].setValue(5);
+			grid.row(4).cells()[2].setValue(7);								// 3  --- --- ---
+			grid.row(8).cells()[0].setValue(7);								// 4  5-7 --- ---
+			grid.row(8).cells()[1].setValue(1);								// 5  --- --- ---
+			grid.row(8).cells()[2].setValue(3);
+																			// 6  --- --- ---
+			solved = listSolved(grid).length;                               // 7  --- --- ---
+			possible = countPossibles(grid);								// 8  713 --- ---
+			poss03 = grid.rows[0].cells()[3].possibleValues().length;
+			poss04 = grid.rows[0].cells()[4].possibleValues().length;
+			poss05 = grid.rows[0].cells()[5].possibleValues().length;
+			poss06 = grid.rows[0].cells()[6].possibleValues().length;
+			poss07 = grid.rows[0].cells()[7].possibleValues().length;
+			poss08 = grid.rows[0].cells()[8].possibleValues().length;
+
+			result = suso.rules.restrictedPossibleValue(grid);
+			expect(result).toBe(true);
+			expect(listSolved(grid).length).toBe(solved);
+			expect(countPossibles(grid)).toBe(possible - 6);
+			expect(grid.rows[0].cells()[3].possibleValues().length).toBe(poss03 - 1);
+			expect(grid.rows[0].cells()[4].possibleValues().length).toBe(poss04 - 1);
+			expect(grid.rows[0].cells()[5].possibleValues().length).toBe(poss05 - 1);
+			expect(grid.rows[0].cells()[6].possibleValues().length).toBe(poss06 - 1);
+			expect(grid.rows[0].cells()[7].possibleValues().length).toBe(poss07 - 1);
+			expect(grid.rows[0].cells()[8].possibleValues().length).toBe(poss08 - 1);
+			// value 1 is removed from row 1 last six cells
+			expect(grid.rows[0].cells()[5].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8, 9]);
+			expect(grid.rows[0].cells()[3].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8, 9]);
+			expect(grid.rows[0].cells()[4].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8, 9]);
+			expect(grid.rows[0].cells()[5].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8, 9]);
+			expect(grid.rows[0].cells()[6].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8, 9]);
+			expect(grid.rows[0].cells()[7].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8, 9]);
+			expect(grid.rows[0].cells()[8].possibleValues()).toEqual([2, 3, 4, 5, 6, 7, 8, 9]);
 		});
 	});
 }());
