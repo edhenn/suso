@@ -4,10 +4,6 @@
 (function (suso) {
 	"use strict";
 
-	if (suso.views === undefined) {
-		suso.views = {};
-	}
-
 	suso.views.InputGrid = function (grid, ctrl) {
 		var gridtag,
 			gridbody,

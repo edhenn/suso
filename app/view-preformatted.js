@@ -4,10 +4,6 @@
 (function (suso) {
 	"use strict";
 
-	if (suso.views === undefined) {
-		suso.views = {};
-	}
-
 	suso.views.Preformatted = function (grid, ctrl) {
 		var pretag,
 			prebody,

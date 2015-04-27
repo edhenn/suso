@@ -4,10 +4,6 @@
 (function (suso) {
 	"use strict";
 
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
-
 	// counts number of bits set in flags
 	function countBits(flags) {
 		var bits = 0;

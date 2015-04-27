@@ -4,10 +4,6 @@
 (function (suso) {
 	"use strict";
 
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
-
 	suso.rules.lastInGroup = function (grid) {
 		var allgroups = grid.allGroups(),
 			groupx,

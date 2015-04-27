@@ -125,7 +125,7 @@
 
 			grid.row(1).cells()[0].setValue(2);								//    012 345 678
 			grid.row(1).cells()[2].setValue(8);
-			grid.row(2).cells()[0].setValue(4);								// 0  *-* --- ---
+			grid.row(2).cells()[0].setValue(4);								// 0  *-* ~~~ ~~~
 			grid.row(2).cells()[1].setValue(6);								// 1  2-8 --- ---
 			grid.row(2).cells()[2].setValue(9);								// 2  469 --- ---
 			grid.row(4).cells()[0].setValue(5);

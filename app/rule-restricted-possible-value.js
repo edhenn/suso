@@ -4,10 +4,6 @@
 (function (suso) {
 	"use strict";
 
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
-
 	// sometimes called "number claiming" or "omission"
 	suso.rules.restrictedPossibleValue = function (grid) {
 		var houses = grid.allGroups(),

@@ -5,10 +5,6 @@
 (function (suso) {
 	"use strict";
 
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
-
 	// Hidden Pairs rule removes possible values from cells.
 	// It looks in rows, columns, and blocks for any 2 cells containing the only instances of two possible remaining values,
 	// and removes any other possible values from those 2 cells.

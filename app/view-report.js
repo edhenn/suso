@@ -4,10 +4,6 @@
 (function (suso) {
 	"use strict";
 
-	if (suso.views === undefined) {
-		suso.views = {};
-	}
-
 	suso.views.Report = function (settings) {	// grid, ctrl, gridView
 		var reportContainer,
 			styletag,

@@ -5,10 +5,6 @@
 (function (suso) {
 	"use strict";
 
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
-
 	// Pairs rule removes possible values from cells.
 	// It looks in rows, columns, and blocks for any 2 cells containing the same two possible remaining values.
 	// The two values can be removed from all other cells in that group.
