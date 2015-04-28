@@ -45,4 +45,14 @@
 
 		return result;
 	};
+
+	suso.sets = function (arr, size) {
+		if (arr === undefined || arr === null || typeof arr !== "object" || !(arr instanceof Array)) {
+			throw new Error("arr parameter is not an array");
+		}
+
+		if (size === undefined || size === null || typeof size !== "number") {
+			throw new Error("size parameter is not a valid number");
+		}
+	};
 }(suso));

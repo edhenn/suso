@@ -146,4 +146,30 @@
 			expect(count).toBe(1);
 		});
 	});
+
+	describe("suso.sets member", function () {
+		it("exists on the namespace", function () {
+			expect(suso.sets).toBeDefined();
+		});
+
+		it("is a function", function () {
+			expect(typeof suso.sets).toBe("function");
+		});
+
+		it("throws an error if array parameter is null", function () {
+			expect(function () { suso.sets(); }).toThrow(new Error("arr parameter is not an array"));
+		});
+
+		it("throws an error if array parameter is not an array", function () {
+			expect(function () { suso.sets({}); }).toThrow(new Error("arr parameter is not an array"));
+		});
+
+		it("throws an error if not provided with a size", function () {
+			expect(function () { suso.sets([]); }).toThrow(new Error("size parameter is not a valid number"));
+		});
+
+		it("throws an error if size parameter is not a number", function () {
+			expect(function () { suso.sets([], "two"); }).toThrow(new Error("size parameter is not a valid number"));
+		});
+	});
 }());
