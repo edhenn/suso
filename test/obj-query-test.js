@@ -176,6 +176,10 @@
 			expect(function () { suso.sets([], 1, "x"); }).toThrow(new Error("val parameter is not a function"));
 		});
 
+		it("returns empty array when size > array length", function () {
+			expect(suso.sets([1, 2, 3], 4)).toEqual([]);
+		});
+
 		it("returns empty array for size 0", function () {
 			expect(suso.sets([1, 2, 3], 0)).toEqual([]);
 		});
@@ -192,7 +196,15 @@
 			expect(suso.sets([1, 2, 3, 4], 3)).toEqual([[1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4]]);
 		});
 
-		it("returns empty array when size > array length", function () {
+		it("returns array with array as only alement for size == array length", function () {
+			expect(suso.sets([1, 2, 3], 3)).toEqual([[1, 2, 3]]);
+		});
+
+		it("returns all pairs of three objects when a valid obj-comparison function passed in", function () {
+			var obj1 = { name: 1 }, obj2 = { name: 2 }, obj3 = { name: 3 },
+				arr = [ obj1, obj2, obj3 ];
+
+			expect(suso.sets(arr, 2, function (el) { return el.name; })).toEqual([ [obj1, obj2], [obj1, obj3], [obj2, obj3] ]);
 		});
 	});
 }());

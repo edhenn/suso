@@ -64,7 +64,7 @@
 			throw new Error("val parameter is not a function");
 		}
 
-		if (size === 0) {
+		if (size === 0 || size > arr.length) {
 			return result;
 		}
 
@@ -89,7 +89,7 @@
 		subsets = suso.sets(arr, size - 1);
 		arr.forEach(function (el) {
 			subsets.forEach(function (subset) {
-				if (subset[0] > el) {
+				if (val(subset[0]) > val(el)) {		// create combinations, not permutations
 					result.push([el].concat(subset));
 				}
 			});
