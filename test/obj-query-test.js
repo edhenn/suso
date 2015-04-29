@@ -201,7 +201,7 @@
 		});
 
 		it("returns array with array as only element for size == array length", function () {
-			expect(suso.sets([1, 2, 3], 3)).toEqual([[1, 2, 3]]);
+			expect(suso.sets([1, 2, 3], 3)).toEqual([1, 2, 3]);
 		});
 
 		it("returns all pairs of three objects when a valid obj-comparison function passed in", function () {
