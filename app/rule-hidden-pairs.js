@@ -11,10 +11,7 @@
 	suso.rules.hiddenpairs = function (grid) {
 		var progress = false,
 			cellsByVal,
-			cellIndex,
-			cell,
 			safeFlags,
-			targetIdx,
 			targetFlags,
 			flagValue;
 
@@ -23,19 +20,17 @@
 			return group.possibleValues().length > 2;
 		}).forEach(function (group) {
 			cellsByVal = {};
-			// index cells in group by which possible values they contain
-			for (cellIndex = 0; cellIndex < 9; cellIndex++) {
-				cell = group.cells()[cellIndex];
-				if (cell.value() !== undefined) {
-					continue;
-				}
+			group.cells().filter(function (cell) {
+				return cell.value() === undefined;
+			}).forEach(function (cell) {
+				// index unsolved cells in group by which possible values they contain
 				cell.possibleValues().forEach(function (possVal) {
 					if (cellsByVal[possVal] === undefined) {
 						cellsByVal[possVal] = [];
 					}
 					cellsByVal[possVal].push(cell);
 				});
-			}
+			});
 			// filter down to possible values existing in exactly 2 cells
 			cellsByVal = suso.filter(cellsByVal, function (el) {
 				return el.length === 2;
@@ -45,21 +40,21 @@
 				suso.forEach(cellsByVal, function (otherEl, otherIdx) {
 					if (otherIdx > idx && el[0] === otherEl[0] && el[1] === otherEl[1]) {
 						safeFlags = Math.pow(2, 9 - idx) | Math.pow(2, 9 - otherIdx);	// flags for poss vals to keep
-						for (targetIdx = 0; targetIdx < 2; targetIdx++) {
+						el.forEach(function (targetCell) {
 							// remove all other possible values from the cell pair
-							targetFlags = el[targetIdx].possibleFlags() ^ safeFlags;	// remaining flags can be removed
+							targetFlags = targetCell.possibleFlags() ^ safeFlags;	// remaining flags can be removed
 							flagValue = 9;
 							while (targetFlags > 0) {
 								if ((targetFlags & 1) > 0) {
-									if (el[targetIdx].removePossible(flagValue)) {
-										grid.trigger("report", el[targetIdx], "hidden pairs - remove possible " + flagValue);
+									if (targetCell.removePossible(flagValue)) {
+										grid.trigger("report", targetCell, "hidden pairs - remove possible " + flagValue);
 										progress = true;
 									}
 								}
 								flagValue--;
 								targetFlags = targetFlags >> 1;
 							}
-						}
+						});
 					}
 				});
 			});
