@@ -10,9 +10,6 @@
 	// and removes any other possible values from those 2 cells.
 	suso.rules.hiddenpairs = function (grid) {
 		var progress = false,
-			allGroups = grid.allGroups(),	// rows, cols, blocks
-			groupnum,
-			group,
 			cellsByVal,
 			cellIndex,
 			cell,
@@ -24,12 +21,10 @@
 			flagValue;
 
 		// Iterate through each row, column, and block looking for Hidden Pairs
-		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
-			group = allGroups[groupnum];
+		grid.allGroups().filter(function (group) {
+			return group.possibleValues().length > 2;
+		}).forEach(function (group) {
 			cellsByVal = {};
-			if (group.possibleValues().length < 3) {
-				continue;
-			}
 			// index cells in group by which possible values they contain
 			for (cellIndex = 0; cellIndex < 9; cellIndex++) {
 				cell = group.cells()[cellIndex];
@@ -72,7 +67,7 @@
 				});
 			});
 
-		}
+		});
 
 		// rules return boolean indicating whether they made any progress
 		return progress;
