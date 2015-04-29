@@ -196,7 +196,11 @@
 			expect(suso.sets([1, 2, 3, 4], 3)).toEqual([[1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4]]);
 		});
 
-		it("returns array with array as only alement for size == array length", function () {
+		it("returns all quads for size 4", function () {
+			expect(suso.sets([1, 2, 3, 4, 5], 4)).toEqual([ [1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5] ]);
+		});
+
+		it("returns array with array as only element for size == array length", function () {
 			expect(suso.sets([1, 2, 3], 3)).toEqual([[1, 2, 3]]);
 		});
 
