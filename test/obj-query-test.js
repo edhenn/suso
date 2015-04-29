@@ -171,5 +171,28 @@
 		it("throws an error if size parameter is not a number", function () {
 			expect(function () { suso.sets([], "two"); }).toThrow(new Error("size parameter is not a valid number"));
 		});
+
+		it("throws an error if val parameter is passed a non-function", function () {
+			expect(function () { suso.sets([], 1, "x"); }).toThrow(new Error("val parameter is not a function"));
+		});
+
+		it("returns empty array for size 0", function () {
+			expect(suso.sets([1, 2, 3], 0)).toEqual([]);
+		});
+
+		it("returns array for size 1", function () {
+			expect(suso.sets([1, 2, 3], 1)).toEqual([1, 2, 3]);
+		});
+
+		it("returns all pairs for size 2", function () {
+			expect(suso.sets([1, 2, 3], 2)).toEqual([[1, 2], [1, 3], [2, 3]]);
+		});
+
+		it("returns all triplets for size 3", function () {
+			expect(suso.sets([1, 2, 3, 4], 3)).toEqual([[1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4]]);
+		});
+
+		it("returns empty array when size > array length", function () {
+		});
 	});
 }());

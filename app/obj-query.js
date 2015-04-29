@@ -46,7 +46,9 @@
 		return result;
 	};
 
-	suso.sets = function (arr, size) {
+	suso.sets = function (arr, size, val) {
+		var result = [], subsets;
+
 		if (arr === undefined || arr === null || typeof arr !== "object" || !(arr instanceof Array)) {
 			throw new Error("arr parameter is not an array");
 		}
@@ -54,5 +56,45 @@
 		if (size === undefined || size === null || typeof size !== "number") {
 			throw new Error("size parameter is not a valid number");
 		}
+
+		// val becomes identity function if not passed in
+		if (val === undefined) { val = function (el) { return el; }; }
+
+		if (typeof val !== "function") {
+			throw new Error("val parameter is not a function");
+		}
+
+		if (size === 0) {
+			return result;
+		}
+
+		if (size === 1) {
+			return arr;
+		}
+
+		// recursive exit condition == pairs
+		if (size === 2) {
+			arr.forEach(function (el, idx) {
+				arr.filter(function (otherEl, otherIdx) {
+					return otherIdx > idx;
+				}).forEach(function (otherEl) {
+					result.push([el, otherEl]);
+				});
+			});
+
+			return result;
+		}
+
+		// recursively call for > 2 elements
+		subsets = suso.sets(arr, size - 1);
+		arr.forEach(function (el) {
+			subsets.forEach(function (subset) {
+				if (subset[0] > el) {
+					result.push([el].concat(subset));
+				}
+			});
+		});
+
+		return result;
 	};
 }(suso));
