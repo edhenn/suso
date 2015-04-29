@@ -13,8 +13,6 @@
 			cellsByVal,
 			cellIndex,
 			cell,
-			cellValues,
-			possIndex,
 			safeFlags,
 			targetIdx,
 			targetFlags,
@@ -31,13 +29,12 @@
 				if (cell.value() !== undefined) {
 					continue;
 				}
-				cellValues = cell.possibleValues();
-				for (possIndex = 0; possIndex < cellValues.length; possIndex++) {
-					if (cellsByVal[cellValues[possIndex]] === undefined) {
-						cellsByVal[cellValues[possIndex]] = [];
+				cell.possibleValues().forEach(function (possVal) {
+					if (cellsByVal[possVal] === undefined) {
+						cellsByVal[possVal] = [];
 					}
-					cellsByVal[cellValues[possIndex]].push(cell);
-				}
+					cellsByVal[possVal].push(cell);
+				});
 			}
 			// filter down to possible values existing in exactly 2 cells
 			cellsByVal = suso.filter(cellsByVal, function (el) {
