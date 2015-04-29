@@ -192,6 +192,10 @@
 			expect(suso.sets([1, 2, 3], 2)).toEqual([[1, 2], [1, 3], [2, 3]]);
 		});
 
+		it("returns all pairs for size 2 when array > n+1", function () {
+			expect(suso.sets([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 5], [3, 4], [3, 5], [4, 5]]);
+		});
+
 		it("returns all triplets for size 3", function () {
 			expect(suso.sets([1, 2, 3, 4], 3)).toEqual([[1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4]]);
 		});
