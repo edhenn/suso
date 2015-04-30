@@ -138,5 +138,9 @@
 			expect(progress).toBe(false);
 			expect(possvalCount()).toBe(0);
 		});
+
+		it("finds one hidden pair", function () {
+
+		});
 	});
 }());
