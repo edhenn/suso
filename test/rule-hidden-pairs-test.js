@@ -1,4 +1,4 @@
-/*global suso, describe, it, expect */
+/*global suso, describe, it, expect, beforeEach */
 /*jslint plusplus: true */
 
 (function () {
@@ -86,6 +86,57 @@
 			expect(grid.row(1).cells()[0].possibleValues()).toEqual([5, 6]);
 			expect(grid.row(1).cells()[1].possibleValues()).toEqual([4, 6]);
 			expect(grid.row(1).cells()[2].possibleValues()).toEqual([4, 5]);
+		});
+	});
+
+	describe("generalized hidden sets logic", function () {
+		var house, cells = [], gridStub = {
+			st: "init",
+			state: function () { return this.st; },
+			allGroups: function () { return [ house ]; }
+		};
+
+		function possvalCount() {
+			var possvals = 0;
+			cells.forEach(function (cell) {
+				possvals += cell.possibleValues().length;
+			});
+			return possvals;
+		}
+
+		beforeEach(function () {
+			var i, cell;
+
+			cells = [];
+			house = new suso.House("row", 0, gridStub);
+
+			for (i = 0; i < 9; i++) {
+				cell = new suso.Cell(gridStub);
+				cells.push(cell);
+				house.addCell(cell);
+			}
+		});
+
+		it("does nothing when no hidden sets exist & no cells solved", function () {
+			var progress;
+
+			progress = suso.rules.hiddenpairs(gridStub);
+
+			expect(progress).toBe(false);
+			expect(possvalCount()).toBe(9 * 9);
+		});
+
+		it("does nothing when all cells are solved", function () {
+			var progress;
+
+			cells.forEach(function (cell, idx) {
+				cell.setValue(idx + 1);
+			});
+
+			progress = suso.rules.hiddenpairs(gridStub);
+
+			expect(progress).toBe(false);
+			expect(possvalCount()).toBe(0);
 		});
 	});
 }());

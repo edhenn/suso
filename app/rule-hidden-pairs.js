@@ -51,7 +51,7 @@
 							while (targetFlags > 0) {
 								if ((targetFlags & 1) > 0) {
 									if (targetCell.removePossible(flagValue)) {
-										grid.trigger("report", targetCell, "hidden pairs - remove possible " + flagValue);
+										grid.trigger("report", targetCell, "hidden sets (" + setSize.toString() + ") - remove possible " + flagValue);
 										progress = true;
 									}
 								}
