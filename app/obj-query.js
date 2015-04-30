@@ -1,4 +1,5 @@
 /*global suso */
+/*eslint no-loop-func: 0*/
 
 (function (suso) {
 	"use strict";
