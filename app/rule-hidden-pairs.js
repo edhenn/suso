@@ -11,7 +11,6 @@
 	suso.rules.hiddenpairs = function (grid) {
 		var progress = false,
 			cellsByVal,
-			safeFlags,
 			targetFlags,
 			flagValue,
 			sets = [2];
