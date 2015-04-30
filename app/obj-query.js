@@ -108,4 +108,37 @@
 
 		return result;
 	};
+
+	// adds only unique elements to an array
+	function addUnique(arr, el) {
+		if (arr.indexOf(el) !== -1) {
+			return;
+		}
+		arr.push(el);
+	}
+
+	// returns array containing unique elements of all arrays passed in
+	suso.union = function () {
+		var args, arg, result = [];
+
+		if (arguments.length === 0) {
+			return result;
+		}
+
+		args = Array.prototype.slice.call(arguments);
+
+		while (args.length > 0) {
+			arg = args.shift();
+
+			if (typeof arg === "object" && arg instanceof Array) {
+				arg.forEach(function (el) {
+					addUnique(result, el);
+				});
+			} else {
+				addUnique(result, arg);
+			}
+		}
+
+		return result;
+	};
 }(suso));

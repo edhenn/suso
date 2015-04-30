@@ -259,4 +259,46 @@
 			expect(suso.sets(arr, 2, function (el) { return el.name; })).toEqual([ [obj1, obj2], [obj1, obj3], [obj2, obj3] ]);
 		});
 	});
+
+	describe("suso.union member", function () {
+		it("exists on the namespace", function () {
+			expect(suso.union).toBeDefined();
+		});
+
+		it("is a function", function () {
+			expect(typeof suso.union).toBe("function");
+		});
+
+		it("returns empty array if no params provided", function () {
+			expect(suso.union()).toEqual([]);
+		});
+
+		it("returns array of 1 element passed in", function () {
+			expect(suso.union("x")).toEqual([ "x" ]);
+		});
+
+		it("returns array when 1 array passed in", function () {
+			expect(suso.union([1, 2, 3])).toEqual([1, 2, 3]);
+		});
+
+		it("returns array of 2 unique elements passed in", function () {
+			expect(suso.union("x", "y")).toEqual([ "x", "y" ]);
+		});
+
+		it("returns union of 2 unique arrays passed in", function () {
+			expect(suso.union([1, 2], [3, 4])).toEqual([1, 2, 3, 4]);
+		});
+
+		it("returns array ignoring duplicate elements", function () {
+			expect(suso.union("x", "y", "x")).toEqual([ "x", "y" ]);
+		});
+
+		it("returns union of 2 arrays ignoring duplicate elements", function () {
+			expect(suso.union([1, 2, 3], [1, 3, 4])).toEqual([1, 2, 3, 4]);
+		});
+
+		it("returns union of multiple mixed arrays and elements", function () {
+			expect(suso.union(1, [2, 3], [1, 2, 4], 4, 5, 4, [2, 6])).toEqual([1, 2, 3, 4, 5, 6]);
+		});
+	});
 }());
