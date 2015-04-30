@@ -156,16 +156,20 @@
 			expect(typeof suso.sets).toBe("function");
 		});
 
-		it("throws an error if array parameter is null", function () {
-			expect(function () { suso.sets(); }).toThrow(new Error("arr parameter is not an array"));
+		it("throws an error if source parameter is null", function () {
+			expect(function () { suso.sets(); }).toThrow(new Error("source parameter is not an object or array"));
 		});
 
-		it("throws an error if array parameter is not an array", function () {
-			expect(function () { suso.sets({}); }).toThrow(new Error("arr parameter is not an array"));
+		it("throws an error if source parameter is not an object or array", function () {
+			expect(function () { suso.sets("x"); }).toThrow(new Error("source parameter is not an object or array"));
 		});
 
-		it("throws an error if not provided with a size", function () {
+		it("throws an error if provided with array but no size", function () {
 			expect(function () { suso.sets([]); }).toThrow(new Error("size parameter is not a valid number"));
+		});
+
+		it("throws an error if provided with object but no size", function () {
+			expect(function () { suso.sets({}); }).toThrow(new Error("size parameter is not a valid number"));
 		});
 
 		it("throws an error if size parameter is not a number", function () {
@@ -180,27 +184,47 @@
 			expect(suso.sets([1, 2, 3], 4)).toEqual([]);
 		});
 
-		it("returns empty array for size 0", function () {
+		it("returns empty array when size > object length", function () {
+			expect(suso.sets({ 1: "a", 2: "b", 3: "c" }, 4)).toEqual([]);
+		});
+
+		it("returns empty array for array & size 0", function () {
 			expect(suso.sets([1, 2, 3], 0)).toEqual([]);
 		});
 
-		it("returns array for size 1", function () {
+		it("returns empty array for object & size 0", function () {
+			expect(suso.sets({ 1: "a", 2: "b", 3: "c" }, 0)).toEqual([]);
+		});
+
+		it("returns array for array with size 1", function () {
 			expect(suso.sets([1, 2, 3], 1)).toEqual([1, 2, 3]);
 		});
 
-		it("returns all pairs for size 2", function () {
+		it("returns array of keys for object with size 1", function () {
+			expect(suso.sets({ 1: "a", 2: "b", 3: "c" }, 1)).toEqual([ "1", "2", "3" ]);
+		});
+
+		it("returns all pairs for array with size 2", function () {
 			expect(suso.sets([1, 2, 3], 2)).toEqual([[1, 2], [1, 3], [2, 3]]);
 		});
 
-		it("returns all pairs for size 2 when array > n+1", function () {
+		it("returns all pairs for object with size 2", function () {
+			expect(suso.sets({ 1: "a", 2: "b", 3: "c" }, 2)).toEqual([ ["1", "2"], ["1", "3"], ["2", "3"] ]);
+		});
+
+		it("returns all pairs for array with size 2 when array > n+1", function () {
 			expect(suso.sets([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [1, 3], [1, 4], [1, 5], [2, 3], [2, 4], [2, 5], [3, 4], [3, 5], [4, 5]]);
 		});
 
-		it("returns all triplets for size 3", function () {
+		it("returns all triplets for array with size 3", function () {
 			expect(suso.sets([1, 2, 3, 4], 3)).toEqual([[1, 2, 3], [1, 2, 4], [1, 3, 4], [2, 3, 4]]);
 		});
 
-		it("returns all triplets for size 3 when array > n + 1", function () {
+		it("returns all triplets for object with size 3", function () {
+			expect(suso.sets({ 1: "a", 2: "b", 3: "c", 4: "d" }, 3)).toEqual([ ["1", "2", "3"], ["1", "2", "4"], ["1", "3", "4"], ["2", "3", "4"] ]);
+		});
+
+		it("returns all triplets for array with size 3 when array > n + 1", function () {
 			expect(suso.sets([1, 2, 3, 4, 5, 6], 3)).toEqual([
 				[1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 2, 6],
 				[1, 3, 4], [1, 3, 5], [1, 3, 6],
@@ -215,8 +239,13 @@
 			]);
 		});
 
-		it("returns all quads for size 4", function () {
+		it("returns all quads for array with size 4", function () {
 			expect(suso.sets([1, 2, 3, 4, 5], 4)).toEqual([ [1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 4, 5], [1, 3, 4, 5], [2, 3, 4, 5] ]);
+		});
+
+		it("returns all quads for object with size 4", function () {
+			expect(suso.sets({ 1: "a", 2: "b", 3: "c", 4: "d", 5: "e" }, 4))
+				.toEqual([ ["1", "2", "3", "4"], ["1", "2", "3", "5"], ["1", "2", "4", "5"], ["1", "3", "4", "5"], ["2", "3", "4", "5"] ]);
 		});
 
 		it("returns array with array as only element for size == array length", function () {

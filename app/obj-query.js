@@ -46,11 +46,18 @@
 		return result;
 	};
 
-	suso.sets = function (arr, size, val) {
-		var result = [], subsets;
+	suso.sets = function (source, size, val) {
+		var result = [], subsets, arr;
 
-		if (arr === undefined || arr === null || typeof arr !== "object" || !(arr instanceof Array)) {
-			throw new Error("arr parameter is not an array");
+		if (source === undefined || source === null || typeof source !== "object") {
+			throw new Error("source parameter is not an object or array");
+		}
+
+		if (source instanceof Array) {
+			arr = source;
+		} else {
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+			arr = Object.keys(source);			// use above polyfill on older browsers
 		}
 
 		if (size === undefined || size === null || typeof size !== "number") {
