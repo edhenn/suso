@@ -204,6 +204,10 @@
 			expect(suso.sets({ 1: "a", 2: "b", 3: "c" }, 1)).toEqual([ "1", "2", "3" ]);
 		});
 
+		it("returns array of array when size == length", function () {
+			expect(suso.sets([1, 2, 3], 3)).toEqual([ [1, 2, 3] ]);
+		});
+
 		it("returns all pairs for array with size 2", function () {
 			expect(suso.sets([1, 2, 3], 2)).toEqual([[1, 2], [1, 3], [2, 3]]);
 		});
@@ -246,10 +250,6 @@
 		it("returns all quads for object with size 4", function () {
 			expect(suso.sets({ 1: "a", 2: "b", 3: "c", 4: "d", 5: "e" }, 4))
 				.toEqual([ ["1", "2", "3", "4"], ["1", "2", "3", "5"], ["1", "2", "4", "5"], ["1", "3", "4", "5"], ["2", "3", "4", "5"] ]);
-		});
-
-		it("returns array with array as only element for size == array length", function () {
-			expect(suso.sets([1, 2, 3], 3)).toEqual([1, 2, 3]);
 		});
 
 		it("returns all pairs of three objects when a valid obj-comparison function passed in", function () {

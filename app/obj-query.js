@@ -75,8 +75,12 @@
 			return result;
 		}
 
-		if (size === 1 || size === arr.length) {
+		if (size === 1) {
 			return arr;
+		}
+
+		if (size === arr.length) {
+			return [ arr ];
 		}
 
 		// recursive exit condition == pairs
