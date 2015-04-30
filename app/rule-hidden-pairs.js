@@ -13,50 +13,57 @@
 			cellsByVal,
 			safeFlags,
 			targetFlags,
-			flagValue;
+			flagValue,
+			sets = [2];
 
-		// Iterate through each row, column, and block looking for Hidden Pairs
-		grid.allGroups().filter(function (group) {
-			return group.possibleValues().length > 2;
-		}).forEach(function (group) {
-			cellsByVal = {};
-			group.cells().filter(function (cell) {
-				return cell.value() === undefined;
-			}).forEach(function (cell) {
-				// index unsolved cells in group by which possible values they contain
-				cell.possibleValues().forEach(function (possVal) {
-					if (cellsByVal[possVal] === undefined) {
-						cellsByVal[possVal] = [];
-					}
-					cellsByVal[possVal].push(cell);
-				});
-			});
-			// filter down to possible values existing in exactly 2 cells
-			cellsByVal = suso.filter(cellsByVal, function (el) {
-				return el.length === 2;
-			});
-			// for each possible value with 2 cells, check all others for a matching set of cells
-			suso.sets(cellsByVal, 2).forEach(function (set) {
-				if (cellsByVal[set[0]][0] === cellsByVal[set[1]][0] && cellsByVal[set[0]][1] === cellsByVal[set[1]][1]) {
-					safeFlags = Math.pow(2, 9 - parseInt(set[0], 10)) | Math.pow(2, 9 - parseInt(set[1], 10));	// flags for poss vals to keep
-					cellsByVal[set[0]].forEach(function (targetCell) {
-						// remove all other possible values from the cell pair
-						targetFlags = targetCell.possibleFlags() ^ safeFlags;	// remaining flags can be removed
-						flagValue = 9;
-						while (targetFlags > 0) {
-							if ((targetFlags & 1) > 0) {
-								if (targetCell.removePossible(flagValue)) {
-									grid.trigger("report", targetCell, "hidden pairs - remove possible " + flagValue);
-									progress = true;
-								}
-							}
-							flagValue--;
-							targetFlags = targetFlags >> 1;
+		// Iterate through each row, column, and block looking for Hidden Sets
+		sets.forEach(function (setSize) {
+			grid.allGroups().filter(function (group) {
+				return group.possibleValues().length > setSize;
+			}).forEach(function (group) {
+				cellsByVal = {};
+				group.cells().filter(function (cell) {
+					return cell.value() === undefined;
+				}).forEach(function (cell) {
+					// index unsolved cells in group by which possible values they contain
+					cell.possibleValues().forEach(function (possVal) {
+						if (cellsByVal[possVal] === undefined) {
+							cellsByVal[possVal] = [];
 						}
+						cellsByVal[possVal].push(cell);
 					});
-				}
-			});
+				});
+				// filter down to possible values existing in exactly N cells
+				cellsByVal = suso.filter(cellsByVal, function (el) {
+					return el.length === setSize;
+				});
+				// for each possible value with N cells, check all others for a matching set of cells
+				suso.sets(cellsByVal, setSize).forEach(function (set) {
+					var allCells = [], safeFlags = 0;
+					set.forEach(function (el) {
+						allCells = suso.union(allCells, cellsByVal[el]);	// get all cells with this set of possible values
+						safeFlags = safeFlags | Math.pow(2, 9 - parseInt(el, 10));
+					});
+					if (allCells.length === setSize) {
+						allCells.forEach(function (targetCell) {
+							// remove all other possible values from the cell set
+							targetFlags = targetCell.possibleFlags() ^ safeFlags;	// remaining flags can be removed
+							flagValue = 9;
+							while (targetFlags > 0) {
+								if ((targetFlags & 1) > 0) {
+									if (targetCell.removePossible(flagValue)) {
+										grid.trigger("report", targetCell, "hidden pairs - remove possible " + flagValue);
+										progress = true;
+									}
+								}
+								flagValue--;
+								targetFlags = targetFlags >> 1;
+							}
+						});
+					}
+				});
 
+			});
 		});
 
 		// rules return boolean indicating whether they made any progress
