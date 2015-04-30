@@ -36,27 +36,25 @@
 				return el.length === 2;
 			});
 			// for each possible value with 2 cells, check all others for a matching set of cells
-			suso.forEach(cellsByVal, function (el, idx) {
-				suso.forEach(cellsByVal, function (otherEl, otherIdx) {
-					if (otherIdx > idx && el[0] === otherEl[0] && el[1] === otherEl[1]) {
-						safeFlags = Math.pow(2, 9 - idx) | Math.pow(2, 9 - otherIdx);	// flags for poss vals to keep
-						el.forEach(function (targetCell) {
-							// remove all other possible values from the cell pair
-							targetFlags = targetCell.possibleFlags() ^ safeFlags;	// remaining flags can be removed
-							flagValue = 9;
-							while (targetFlags > 0) {
-								if ((targetFlags & 1) > 0) {
-									if (targetCell.removePossible(flagValue)) {
-										grid.trigger("report", targetCell, "hidden pairs - remove possible " + flagValue);
-										progress = true;
-									}
+			suso.sets(cellsByVal, 2).forEach(function (set) {
+				if (cellsByVal[set[0]][0] === cellsByVal[set[1]][0] && cellsByVal[set[0]][1] === cellsByVal[set[1]][1]) {
+					safeFlags = Math.pow(2, 9 - parseInt(set[0], 10)) | Math.pow(2, 9 - parseInt(set[1], 10));	// flags for poss vals to keep
+					cellsByVal[set[0]].forEach(function (targetCell) {
+						// remove all other possible values from the cell pair
+						targetFlags = targetCell.possibleFlags() ^ safeFlags;	// remaining flags can be removed
+						flagValue = 9;
+						while (targetFlags > 0) {
+							if ((targetFlags & 1) > 0) {
+								if (targetCell.removePossible(flagValue)) {
+									grid.trigger("report", targetCell, "hidden pairs - remove possible " + flagValue);
+									progress = true;
 								}
-								flagValue--;
-								targetFlags = targetFlags >> 1;
 							}
-						});
-					}
-				});
+							flagValue--;
+							targetFlags = targetFlags >> 1;
+						}
+					});
+				}
 			});
 
 		});
