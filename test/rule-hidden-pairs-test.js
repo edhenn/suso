@@ -93,7 +93,8 @@
 		var house, cells = [], gridStub = {
 			st: "init",
 			state: function () { return this.st; },
-			allGroups: function () { return [ house ]; }
+			allGroups: function () { return [ house ]; },
+			seedSolved: []
 		};
 
 		function possvalCount() {
@@ -113,7 +114,7 @@
 			for (i = 0; i < 9; i++) {
 				cell = new suso.Cell(gridStub);
 				cells.push(cell);
-				house.addCell(cell);
+				cell.setHouse(house);
 			}
 		});
 
@@ -140,7 +141,27 @@
 		});
 
 		it("finds one hidden pair", function () {
+			var progress;
 
+			cells[0].setValue(5);
+			cells[1].removePossible(4);
+			cells[2].removePossible(1);
+			cells[2].removePossible(2);
+			cells[2].removePossible(3);
+			cells[3].removePossible(3);
+			cells[3].removePossible(4);
+			cells[4].removePossible(1);
+			cells[5].removePossible(1);
+			cells[5].removePossible(2);
+			cells[5].removePossible(3);
+			cells[6].setValue(6);
+			cells[7].setValue(7);
+			cells[8].setValue(8);
+
+			progress = suso.rules.hiddenpairs(gridStub);
+
+			expect(progress).toBe(true);
+			expect(possvalCount()).toBe(9);
 		});
 	});
 }());
