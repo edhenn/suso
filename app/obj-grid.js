@@ -134,7 +134,7 @@
 				suso.rules.lastInGroup,
 				suso.rules.restrictedPossibleValue,
 				suso.rules.pairs,
-				suso.rules.hiddenpairs,
+				suso.rules.hiddensets,
 				suso.rules.triples
 			];
 			// xwing http://www.learn-sudoku.com/x-wing.html

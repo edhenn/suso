@@ -5,10 +5,10 @@
 (function (suso) {
 	"use strict";
 
-	// Hidden Pairs rule removes possible values from cells.
-	// It looks in rows, columns, and blocks for any 2 cells containing the only instances of two possible remaining values,
-	// and removes any other possible values from those 2 cells.
-	suso.rules.hiddenpairs = function (grid) {
+	// Hidden Sets rule removes possible values from cells.
+	// It looks in rows, columns, and blocks for sets of N cells containing the only instances of N possible remaining values,
+	// and removes any other possible values from those cells.
+	suso.rules.hiddensets = function (grid) {
 		var progress = false,
 			cellsByVal,
 			targetFlags,

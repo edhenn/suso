@@ -4,17 +4,17 @@
 (function () {
 	"use strict";
 
-	describe("rule-hidden-pairs member", function () {
+	describe("rule-hidden-sets member", function () {
 		it("exists in suso namespace", function () {
-			expect(suso.rules.hiddenpairs).toBeDefined();
+			expect(suso.rules.hiddensets).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof suso.rules.hiddenpairs).toBe("function");
+			expect(typeof suso.rules.hiddensets).toBe("function");
 		});
 	});
 
-	describe("rule-hidden-pairs function", function () {
+	describe("rule-hidden-sets function", function () {
 		function listSolved(grid) {
 			var solved = [], row, cell, rowCells;
 			for (row = 0; row < 9; row++) {
@@ -31,7 +31,7 @@
 		it("does nothing to an empty grid", function () {
 			var grid = new suso.Grid();
 
-			suso.rules.hiddenpairs(grid);
+			suso.rules.hiddensets(grid);
 
 			expect(listSolved(grid).length).toBe(0);
 		});
@@ -39,7 +39,7 @@
 		it("returns false when it does nothing", function () {
 			var grid = new suso.Grid(), result = null;
 
-			result = suso.rules.hiddenpairs(grid);
+			result = suso.rules.hiddensets(grid);
 
 			expect(result).toBe(false);
 		});
@@ -58,7 +58,7 @@
 			grid.row(6).cells()[2].setValue(4);
 			grid.row(7).cells()[2].setValue(5);			// 6  --4 --- ---
 														// 7  --5 --- ---
-			progress = suso.rules.hiddenpairs(grid);	// 8  --- --- ---
+			progress = suso.rules.hiddensets(grid);	// 8  --- --- ---
 			expect(progress).toBe(true);
 			expect(grid.row(4).cells()[2].possibleValues()).toEqual([3, 9]);
 			expect(grid.row(4).cells()[3].possibleValues()).toEqual([4, 5]);
@@ -122,7 +122,7 @@
 		it("does nothing when no hidden sets exist & no cells solved", function () {
 			var progress;
 
-			progress = suso.rules.hiddenpairs(gridStub);
+			progress = suso.rules.hiddensets(gridStub);
 
 			expect(progress).toBe(false);
 			expect(possvalCount()).toBe(9 * 9);
@@ -135,7 +135,7 @@
 				cell.setValue(idx + 1);
 			});
 
-			progress = suso.rules.hiddenpairs(gridStub);
+			progress = suso.rules.hiddensets(gridStub);
 
 			expect(progress).toBe(false);
 			expect(possvalCount()).toBe(0);
@@ -157,7 +157,7 @@
 			cells[7].setValue(8);
 			cells[8].setValue(9);
 
-			progress = suso.rules.hiddenpairs(gridStub);
+			progress = suso.rules.hiddensets(gridStub);
 
 			expect(progress).toBe(true);
 			expect(possvalCount()).toBe(13);
@@ -186,7 +186,7 @@
 			cells[7].setValue(7);
 			cells[8].setValue(8);
 
-			progress = suso.rules.hiddenpairs(gridStub);
+			progress = suso.rules.hiddensets(gridStub);
 
 			expect(progress).toBe(true);
 			expect(possvalCount()).toBe(11);
@@ -225,7 +225,7 @@
 			cells[7].setValue(8);
 			cells[8].setValue(9);
 
-			progress = suso.rules.hiddenpairs(gridStub);
+			progress = suso.rules.hiddensets(gridStub);
 
 			expect(progress).toBe(true);
 			expect(possvalCount()).toBe(12);
