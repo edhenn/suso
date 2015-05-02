@@ -141,6 +141,33 @@
 			expect(possvalCount()).toBe(0);
 		});
 
+		it("finds one hidden pair", function () {
+			var progress;
+
+			cells[0].removePossible(4);		// set up one house with the following unsolved cells, showing possible values:
+			cells[1].removePossible(3);		// cell0 : 1, 2, 3,    5
+			cells[2].removePossible(1);		// cell1 : 1, 2,    4, 5
+			cells[2].removePossible(2);		// cell2 :       3, 4, 5
+			cells[3].removePossible(1);		// cell3 :       3, 4, 5
+			cells[3].removePossible(2);		// cell4 :       3, 4, 5
+			cells[4].removePossible(1);
+			cells[4].removePossible(2);		// cells 0 & 1 make a hidden pair of poss vals 1 & 2
+			cells[5].setValue(6);			// rule should delete other values from these cells
+			cells[6].setValue(7);			// leaving 13 poss values in all cells of house
+			cells[7].setValue(8);
+			cells[8].setValue(9);
+
+			progress = suso.rules.hiddenpairs(gridStub);
+
+			expect(progress).toBe(true);
+			expect(possvalCount()).toBe(13);
+			expect(cells[0].possibleValues()).toEqual([1, 2]);
+			expect(cells[1].possibleValues()).toEqual([1, 2]);
+			expect(cells[2].possibleValues()).toEqual([3, 4, 5]);
+			expect(cells[3].possibleValues()).toEqual([3, 4, 5]);
+			expect(cells[4].possibleValues()).toEqual([3, 4, 5]);
+		});
+
 		it("finds one hidden triplet", function () {
 			var progress;
 
@@ -163,6 +190,51 @@
 
 			expect(progress).toBe(true);
 			expect(possvalCount()).toBe(11);
+			expect(cells[1].possibleValues()).toEqual([1, 2, 3]);
+			expect(cells[2].possibleValues()).toEqual([4, 9]);
+			expect(cells[3].possibleValues()).toEqual([1, 2]);
+			expect(cells[4].possibleValues()).toEqual([2, 3]);
+			expect(cells[5].possibleValues()).toEqual([4, 9]);
+		});
+
+		it("finds one hidden quad with no cell having all 4", function () {
+			var progress;
+
+			cells[0].removePossible(1);		// set up one house with the following unsolved cells, showing possible values:
+			cells[0].removePossible(2);		// cell0 :             5, 6
+			cells[0].removePossible(3);		// cell1 : 1, 2
+			cells[0].removePossible(4);		// cell2 :    2, 3,       6
+			cells[1].removePossible(3);		// cell3 :       3, 4, 5
+			cells[1].removePossible(4);		// cell4 : 1,       4, 5
+			cells[1].removePossible(5);		// cell5 :             5, 6
+			cells[1].removePossible(6);
+			cells[2].removePossible(1);		// cells 1, 2, 3, 4 make a hidden quad of poss vals 1, 2, 3, 4.
+			cells[2].removePossible(4);		// rule should delete all other poss vals from these cells
+			cells[2].removePossible(5);		// leaving 12 possible values in all cells of house
+			cells[3].removePossible(1);
+			cells[3].removePossible(2);
+			cells[3].removePossible(6);
+			cells[4].removePossible(2);
+			cells[4].removePossible(3);
+			cells[4].removePossible(6);
+			cells[5].removePossible(1);
+			cells[5].removePossible(2);
+			cells[5].removePossible(3);
+			cells[5].removePossible(4);
+			cells[6].setValue(7);
+			cells[7].setValue(8);
+			cells[8].setValue(9);
+
+			progress = suso.rules.hiddenpairs(gridStub);
+
+			expect(progress).toBe(true);
+			expect(possvalCount()).toBe(12);
+			expect(cells[0].possibleValues()).toEqual([5, 6]);
+			expect(cells[1].possibleValues()).toEqual([1, 2]);
+			expect(cells[2].possibleValues()).toEqual([2, 3]);
+			expect(cells[3].possibleValues()).toEqual([3, 4]);
+			expect(cells[4].possibleValues()).toEqual([1, 4]);
+			expect(cells[5].possibleValues()).toEqual([5, 6]);
 		});
 	});
 }());

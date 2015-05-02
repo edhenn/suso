@@ -13,7 +13,7 @@
 			cellsByVal,
 			targetFlags,
 			flagValue,
-			sets = [2, 3];
+			sets = [2, 3, 4];
 
 		// Iterate through each row, column, and block looking for Hidden Sets
 		sets.forEach(function (setSize) {
