@@ -49,16 +49,16 @@
 				progress;								//    012 345 678
 
 			grid.row(0).cells()[0].setValue(1);			// 0  123 --- ---
-			grid.row(0).cells()[1].setValue(2);			// 1  --6 --- ---  <-- this row should not have possible vals 4,5 in cells 4-9.
-			grid.row(0).cells()[2].setValue(3);			// 2  789 --- ---
+			grid.row(0).cells()[1].setValue(2);			// 1  --6 --- ---  <-- should remove possible vals
+			grid.row(0).cells()[2].setValue(3);			// 2  789 --- ---		4 & 5 in cells 3-8.
 			grid.row(1).cells()[2].setValue(6);
 			grid.row(2).cells()[0].setValue(7);			// 3  --- --- ---
 			grid.row(2).cells()[1].setValue(8);			// 4  --- --- ---
 			grid.row(2).cells()[2].setValue(9);			// 5  --- --- ---
 
-			progress = suso.rules.pairs(grid);				// 6  --- --- ---
-															// 7  --- --- ---
-			expect(progress).toBe(true);					// 8  --- --- ---
+			progress = suso.rules.pairs(grid);			// 6  --- --- ---
+														// 7  --- --- ---
+			expect(progress).toBe(true);				// 8  --- --- ---
 			expect(grid.row(1).cells()[0].possibleValues()).toEqual([4, 5]);
 			expect(grid.row(1).cells()[1].possibleValues()).toEqual([4, 5]);
 			expect(grid.row(1).cells()[3].possibleValues()).toEqual([1, 2, 3, 7, 8, 9]);

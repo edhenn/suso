@@ -11,47 +11,47 @@
 	suso.rules.pairs = function (grid) {
 		var progress = false,
 			allGroups = grid.allGroups(),	// rows, cols, blocks
-			pairs,
-			pairindex,
-			removal1,
-			removal2;
+			candidateCells,
+			setSizes = [2];
 
-		// Iterate through each row, column, and block looking for pairs ("naked pairs")
-		allGroups.forEach(function (group) {
-			pairs = {};
-			// find all cells with only 2 possible values
-			group.cells().forEach(function (cell) {
-				if (cell.value() === undefined && cell.possibleValues().length === 2) {
-					pairindex = cell.possibleValues().join("");
-					if (pairs[pairindex] === undefined) {
-						pairs[pairindex] = [];
+		// Iterate through each house to find "naked sets":
+		// N cells sharing exactly N possible values.
+		setSizes.forEach(function (setSize) {
+			allGroups.filter(function (group) {
+				return group.possibleValues().length > setSize;	// ignore houses with <= N possible values
+			}).forEach(function (group) {
+				// find all unsolved cells with up to N possible values
+				candidateCells = group.cells().filter(function (cell) {
+					return cell.value() === undefined && cell.possibleValues().length <= setSize;
+				});
+				// get all N-size subsets of those cells
+				suso.sets(candidateCells, setSize).forEach(function (set) {
+					var possVals = [], setProgress = false;
+					set.forEach(function (setCell) {
+						possVals = suso.union(possVals, setCell.possibleValues());
+					});
+					if (possVals.length !== setSize) {
+						return;
 					}
-					pairs[pairindex].push(cell);
-				}
-			});
-			// look through the found cells for ones that are pairs (two cells with the same two possible values)
-			pairs = suso.filter(pairs, function (paircells) {
-				return paircells.length === 2;
-			});
-			suso.forEach(pairs, function (paircell, pairIdx) {
-				var groupProgress = false,
-					possVals = pairIdx.split("");
-				// delete those possible values from other cells in the group
-				group.cells().forEach(function (cel) {
-					if (cel !== paircell[0] && cel !== paircell[1]) {
-						removal1 = cel.removePossible(parseInt(possVals[0], 10));
-						removal2 = cel.removePossible(parseInt(possVals[1], 10));
-						groupProgress = groupProgress || removal1 || removal2;
+					// found a set of N cells containing N possible values.
+					// those possible values can be removed from other cells in the house
+					group.cells().filter(function (cell) {
+						return set.indexOf(cell) === -1;	// return the other cells
+					}).forEach(function (otherCell) {
+						possVals.forEach(function (possVal) {
+							if (otherCell.removePossible(possVal)) {
+								setProgress = true;
+							}
+						});
+					});
+					if (setProgress) {
+						progress = true;
+						grid.trigger("report", group, "naked sets rule (" + setSize.toString() +
+							") - remove possible vals " + possVals + " from " + group.name());
 					}
 				});
-				if (groupProgress) {
-					progress = true;
-					grid.trigger("report", group,
-						"pairs rule - remove possible vals " + possVals + " from " + group.name());
-				}
 			});
 		});
-
 		// rules return boolean indicating whether they made any progress
 		return progress;
 	};
