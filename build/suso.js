@@ -1,5 +1,8 @@
 /*eslint no-unused-vars: 0*/
-var suso = {};
+var suso = {
+	rules: {},
+	views: {}
+};
 
 /*global suso */
 /*jslint undef: true, newcap: true, nomen: true, regexp: true, plusplus: true, bitwise: true, maxerr: 50, indent: 4 */
@@ -62,6 +65,7 @@ var suso = {};
 }(suso));
 
 /*global suso */
+/*eslint no-loop-func: 0*/
 
 (function (suso) {
 	"use strict";
@@ -103,6 +107,102 @@ var suso = {};
 			if (obj.hasOwnProperty(index)) {
 				eachResult = fn(obj[index], index);
 				result[index] = (eachResult || obj[index]);
+			}
+		}
+
+		return result;
+	};
+
+	suso.sets = function (source, size, val) {
+		var result = [], subsets, arr;
+
+		if (source === undefined || source === null || typeof source !== "object") {
+			throw new Error("source parameter is not an object or array");
+		}
+
+		if (source instanceof Array) {
+			arr = source;
+		} else {
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
+			arr = Object.keys(source);			// use above polyfill on older browsers
+		}
+
+		if (size === undefined || size === null || typeof size !== "number") {
+			throw new Error("size parameter is not a valid number");
+		}
+
+		// val becomes identity function if not passed in
+		if (val === undefined) { val = function (el) { return el; }; }
+
+		if (typeof val !== "function") {
+			throw new Error("val parameter is not a function");
+		}
+
+		if (size === 0 || size > arr.length) {
+			return result;
+		}
+
+		if (size === 1) {
+			return arr;
+		}
+
+		if (size === arr.length) {
+			return [ arr ];
+		}
+
+		// recursive exit condition == pairs
+		if (size === 2) {
+			arr.forEach(function (el, idx) {
+				arr.filter(function (otherEl, otherIdx) {
+					return otherIdx > idx;
+				}).forEach(function (otherEl) {
+					result.push([el, otherEl]);
+				});
+			});
+
+			return result;
+		}
+
+		// recursively call for > 2 elements
+		subsets = suso.sets(arr, size - 1);
+		arr.forEach(function (el) {
+			subsets.forEach(function (subset) {
+				if (val(subset[0]) > val(el)) {		// create combinations, not permutations
+					result.push([el].concat(subset));
+				}
+			});
+		});
+
+		return result;
+	};
+
+	// adds only unique elements to an array
+	function addUnique(arr, el) {
+		if (arr.indexOf(el) !== -1) {
+			return;
+		}
+		arr.push(el);
+	}
+
+	// returns array containing unique elements of all arrays passed in
+	suso.union = function () {
+		var args, arg, result = [];
+
+		if (arguments.length === 0) {
+			return result;
+		}
+
+		args = Array.prototype.slice.call(arguments);
+
+		while (args.length > 0) {
+			arg = args.shift();
+
+			if (typeof arg === "object" && arg instanceof Array) {
+				arg.forEach(function (el) {
+					addUnique(result, el);
+				});
+			} else {
+				addUnique(result, arg);
 			}
 		}
 
@@ -184,11 +284,11 @@ var suso = {};
 		this.rows = rows;
 		this.cols = cols;
 
-		this.vRow = function (index) {
+		this.col = function (index) {
 			return cols[index];
 		};
 
-		this.hRow = function (index) {
+		this.row = function (index) {
 			return rows[index];
 		};
 
@@ -504,78 +604,65 @@ var suso = {};
 (function (suso) {
 	"use strict";
 
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
-
 	// Hidden Pairs rule removes possible values from cells.
 	// It looks in rows, columns, and blocks for any 2 cells containing the only instances of two possible remaining values,
 	// and removes any other possible values from those 2 cells.
 	suso.rules.hiddenpairs = function (grid) {
 		var progress = false,
-			allGroups = grid.allGroups(),	// rows, cols, blocks
-			groupnum,
-			group,
 			cellsByVal,
-			cellIndex,
-			cell,
-			cellValues,
-			possIndex,
-			safeFlags,
-			targetIdx,
 			targetFlags,
-			flagValue;
+			flagValue,
+			sets = [2, 3, 4];
 
-		// Iterate through each row, column, and block looking for Hidden Pairs
-		for (groupnum = 0; groupnum < allGroups.length; groupnum++) {
-			group = allGroups[groupnum];
-			cellsByVal = {};
-			if (group.possibleValues().length < 3) {
-				continue;
-			}
-			// index cells in group by which possible values they contain
-			for (cellIndex = 0; cellIndex < 9; cellIndex++) {
-				cell = group.cells()[cellIndex];
-				if (cell.value() !== undefined) {
-					continue;
-				}
-				cellValues = cell.possibleValues();
-				for (possIndex = 0; possIndex < cellValues.length; possIndex++) {
-					if (cellsByVal[cellValues[possIndex]] === undefined) {
-						cellsByVal[cellValues[possIndex]] = [];
-					}
-					cellsByVal[cellValues[possIndex]].push(cell);
-				}
-			}
-			// filter down to possible values existing in exactly 2 cells
-			cellsByVal = suso.filter(cellsByVal, function (el) {
-				return el.length === 2;
-			});
-			// for each possible value with 2 cells, check all others for a matching set of cells
-			suso.forEach(cellsByVal, function (el, idx) {
-				suso.forEach(cellsByVal, function (otherEl, otherIdx) {
-					if (otherIdx > idx && el[0] === otherEl[0] && el[1] === otherEl[1]) {
-						safeFlags = Math.pow(2, 9 - idx) | Math.pow(2, 9 - otherIdx);	// flags for poss vals to keep
-						for (targetIdx = 0; targetIdx < 2; targetIdx++) {
-							// remove all other possible values from the cell pair
-							targetFlags = el[targetIdx].possibleFlags() ^ safeFlags;	// remaining flags can be removed
+		// Iterate through each row, column, and block looking for Hidden Sets
+		sets.forEach(function (setSize) {
+			grid.allGroups().filter(function (group) {
+				return group.possibleValues().length > setSize;
+			}).forEach(function (group) {
+				cellsByVal = {};
+				group.cells().filter(function (cell) {
+					return cell.value() === undefined;
+				}).forEach(function (cell) {
+					// index unsolved cells in group by which possible values they contain
+					cell.possibleValues().forEach(function (possVal) {
+						if (cellsByVal[possVal] === undefined) {
+							cellsByVal[possVal] = [];
+						}
+						cellsByVal[possVal].push(cell);
+					});
+				});
+				// filter down to possible values existing in no more than N cells
+				cellsByVal = suso.filter(cellsByVal, function (el) {
+					return el.length <= setSize;
+				});
+				// for each possible value with N cells, check all others for a matching set of cells
+				suso.sets(cellsByVal, setSize).forEach(function (set) {
+					var allCells = [], safeFlags = 0;
+					set.forEach(function (el) {
+						allCells = suso.union(allCells, cellsByVal[el]);	// get all cells with this set of possible values
+						safeFlags = safeFlags | Math.pow(2, 9 - parseInt(el, 10));
+					});
+					if (allCells.length === setSize) {
+						allCells.forEach(function (targetCell) {
+							// remove all other possible values from the cell set
+							targetFlags = targetCell.possibleFlags() ^ safeFlags;	// remaining flags can be removed
 							flagValue = 9;
 							while (targetFlags > 0) {
 								if ((targetFlags & 1) > 0) {
-									if (el[targetIdx].removePossible(flagValue)) {
-										grid.trigger("report", el[targetIdx], "hidden pairs - remove possible " + flagValue);
+									if (targetCell.removePossible(flagValue)) {
+										grid.trigger("report", targetCell, "hidden sets (" + setSize.toString() + ") - remove possible " + flagValue);
 										progress = true;
 									}
 								}
 								flagValue--;
 								targetFlags = targetFlags >> 1;
 							}
-						}
+						});
 					}
 				});
-			});
 
-		}
+			});
+		});
 
 		// rules return boolean indicating whether they made any progress
 		return progress;
@@ -587,10 +674,6 @@ var suso = {};
 
 (function (suso) {
 	"use strict";
-
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
 
 	suso.rules.lastInGroup = function (grid) {
 		var allgroups = grid.allGroups(),
@@ -644,10 +727,6 @@ var suso = {};
 
 (function (suso) {
 	"use strict";
-
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
 
 	// Pairs rule removes possible values from cells.
 	// It looks in rows, columns, and blocks for any 2 cells containing the same two possible remaining values.
@@ -710,10 +789,6 @@ var suso = {};
 (function (suso) {
 	"use strict";
 
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
-
 	// sometimes called "number claiming" or "omission"
 	suso.rules.restrictedPossibleValue = function (grid) {
 		var houses = grid.allGroups(),
@@ -732,22 +807,22 @@ var suso = {};
 			house.possibleValues().forEach(function (possval) {
 				intersects = [[], []];	// [blocks, empty] for rows/cols; [rows, cols] for blocks
 				// iterate cells in house, looking for possible value restricted to one intersecting house
-				house.cells().forEach(function (cell) {
-					if (cell.hasPossible(possval)) {
-						if (house.type() === "block") {
-							rows = intersects[0];
-							cols = intersects[1];
-							if (rows.indexOf(cell.row()) === -1) {
-								rows.push(cell.row());
-							}
-							if (cols.indexOf(cell.col()) === -1) {
-								cols.push(cell.col());
-							}
-						} else {
-							blocks = intersects[0];
-							if (blocks.indexOf(cell.block()) === -1) {
-								blocks.push(cell.block());
-							}
+				house.cells().filter(function (cell) {
+					return cell.hasPossible(possval);
+				}).forEach(function (cell) {
+					if (house.type() === "block") {
+						rows = intersects[0];
+						cols = intersects[1];
+						if (rows.indexOf(cell.row()) === -1) {
+							rows.push(cell.row());
+						}
+						if (cols.indexOf(cell.col()) === -1) {
+							cols.push(cell.col());
+						}
+					} else {
+						blocks = intersects[0];
+						if (blocks.indexOf(cell.block()) === -1) {
+							blocks.push(cell.block());
 						}
 					}
 				});
@@ -795,10 +870,6 @@ var suso = {};
 
 (function (suso) {
 	"use strict";
-
-	if (suso.rules === undefined) {
-		suso.rules = {};
-	}
 
 	// counts number of bits set in flags
 	function countBits(flags) {
@@ -922,10 +993,6 @@ var suso = {};
 (function (suso) {
 	"use strict";
 
-	if (suso.views === undefined) {
-		suso.views = {};
-	}
-
 	suso.views.InputGrid = function (grid, ctrl) {
 		var gridtag,
 			gridbody,
@@ -952,7 +1019,7 @@ var suso = {};
 			solvebtn;
 
 		function repl(match, id) {
-			var cell = grid.hRow(row).cells()[id],
+			var cell = grid.row(row).cells()[id],
 				val = cell.value(),
 				seed = cell.isSeed(),
 				possSpans = "",
@@ -1061,10 +1128,6 @@ var suso = {};
 (function (suso) {
 	"use strict";
 
-	if (suso.views === undefined) {
-		suso.views = {};
-	}
-
 	suso.views.Preformatted = function (grid, ctrl) {
 		var pretag,
 			prebody,
@@ -1073,7 +1136,7 @@ var suso = {};
 			steps = [];
 
 		function repl(match, id) {
-			var val = grid.hRow(row).cells()[id].value();
+			var val = grid.row(row).cells()[id].value();
 			return val === undefined ? "-" : val.toString();
 		}
 
@@ -1122,10 +1185,6 @@ var suso = {};
 
 (function (suso) {
 	"use strict";
-
-	if (suso.views === undefined) {
-		suso.views = {};
-	}
 
 	suso.views.Report = function (settings) {	// grid, ctrl, gridView
 		var reportContainer,
@@ -1217,10 +1276,6 @@ var suso = {};
 (function (suso) {
 	"use strict";
 
-	if (suso.views === undefined) {
-		suso.views = {};
-	}
-
 	suso.views.StaticGrid = function (grid, ctrl) {
 		var gridtag,
 			gridbody,
@@ -1241,7 +1296,7 @@ var suso = {};
 			steps = [];
 
 		function repl(match, id) {
-			var cell = grid.hRow(row).cells()[id],
+			var cell = grid.row(row).cells()[id],
 				val = cell.value(),
 				seed = cell.isSeed(),
 				possSpans = "",
