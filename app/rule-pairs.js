@@ -11,8 +11,6 @@
 	suso.rules.pairs = function (grid) {
 		var progress = false,
 			allGroups = grid.allGroups(),	// rows, cols, blocks
-			cellnum,
-			cell,
 			pairs,
 			pairindex,
 			removal1,
@@ -22,8 +20,7 @@
 		allGroups.forEach(function (group) {
 			pairs = {};
 			// find all cells with only 2 possible values
-			for (cellnum = 0; cellnum < 9; cellnum++) {
-				cell = group.cells()[cellnum];
+			group.cells().forEach(function (cell) {
 				if (cell.value() === undefined && cell.possibleValues().length === 2) {
 					pairindex = cell.possibleValues().join("");
 					if (pairs[pairindex] === undefined) {
@@ -31,7 +28,7 @@
 					}
 					pairs[pairindex].push(cell);
 				}
-			}
+			});
 			// look through the found cells for ones that are pairs (two cells with the same two possible values)
 			pairs = suso.filter(pairs, function (paircells) {
 				return paircells.length === 2;
