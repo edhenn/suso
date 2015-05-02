@@ -12,8 +12,9 @@ The internal grid used to represent the puzzle is event-driven, so changes to on
 
 - [x] Multiple rules available
   - [x] Basic grid rules
-  - [x] Last possible value; claimed value; pairs and hidden pairs; triples
-  - [ ] Hidden triples; quads; x-wing; y-wing; others...
+  - [x] Last possible value; claimed value; pairs; triples
+  - [x] Hidden sets (pairs, triples, quads)
+  - [ ] x-wing; y-wing; others...
 - [x] Multiple views available
   - [x] Interactive view - user inputs seeds and clicks to solve
   - [x] Pre-seeded view - for entering the seeds at runtime
