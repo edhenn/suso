@@ -32,9 +32,9 @@
 						cellsByVal[possVal].push(cell);
 					});
 				});
-				// filter down to possible values existing in exactly N cells
+				// filter down to possible values existing in no more than N cells
 				cellsByVal = suso.filter(cellsByVal, function (el) {
-					return el.length === setSize;
+					return el.length <= setSize;
 				});
 				// for each possible value with N cells, check all others for a matching set of cells
 				suso.sets(cellsByVal, setSize).forEach(function (set) {

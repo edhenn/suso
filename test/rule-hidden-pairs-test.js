@@ -94,7 +94,8 @@
 			st: "init",
 			state: function () { return this.st; },
 			allGroups: function () { return [ house ]; },
-			seedSolved: []
+			seedSolved: [],
+			trigger: function () { }
 		};
 
 		function possvalCount() {
@@ -140,20 +141,20 @@
 			expect(possvalCount()).toBe(0);
 		});
 
-		it("finds one hidden pair", function () {
+		it("finds one hidden triplet", function () {
 			var progress;
 
-			cells[0].setValue(5);
-			cells[1].removePossible(4);
-			cells[2].removePossible(1);
-			cells[2].removePossible(2);
-			cells[2].removePossible(3);
-			cells[3].removePossible(3);
+			cells[0].setValue(5);			// set up one house with the following unsolved cells, showing possible values:
+			cells[1].removePossible(4);		// cell1 : 1, 2, 3,    9
+			cells[2].removePossible(1);		// cell2 :          4, 9
+			cells[2].removePossible(2);		// cell3 : 1, 2,       9
+			cells[2].removePossible(3);		// cell4 :    2, 3, 4, 9
+			cells[3].removePossible(3);		// cell5 :          4, 9
 			cells[3].removePossible(4);
-			cells[4].removePossible(1);
-			cells[5].removePossible(1);
-			cells[5].removePossible(2);
-			cells[5].removePossible(3);
+			cells[4].removePossible(1);		// cells 1, 3, 4 make a hidden triplet containing poss vals 1, 2, 3
+			cells[5].removePossible(1);		// hidden sets rule should delete other possible values from these cells
+			cells[5].removePossible(2);		// i.e. remove from cell1: 9, cell3: 9, cell4: 4, 9
+			cells[5].removePossible(3);		// leaving 11 possible values
 			cells[6].setValue(6);
 			cells[7].setValue(7);
 			cells[8].setValue(8);
@@ -161,7 +162,7 @@
 			progress = suso.rules.hiddenpairs(gridStub);
 
 			expect(progress).toBe(true);
-			expect(possvalCount()).toBe(9);
+			expect(possvalCount()).toBe(11);
 		});
 	});
 }());
