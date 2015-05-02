@@ -5,23 +5,23 @@
 (function (suso) {
 	"use strict";
 
-	// Pairs rule removes possible values from cells.
-	// It looks in rows, columns, and blocks for any 2 cells containing the same two possible remaining values.
-	// The two values can be removed from all other cells in that group.
-	suso.rules.pairs = function (grid) {
+	// Naked Sets rule removes possible values from cells.
+	// It looks in rows, columns, and blocks for any N cells containing the same N possible remaining values.
+	// Those values can be removed from all other cells in that house.
+	suso.rules.nakedsets = function (grid) {
 		var progress = false,
-			allGroups = grid.allGroups(),	// rows, cols, blocks
+			allHouses = grid.allGroups(),	// rows, cols, blocks
 			candidateCells,
 			setSizes = [2];
 
 		// Iterate through each house to find "naked sets":
 		// N cells sharing exactly N possible values.
 		setSizes.forEach(function (setSize) {
-			allGroups.filter(function (group) {
-				return group.possibleValues().length > setSize;	// ignore houses with <= N possible values
-			}).forEach(function (group) {
+			allHouses.filter(function (house) {
+				return house.possibleValues().length > setSize;	// ignore houses with <= N possible values
+			}).forEach(function (house) {
 				// find all unsolved cells with up to N possible values
-				candidateCells = group.cells().filter(function (cell) {
+				candidateCells = house.cells().filter(function (cell) {
 					return cell.value() === undefined && cell.possibleValues().length <= setSize;
 				});
 				// get all N-size subsets of those cells
@@ -35,7 +35,7 @@
 					}
 					// found a set of N cells containing N possible values.
 					// those possible values can be removed from other cells in the house
-					group.cells().filter(function (cell) {
+					house.cells().filter(function (cell) {
 						return set.indexOf(cell) === -1;	// return the other cells
 					}).forEach(function (otherCell) {
 						possVals.forEach(function (possVal) {
@@ -46,8 +46,8 @@
 					});
 					if (setProgress) {
 						progress = true;
-						grid.trigger("report", group, "naked sets rule (" + setSize.toString() +
-							") - remove possible vals " + possVals + " from " + group.name());
+						grid.trigger("report", house, "naked sets rule (" + setSize.toString() +
+							") - remove possible vals " + possVals + " from " + house.name());
 					}
 				});
 			});

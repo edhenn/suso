@@ -133,7 +133,7 @@
 			rules = [
 				suso.rules.lastInGroup,
 				suso.rules.restrictedPossibleValue,
-				suso.rules.pairs,
+				suso.rules.nakedsets,
 				suso.rules.hiddensets,
 				suso.rules.triples
 			];

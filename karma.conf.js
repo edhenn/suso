@@ -23,7 +23,7 @@ module.exports = function(config) {
       'app/obj-cell.js',
 	  'app/rule-last-in-group.js',
 	  'app/rule-restricted-possible-value.js',
-	  'app/rule-pairs.js',
+	  'app/rule-naked-sets.js',
 	  'app/rule-hidden-sets.js',
 	  'app/rule-triples.js',
 	  'app/view-preformatted.js',

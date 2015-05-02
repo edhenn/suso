@@ -6,11 +6,11 @@
 
 	describe("rule-pairs member", function () {
 		it("exists in suso namespace", function () {
-			expect(suso.rules.pairs).toBeDefined();
+			expect(suso.rules.nakedsets).toBeDefined();
 		});
 
 		it("is a function", function () {
-			expect(typeof suso.rules.pairs).toBe("function");
+			expect(typeof suso.rules.nakedsets).toBe("function");
 		});
 	});
 
@@ -31,7 +31,7 @@
 		it("does nothing to an empty grid", function () {
 			var grid = new suso.Grid();
 
-			suso.rules.pairs(grid);
+			suso.rules.nakedsets(grid);
 
 			expect(listSolved(grid).length).toBe(0);
 		});
@@ -39,7 +39,7 @@
 		it("returns false when it does nothing", function () {
 			var grid = new suso.Grid(), result;
 
-			result = suso.rules.pairs(grid);
+			result = suso.rules.nakedsets(grid);
 
 			expect(result).toBe(false);
 		});
@@ -56,7 +56,7 @@
 			grid.row(2).cells()[1].setValue(8);			// 4  --- --- ---
 			grid.row(2).cells()[2].setValue(9);			// 5  --- --- ---
 
-			progress = suso.rules.pairs(grid);			// 6  --- --- ---
+			progress = suso.rules.nakedsets(grid);			// 6  --- --- ---
 														// 7  --- --- ---
 			expect(progress).toBe(true);				// 8  --- --- ---
 			expect(grid.row(1).cells()[0].possibleValues()).toEqual([4, 5]);
@@ -83,7 +83,7 @@
 			grid.row(3).cells()[1].setValue(5);
 			grid.row(3).cells()[2].setValue(6);			// 6  --- --- ---
 														// 7  --- --- ---
-			progress = suso.rules.pairs(grid);			// 8  --- --- ---
+			progress = suso.rules.nakedsets(grid);			// 8  --- --- ---
 
 			expect(progress).toBe(false);
 			expect(grid.row(1).cells()[0].possibleValues()).toEqual([5, 6]);
