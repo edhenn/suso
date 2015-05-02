@@ -142,4 +142,19 @@
 
 		return result;
 	};
+
+	// returns true if parameter is an array of numbers 2-5 suitable for naked/hidden sets rule
+	suso.isOrdinalArray = function (arr) {
+		var nonOrds;
+
+		if (arr === undefined || typeof arr !== "object" || !(arr instanceof Array) || arr.length === 0) {
+			return false;
+		}
+
+		nonOrds = arr.filter(function (el) {
+			return el === undefined || el === null || isNaN(el) || el < 2 || el > 5;
+		});
+
+		return nonOrds.length === 0;
+	};
 }(suso));

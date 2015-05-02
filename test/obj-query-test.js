@@ -301,4 +301,55 @@
 			expect(suso.union(1, [2, 3], [1, 2, 4], 4, 5, 4, [2, 6])).toEqual([1, 2, 3, 4, 5, 6]);
 		});
 	});
+
+	describe("suso.isOrdinalArray member", function () {
+
+		it("exists in suso namespace", function () {
+			expect(suso.isOrdinalArray).toBeDefined();
+		});
+
+		it("is a function", function () {
+			expect(typeof suso.isOrdinalArray).toBe("function");
+		});
+
+		it("returns false if nothing passed", function () {
+			expect(suso.isOrdinalArray()).toBe(false);
+		});
+
+		it("returns false if non-object passed", function () {
+			expect(suso.isOrdinalArray("x")).toBe(false);
+		});
+
+		it("returns false if non-array passed", function () {
+			expect(suso.isOrdinalArray({})).toBe(false);
+		});
+
+		it("returns false if empty array passed", function () {
+			expect(suso.isOrdinalArray([])).toBe(false);
+		});
+
+		it("returns false if array contains undefined", function () {
+			expect(suso.isOrdinalArray([undefined])).toBe(false);
+		});
+
+		it("returns false if array contains nulls", function () {
+			expect(suso.isOrdinalArray([null])).toBe(false);
+		});
+
+		it("returns false if array contains non-number", function () {
+			expect(suso.isOrdinalArray([1, "x"])).toBe(false);
+		});
+
+		it("returns false if array contains numbers less than 2", function () {
+			expect(suso.isOrdinalArray([1, 2, 3])).toBe(false);
+		});
+
+		it("returns false if array contains numbers greater than 5", function () {
+			expect(suso.isOrdinalArray([2, 4, 6])).toBe(false);
+		});
+
+		it("returns true if array contains numbers in range", function () {
+			expect(suso.isOrdinalArray([2, 3, 4, 5])).toBe(true);
+		});
+	});
 }());
