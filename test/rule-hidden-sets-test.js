@@ -225,7 +225,7 @@
 			cells[7].setValue(8);
 			cells[8].setValue(9);
 
-			progress = suso.rules.hiddensets(gridStub);
+			progress = suso.rules.hiddensets(gridStub, [2, 3, 4]);
 
 			expect(progress).toBe(true);
 			expect(possvalCount()).toBe(12);
