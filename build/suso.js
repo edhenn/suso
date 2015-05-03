@@ -208,6 +208,21 @@ var suso = {
 
 		return result;
 	};
+
+	// returns true if parameter is an array of numbers 2-5 suitable for naked/hidden sets rule
+	suso.isOrdinalArray = function (arr) {
+		var nonOrds;
+
+		if (arr === undefined || typeof arr !== "object" || !(arr instanceof Array) || arr.length === 0) {
+			return false;
+		}
+
+		nonOrds = arr.filter(function (el) {
+			return el === undefined || el === null || isNaN(el) || el < 2 || el > 5;
+		});
+
+		return nonOrds.length === 0;
+	};
 }(suso));
 
 /*global suso */
@@ -345,9 +360,8 @@ var suso = {
 			rules = [
 				suso.rules.lastInGroup,
 				suso.rules.restrictedPossibleValue,
-				suso.rules.pairs,
-				suso.rules.hiddenpairs,
-				suso.rules.triples
+				suso.rules.nakedsets,
+				suso.rules.hiddensets
 			];
 			// xwing http://www.learn-sudoku.com/x-wing.html
 			// ywing http://www.learn-sudoku.com/xy-wing.html (like a naked triple)
@@ -604,15 +618,19 @@ var suso = {
 (function (suso) {
 	"use strict";
 
-	// Hidden Pairs rule removes possible values from cells.
-	// It looks in rows, columns, and blocks for any 2 cells containing the only instances of two possible remaining values,
-	// and removes any other possible values from those 2 cells.
-	suso.rules.hiddenpairs = function (grid) {
+	// Hidden Sets rule removes possible values from cells.
+	// It looks in rows, columns, and blocks for sets of N cells containing the only instances of N possible remaining values,
+	// and removes any other possible values from those cells.
+	suso.rules.hiddensets = function (grid, ordinals) {
 		var progress = false,
 			cellsByVal,
 			targetFlags,
 			flagValue,
-			sets = [2, 3, 4];
+			sets = [2, 3, 4, 5];
+
+		if (suso.isOrdinalArray(ordinals)) {
+			sets = ordinals;
+		}
 
 		// Iterate through each row, column, and block looking for Hidden Sets
 		sets.forEach(function (setSize) {
@@ -728,56 +746,57 @@ var suso = {
 (function (suso) {
 	"use strict";
 
-	// Pairs rule removes possible values from cells.
-	// It looks in rows, columns, and blocks for any 2 cells containing the same two possible remaining values.
-	// The two values can be removed from all other cells in that group.
-	suso.rules.pairs = function (grid) {
+	// Naked Sets rule removes possible values from cells.
+	// It looks in rows, columns, and blocks for any N cells containing the same N possible remaining values.
+	// Those values can be removed from all other cells in that house.
+	suso.rules.nakedsets = function (grid, ordinals) {
 		var progress = false,
-			allGroups = grid.allGroups(),	// rows, cols, blocks
-			cellnum,
-			cell,
-			pairs,
-			pairindex,
-			removal1,
-			removal2;
+			allHouses = grid.allGroups(),	// rows, cols, blocks
+			candidateCells,
+			setSizes = [2, 3, 4, 5];
 
-		// Iterate through each row, column, and block looking for pairs ("naked pairs")
-		allGroups.forEach(function (group) {
-			pairs = {};
-			// find all cells with only 2 possible values
-			for (cellnum = 0; cellnum < 9; cellnum++) {
-				cell = group.cells()[cellnum];
-				if (cell.value() === undefined && cell.possibleValues().length === 2) {
-					pairindex = cell.possibleValues().join("");
-					if (pairs[pairindex] === undefined) {
-						pairs[pairindex] = [];
+		if (suso.isOrdinalArray(ordinals)) {
+			setSizes = ordinals;
+		}
+
+		// Iterate through each house to find "naked sets":
+		// N cells sharing exactly N possible values.
+		setSizes.forEach(function (setSize) {
+			allHouses.filter(function (house) {
+				return house.possibleValues().length > setSize;	// ignore houses with <= N possible values
+			}).forEach(function (house) {
+				// find all unsolved cells with up to N possible values
+				candidateCells = house.cells().filter(function (cell) {
+					return cell.value() === undefined && cell.possibleValues().length <= setSize;
+				});
+				// get all N-size subsets of those cells
+				suso.sets(candidateCells, setSize).forEach(function (set) {
+					var possVals = [], setProgress = false;
+					set.forEach(function (setCell) {
+						possVals = suso.union(possVals, setCell.possibleValues());
+					});
+					if (possVals.length !== setSize) {
+						return;
 					}
-					pairs[pairindex].push(cell);
-				}
-			}
-			// look through the found cells for ones that are pairs (two cells with the same two possible values)
-			pairs = suso.filter(pairs, function (paircells) {
-				return paircells.length === 2;
-			});
-			suso.forEach(pairs, function (paircell, pairIdx) {
-				var groupProgress = false,
-					possVals = pairIdx.split("");
-				// delete those possible values from other cells in the group
-				group.cells().forEach(function (cel) {
-					if (cel !== paircell[0] && cel !== paircell[1]) {
-						removal1 = cel.removePossible(parseInt(possVals[0], 10));
-						removal2 = cel.removePossible(parseInt(possVals[1], 10));
-						groupProgress = groupProgress || removal1 || removal2;
+					// found a set of N cells containing N possible values.
+					// those possible values can be removed from other cells in the house
+					house.cells().filter(function (cell) {
+						return set.indexOf(cell) === -1;	// return the other cells
+					}).forEach(function (otherCell) {
+						possVals.forEach(function (possVal) {
+							if (otherCell.removePossible(possVal)) {
+								setProgress = true;
+							}
+						});
+					});
+					if (setProgress) {
+						progress = true;
+						grid.trigger("report", house, "naked sets rule (" + setSize.toString() +
+							") - remove possible vals " + possVals + " from " + house.name());
 					}
 				});
-				if (groupProgress) {
-					progress = true;
-					grid.trigger("report", group,
-						"pairs rule - remove possible vals " + possVals + " from " + group.name());
-				}
 			});
 		});
-
 		// rules return boolean indicating whether they made any progress
 		return progress;
 	};
@@ -857,128 +876,6 @@ var suso = {
 						});
 					}
 				}
-			});
-		});
-
-		// rules return boolean indicating whether they made any progress
-		return progress;
-	};
-}(suso));
-
-/*global suso */
-/*jslint plusplus: true, bitwise: true, continue: true */
-
-(function (suso) {
-	"use strict";
-
-	// counts number of bits set in flags
-	function countBits(flags) {
-		var bits = 0;
-
-		if (typeof flags !== "number") {
-			return null;
-		}
-
-		if (flags <= 0) {
-			return 0;
-		}
-
-		while (flags > 0) {
-			bits += (flags & 1);
-			flags = flags >> 1;
-		}
-
-		return bits;
-	}
-
-	function flagNumbers(flags) {
-		var i, nums = [];
-
-		if (typeof flags !== "number") {
-			return null;
-		}
-
-		if (flags <= 0) {
-			return nums;
-		}
-
-		for (i = 9; i > 0; i--) {
-			if ((flags & 1) === 1) {
-				nums.push(i);
-			}
-			flags = flags >> 1;
-		}
-
-		return nums;
-	}
-
-	// Triples rule removes possible values from cells.
-	// It looks in rows, columns, and blocks for any 3 cells containing the same three possible remaining values between them.
-	// The three values can be removed from all other cells in that group.
-	suso.rules.triples = function (grid) {
-		var progress = false,
-			allGroups = grid.allGroups(),	// rows, cols, blocks
-			twoOrThreePossibles,
-			pairs,
-			countPossibles,
-			tripletFlags,
-			tripletNums,
-			numIndex,
-			result;
-
-		// Iterate through each row, column, and block looking for triples
-		allGroups.forEach(function (group) {
-			twoOrThreePossibles = [];
-			pairs = [];
-			// first, find all pairs of cells in group that share 2 or 3 possible values
-			group.cells().filter(function (cell) {
-				return cell.value() === undefined;
-			}).forEach(function (cell) {
-				countPossibles = countBits(cell.possibleFlags());
-				if (countPossibles === 2 || countPossibles === 3) {
-					// make pairs with all other found cells that share a possible value
-					twoOrThreePossibles.forEach(function (twoOrThree) {
-						if (twoOrThree.possibleFlags() & cell.possibleFlags() > 0) {
-							pairs.push([twoOrThree, cell]);
-						}
-					});
-					twoOrThreePossibles.push(cell);
-				}
-			});
-			// now for each pair, find any triplets that share exactly 3 possible values
-			pairs.forEach(function (pair) {
-				// test triples with each other candidate cell that had 2 or 3 possible values
-				twoOrThreePossibles.forEach(function (cell) {
-					if (cell === pair[0] || cell === pair[1]) {
-						return;
-					}
-
-					tripletFlags = pair[0].possibleFlags() |
-						pair[1].possibleFlags() |
-						cell.possibleFlags();
-
-					if (countBits(tripletFlags) !== 3) {
-						return;
-					}
-
-					// remove triplet possible values from all other cells in group
-					tripletNums = flagNumbers(tripletFlags);
-					group.cells().forEach(function (targetCell) {
-						if (targetCell === pair[0] || targetCell === pair[1] || targetCell === cell) {
-							return;
-						}
-						for (numIndex = 0; numIndex < 3; numIndex++) {
-							result = result | targetCell.removePossible(tripletNums[numIndex]);
-						}
-					});
-
-					if (result) {
-						result = false;
-						progress = true;
-						grid.trigger("report", group, "triplet " + tripletNums +
-							" in " + group.name() + " - remove other possibles");
-					}
-				});
 			});
 		});
 
