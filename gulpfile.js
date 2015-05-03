@@ -59,7 +59,8 @@ gulp.task('package', ['lint', 'test', 'complex'], function () {
 		.pipe(gulp.dest('build'))
 		.pipe(plugins.rename({ suffix: '.min' }))
 		.pipe(plugins.uglify())
-		.pipe(gulp.dest('build'));
+		.pipe(gulp.dest('build'))
+		.pipe(gulp.dest('demo'));
 });
 
 function addBuildsToNextGitCommit() {
