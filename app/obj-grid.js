@@ -134,8 +134,7 @@
 				suso.rules.lastInGroup,
 				suso.rules.restrictedPossibleValue,
 				suso.rules.nakedsets,
-				suso.rules.hiddensets,
-				suso.rules.triples
+				suso.rules.hiddensets
 			];
 			// xwing http://www.learn-sudoku.com/x-wing.html
 			// ywing http://www.learn-sudoku.com/xy-wing.html (like a naked triple)
