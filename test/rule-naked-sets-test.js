@@ -83,7 +83,7 @@
 			grid.row(3).cells()[1].setValue(5);
 			grid.row(3).cells()[2].setValue(6);			// 6  --- --- ---
 														// 7  --- --- ---
-			progress = suso.rules.nakedsets(grid);			// 8  --- --- ---
+			progress = suso.rules.nakedsets(grid, [2]);	// 8  --- --- ---
 
 			expect(progress).toBe(false);
 			expect(grid.row(1).cells()[0].possibleValues()).toEqual([5, 6]);

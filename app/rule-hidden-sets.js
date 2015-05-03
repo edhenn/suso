@@ -8,12 +8,16 @@
 	// Hidden Sets rule removes possible values from cells.
 	// It looks in rows, columns, and blocks for sets of N cells containing the only instances of N possible remaining values,
 	// and removes any other possible values from those cells.
-	suso.rules.hiddensets = function (grid) {
+	suso.rules.hiddensets = function (grid, ordinals) {
 		var progress = false,
 			cellsByVal,
 			targetFlags,
 			flagValue,
-			sets = [2, 3, 4];
+			sets = [2, 3, 4, 5];
+
+		if (suso.isOrdinalArray(ordinals)) {
+			sets = ordinals;
+		}
 
 		// Iterate through each row, column, and block looking for Hidden Sets
 		sets.forEach(function (setSize) {

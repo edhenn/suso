@@ -8,11 +8,15 @@
 	// Naked Sets rule removes possible values from cells.
 	// It looks in rows, columns, and blocks for any N cells containing the same N possible remaining values.
 	// Those values can be removed from all other cells in that house.
-	suso.rules.nakedsets = function (grid) {
+	suso.rules.nakedsets = function (grid, ordinals) {
 		var progress = false,
 			allHouses = grid.allGroups(),	// rows, cols, blocks
 			candidateCells,
-			setSizes = [2];
+			setSizes = [2, 3, 4, 5];
+
+		if (suso.isOrdinalArray(ordinals)) {
+			setSizes = ordinals;
+		}
 
 		// Iterate through each house to find "naked sets":
 		// N cells sharing exactly N possible values.
