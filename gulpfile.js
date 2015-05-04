@@ -43,30 +43,13 @@ gulp.task('test', ['lint'], function () {
 		});
 });
 
-gulp.task('complex', ['test', 'lint'], function () {
+gulp.task('complex', ['test'], function () {
 	var outputDir = './reports',
 		callback = function () {
 		};
 
 	plugins.plato.inspect(appFilesInOrder, outputDir, {}, callback);
 });
-
-// package normal and minified version in build/ directory
-gulp.task('package', ['lint', 'test', 'complex'], function () {
-	return gulp.src(appFilesInOrder)
-		.pipe(plugins.concat('suso.js'))
-		.pipe(plugins.stripDebug())
-		.pipe(gulp.dest('build'))
-		.pipe(plugins.rename({ suffix: '.min' }))
-		.pipe(plugins.uglify())
-		.pipe(gulp.dest('build'))
-		.pipe(gulp.dest('demo'));
-});
-
-function addBuildsToNextGitCommit() {
-	return gulp.src(['build/*.js'])
-		.pipe(plugins.git.add());
-}
 
 function incrementVersion(versionType) {
 	var buildFiles = 'build/*.js',
@@ -85,18 +68,49 @@ function incrementVersion(versionType) {
 }
 
 // package and bump semver patch number in npm and bower configs
-gulp.task('patch', ['package'], function () {
+gulp.task('patch', ['complex'], function () {
 	return incrementVersion('patch');
 });
 
 // package and bump semver feature number in npm and bower configs
-gulp.task('feature', ['package'], function () {
+gulp.task('feature', ['complex'], function () {
 	return incrementVersion('minor');
 });
 
 // package and bump semver release number in npm and bower configs
-gulp.task('release', ['package'], function () {
+gulp.task('release', ['complex'], function () {
 	return incrementVersion('major');
+});
+
+function makePackage() {
+	var fs = require('fs'),
+		pjson = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+
+	fs.writeFile('app/suso-namespace.js',
+		'/*eslint no-unused-vars: 0*/\nvar suso = {\n\trules: {},\n\tviews: {},\n\tversion: \"' +
+		pjson.version
+		+ '\"\n};\n');
+
+	return gulp.src(appFilesInOrder)
+		.pipe(plugins.concat('suso.js'))
+		.pipe(plugins.stripDebug())
+		.pipe(gulp.dest('build'))
+		.pipe(plugins.rename({ suffix: '.min' }))
+		.pipe(plugins.uglify())
+		.pipe(gulp.dest('build'))
+		.pipe(gulp.dest('demo'));
+}
+
+gulp.task('package', ['patch'], function () {
+	return makePackage();
+});
+
+gulp.task('package-minor', ['feature'], function () {
+	return makePackage();
+});
+
+gulp.task('package-major', ['release'], function () {
+	return makePackage();
 });
 
 gulp.task('default', ['lint', 'test'], function () {
