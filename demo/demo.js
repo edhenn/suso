@@ -37,6 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		],
 		buttonDiv = document.getElementById('buttons');
 
+	function showVersion() {
+		document.getElementById('version').innerHTML = suso.version;
+	}
+
 	function createButton(id, value) {
 		var btn = document.createElement("input");
 
@@ -102,5 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 
+	showVersion();
 	drawSeedButtons();
 });
