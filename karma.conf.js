@@ -25,6 +25,7 @@ module.exports = function(config) {
 	  'app/rule-restricted-possible-value.js',
 	  'app/rule-naked-sets.js',
 	  'app/rule-hidden-sets.js',
+	  'app/rule-x-wing.js',
 	  'app/view-preformatted.js',
 	  'app/view-static-grid.js',
 	  'app/view-input-grid.js',
