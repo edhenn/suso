@@ -1,5 +1,6 @@
 /*global suso */
 /*jslint plusplus: true */
+/*eslint plusplus: 0 */
 
 (function (suso) {
 	"use strict";

@@ -1,5 +1,6 @@
 /*global suso, describe, it, expect */
 /*jslint plusplus: true */
+/*eslint no-multi-spaces: 0*/
 
 (function () {
 	"use strict";

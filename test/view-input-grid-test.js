@@ -24,7 +24,7 @@
 		it("returns 9x9 input controls for an empty grid", function () {
 			ctrl = document.createElement("div");
 			disp = new suso.views.InputGrid(grid, ctrl);
-			expect(ctrl.innerHTML.match(/<input id=['"]c\d\d['"] ['"a-z1\/= ]*>/g).length).toBe(9 * 9);
+			expect(ctrl.innerHTML.match(/<input id=['"]c\d\d['"] ['"a-z1/= ]*>/g).length).toBe(9 * 9);
 		});
 
 		it("returns 1 input control solve button for an empty grid", function () {

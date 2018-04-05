@@ -1,5 +1,6 @@
 /*global suso, describe, it, expect */
 /*jslint plusplus: true */
+/*eslint max-lines: 1 */
 
 (function () {
 	"use strict";
@@ -114,7 +115,7 @@
 	});
 
 	describe("Cell.value and setValue functions", function () {
-		var x = new suso.Cell({ state: function (a) { return a; }});
+		var x = new suso.Cell({ state: function (a) { return a; } });
 
 		it(".value returns undefined before a value is set", function () {
 			expect(x.value()).not.toBeDefined();
@@ -132,7 +133,7 @@
 
 		it(".setValue triggers an update event", function () {
 			var y, z;
-			y = new suso.Cell({ state: function (a) { return a; }});
+			y = new suso.Cell({ state: function (a) { return a; } });
 			y.on("update", function () {
 				z = this;
 			});
@@ -145,7 +146,7 @@
 		var x = new suso.Cell();
 
 		it("throws an error when called if house.type() is not row, col, or block", function () {
-			var badHouse = { type: function () { return "wrong"; }};
+			var badHouse = { type: function () { return "wrong"; } };
 
 			expect(function () { x.setHouse(badHouse); })
 				.toThrow(new Error("invalid house"));
@@ -210,7 +211,7 @@
 	});
 
 	describe("Cell.possibleValues function", function () {
-		var x = new suso.Cell({ state: function (a) { return a; }});
+		var x = new suso.Cell({ state: function (a) { return a; } });
 
 		it("starts as an array of 9 numbers", function () {
 			var poss = x.possibleValues();
@@ -232,7 +233,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in row", function () {
-			var y = new suso.Cell({ state: function (a) { return a; }}),
+			var y = new suso.Cell({ state: function (a) { return a; } }),
 				z = new suso.Cell(),
 				row = new suso.House("row"),
 				poss;
@@ -247,7 +248,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in col", function () {
-			var y = new suso.Cell({ state: function (a) { return a; }}),
+			var y = new suso.Cell({ state: function (a) { return a; } }),
 				z = new suso.Cell(),
 				row = new suso.House("col"),
 				poss;
@@ -262,7 +263,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in block", function () {
-			var y = new suso.Cell({ state: function (a) { return a; }}),
+			var y = new suso.Cell({ state: function (a) { return a; } }),
 				z = new suso.Cell(),
 				row = new suso.House("block"),
 				poss;
@@ -277,9 +278,9 @@
 		});
 
 		it("cumulatively removes all set values from all row and block siblings", function () {
-			var a = new suso.Cell({ state: function (o) { return o; }}),
-				b = new suso.Cell({ state: function (o) { return o; }}),
-				c = new suso.Cell({ state: function (o) { return o; }}),
+			var a = new suso.Cell({ state: function (o) { return o; } }),
+				b = new suso.Cell({ state: function (o) { return o; } }),
+				c = new suso.Cell({ state: function (o) { return o; } }),
 				z = new suso.Cell(),
 				row = new suso.House("row"),
 				col = new suso.House("col"),
@@ -321,7 +322,7 @@
 	});
 
 	describe("Cell.possibleFlags function", function () {
-		var x = new suso.Cell({ state: function (a) { return a; }});
+		var x = new suso.Cell({ state: function (a) { return a; } });
 
 		it("starts as 9 binary flags all set", function () {
 			var poss = x.possibleFlags();
@@ -336,7 +337,7 @@
 		});
 
 		it("returns flags with setValue missing from other cells in row", function () {
-			var y = new suso.Cell({ state: function (a) { return a; }}),
+			var y = new suso.Cell({ state: function (a) { return a; } }),
 				z = new suso.Cell(),
 				row = new suso.House("row"),
 				poss;
@@ -349,7 +350,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in col", function () {
-			var y = new suso.Cell({ state: function (a) { return a; }}),
+			var y = new suso.Cell({ state: function (a) { return a; } }),
 				z = new suso.Cell(),
 				row = new suso.House("col"),
 				poss;
@@ -362,7 +363,7 @@
 		});
 
 		it("returns array with setValue missing from other cells in block", function () {
-			var y = new suso.Cell({ state: function (a) { return a; }}),
+			var y = new suso.Cell({ state: function (a) { return a; } }),
 				z = new suso.Cell(),
 				row = new suso.House("block"),
 				poss;
@@ -375,9 +376,9 @@
 		});
 
 		it("cumulatively removes all set values from all row and block siblings", function () {
-			var a = new suso.Cell({ state: function (o) { return o; }}),
-				b = new suso.Cell({ state: function (o) { return o; }}),
-				c = new suso.Cell({ state: function (o) { return o; }}),
+			var a = new suso.Cell({ state: function (o) { return o; } }),
+				b = new suso.Cell({ state: function (o) { return o; } }),
+				c = new suso.Cell({ state: function (o) { return o; } }),
 				z = new suso.Cell(),
 				row = new suso.House("row"),
 				col = new suso.House("col"),
@@ -421,14 +422,14 @@
 
 	describe("Cell seed function", function () {
 		it("returns true when cell value is set during grid seeding", function () {
-			var cel = new suso.Cell({ state: function () { return "unseeded"; }});
+			var cel = new suso.Cell({ state: function () { return "unseeded"; } });
 
 			cel.setValue(1);
 			expect(cel.isSeed()).toBe(true);
 		});
 
 		it("returns false when cell value is set after grid already seeded", function () {
-			var cel = new suso.Cell({ state: function () { return "ready"; }});
+			var cel = new suso.Cell({ state: function () { return "ready"; } });
 
 			cel.setValue(1);
 			expect(cel.isSeed()).toBe(false);

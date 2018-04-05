@@ -1,6 +1,6 @@
 /*global suso, describe, it, expect, beforeEach */
 /*jslint plusplus: true */
-/* eslint no-multi-spaces: 0, no-sparse-arrays: 0, comma-spacing: 0, comma-dangle: 0 */
+/* eslint no-multi-spaces: 0, no-sparse-arrays: 0, comma-spacing: 0, comma-dangle: 0, max-lines: 1 */
 
 (function () {
 	"use strict";
@@ -110,6 +110,7 @@
 				case "col":
 					cols++;
 					break;
+				default:
 				}
 			}
 			expect(i).toBe(27);
@@ -143,8 +144,10 @@
 
 		it("seeds grid when seeds are sent", function () {
 			var z;
-			x.addSeeds([ [1], [z, 2], [z, z, 3], [z, z, z, 4], [z, z, z, z, 5], [z, z, z, z, z, 6],
-				[z, z, z, z, z, z, 7], [z, z, z, z, z, z, z, 8], [z, z, z, z, z, z, z, z, 9] ]);
+			x.addSeeds([
+				[1], [z, 2], [z, z, 3], [z, z, z, 4], [z, z, z, z, 5], [z, z, z, z, z, 6],
+				[z, z, z, z, z, z, 7], [z, z, z, z, z, z, z, 8], [z, z, z, z, z, z, z, z, 9]
+			]);
 			expect(listSolved(x).length).toBe(9);
 		});
 

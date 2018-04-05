@@ -1,5 +1,6 @@
 /*global suso, describe, it, expect, beforeEach */
 /*jslint plusplus: true */
+/*eslint no-empty-function: 0 */
 
 (function () {
 	"use strict";

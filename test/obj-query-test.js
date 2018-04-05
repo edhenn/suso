@@ -1,5 +1,6 @@
 /*global suso, describe, it, expect */
 /*jslint plusplus: true */
+/*eslint max-lines: 1, no-empty-function: 0, no-unused-vars: ["error", { "varsIgnorePattern": "count" }] */
 
 (function () {
 	"use strict";
