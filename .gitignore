@@ -4,3 +4,4 @@ node_modules/
 coverage/
 reports/
 demo/suso.min.js
+package-lock.json
